@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="be7cf2f8717f492e821ec6238616eaf8" Name="Diagram1">
+        <EntityTypeShape EntityType="DbCoreModel.TBL_SLI_CITY" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbCoreModel.TBL_SLI_CONTINENT" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbCoreModel.TBL_SLI_COUNTRY" Width="1.75" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbCoreModel.TBL_SLI_CURRENCY" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbCoreModel.TBL_SLI_DISTRICT" Width="2.125" PointX="9.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbCoreModel.TBL_SLI_PROVINCE" Width="1.75" PointX="7.5" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="DbCoreModel.FK_TBL_SLI_CITY_TBL_SLI_COUNTRY" ManuallyRouted="false" />
+        <AssociationConnector Association="DbCoreModel.FK_TBL_SLI_PROVINCE_TBL_SLI_CITY" ManuallyRouted="false" />
+        <AssociationConnector Association="DbCoreModel.FK_TBL_SLI_COUNTRY_TBL_SLI_CONTINENT" ManuallyRouted="false" />
+        <AssociationConnector Association="DbCoreModel.R_268" ManuallyRouted="false" />
+        <AssociationConnector Association="DbCoreModel.FK_TBL_SLI_DISTRICT_TBL_SLI_PROVINCE" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

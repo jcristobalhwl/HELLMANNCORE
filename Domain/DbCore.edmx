@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DbCoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TBL_SLI_CITY">
+          <Key>
+            <PropertyRef Name="INT_CITYID" />
+          </Key>
+          <Property Name="INT_CITYID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VCH_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="BIT_STATE" Type="bit" />
+          <Property Name="INT_COUNTRYID" Type="int" Nullable="false" />
+          <Property Name="VCH_INTCODE" Type="varchar" MaxLength="3" />
+          <Property Name="VCH_IATACODE" Type="char" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="TBL_SLI_CONTINENT">
+          <Key>
+            <PropertyRef Name="INT_CONTINENTID" />
+          </Key>
+          <Property Name="INT_CONTINENTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VCH_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="BIT_STATE" Type="bit" />
+        </EntityType>
+        <EntityType Name="TBL_SLI_COUNTRY">
+          <Key>
+            <PropertyRef Name="INT_COUNTRYID" />
+          </Key>
+          <Property Name="INT_COUNTRYID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VCH_FREIGHTCODE" Type="varchar" MaxLength="5" />
+          <Property Name="VCH_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="BIT_STATE" Type="bit" />
+          <Property Name="INT_CURRENCYID" Type="int" />
+          <Property Name="INT_CONTINENTID" Type="int" />
+          <Property Name="BIT_SPANISHLANGUAGE" Type="bit" />
+        </EntityType>
+        <EntityType Name="TBL_SLI_CURRENCY">
+          <Key>
+            <PropertyRef Name="INT_CURRENCYID" />
+          </Key>
+          <Property Name="INT_CURRENCYID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CHR_ADUANACODE" Type="char" MaxLength="4" />
+          <Property Name="VCH_NAME" Type="varchar" MaxLength="72" />
+          <Property Name="BIT_ACTIVE" Type="bit" />
+          <Property Name="VCH_SYMBOL" Type="varchar" MaxLength="5" />
+          <Property Name="VCH_CURRENCYSYMBOL" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="TBL_SLI_DISTRICT">
+          <Key>
+            <PropertyRef Name="INT_DISTRICTID" />
+          </Key>
+          <Property Name="INT_DISTRICTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VCH_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="BIT_STATE" Type="bit" />
+          <Property Name="INT_PROVINCEID" Type="int" />
+          <Property Name="VCH_INEICODE" Type="varchar" MaxLength="6" />
+        </EntityType>
+        <EntityType Name="TBL_SLI_PROVINCE">
+          <Key>
+            <PropertyRef Name="INT_PROVINCEID" />
+          </Key>
+          <Property Name="INT_PROVINCEID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VCH_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="BIT_STATE" Type="bit" />
+          <Property Name="INT_CITYID" Type="int" />
+        </EntityType>
+        <Association Name="FK_TBL_SLI_CITY_TBL_SLI_COUNTRY">
+          <End Role="TBL_SLI_COUNTRY" Type="Self.TBL_SLI_COUNTRY" Multiplicity="1" />
+          <End Role="TBL_SLI_CITY" Type="Self.TBL_SLI_CITY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_SLI_COUNTRY">
+              <PropertyRef Name="INT_COUNTRYID" />
+            </Principal>
+            <Dependent Role="TBL_SLI_CITY">
+              <PropertyRef Name="INT_COUNTRYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_SLI_COUNTRY_TBL_SLI_CONTINENT">
+          <End Role="TBL_SLI_CONTINENT" Type="Self.TBL_SLI_CONTINENT" Multiplicity="0..1" />
+          <End Role="TBL_SLI_COUNTRY" Type="Self.TBL_SLI_COUNTRY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_SLI_CONTINENT">
+              <PropertyRef Name="INT_CONTINENTID" />
+            </Principal>
+            <Dependent Role="TBL_SLI_COUNTRY">
+              <PropertyRef Name="INT_CONTINENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_SLI_DISTRICT_TBL_SLI_PROVINCE">
+          <End Role="TBL_SLI_PROVINCE" Type="Self.TBL_SLI_PROVINCE" Multiplicity="0..1" />
+          <End Role="TBL_SLI_DISTRICT" Type="Self.TBL_SLI_DISTRICT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_SLI_PROVINCE">
+              <PropertyRef Name="INT_PROVINCEID" />
+            </Principal>
+            <Dependent Role="TBL_SLI_DISTRICT">
+              <PropertyRef Name="INT_PROVINCEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_SLI_PROVINCE_TBL_SLI_CITY">
+          <End Role="TBL_SLI_CITY" Type="Self.TBL_SLI_CITY" Multiplicity="0..1" />
+          <End Role="TBL_SLI_PROVINCE" Type="Self.TBL_SLI_PROVINCE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_SLI_CITY">
+              <PropertyRef Name="INT_CITYID" />
+            </Principal>
+            <Dependent Role="TBL_SLI_PROVINCE">
+              <PropertyRef Name="INT_CITYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_268">
+          <End Role="TBL_SLI_CURRENCY" Type="Self.TBL_SLI_CURRENCY" Multiplicity="0..1" />
+          <End Role="TBL_SLI_COUNTRY" Type="Self.TBL_SLI_COUNTRY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_SLI_CURRENCY">
+              <PropertyRef Name="INT_CURRENCYID" />
+            </Principal>
+            <Dependent Role="TBL_SLI_COUNTRY">
+              <PropertyRef Name="INT_CURRENCYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbCoreModelStoreContainer">
+          <EntitySet Name="TBL_SLI_CITY" EntityType="Self.TBL_SLI_CITY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_SLI_CONTINENT" EntityType="Self.TBL_SLI_CONTINENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_SLI_COUNTRY" EntityType="Self.TBL_SLI_COUNTRY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_SLI_CURRENCY" EntityType="Self.TBL_SLI_CURRENCY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_SLI_DISTRICT" EntityType="Self.TBL_SLI_DISTRICT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_SLI_PROVINCE" EntityType="Self.TBL_SLI_PROVINCE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TBL_SLI_CITY_TBL_SLI_COUNTRY" Association="Self.FK_TBL_SLI_CITY_TBL_SLI_COUNTRY">
+            <End Role="TBL_SLI_COUNTRY" EntitySet="TBL_SLI_COUNTRY" />
+            <End Role="TBL_SLI_CITY" EntitySet="TBL_SLI_CITY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_SLI_COUNTRY_TBL_SLI_CONTINENT" Association="Self.FK_TBL_SLI_COUNTRY_TBL_SLI_CONTINENT">
+            <End Role="TBL_SLI_CONTINENT" EntitySet="TBL_SLI_CONTINENT" />
+            <End Role="TBL_SLI_COUNTRY" EntitySet="TBL_SLI_COUNTRY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_SLI_DISTRICT_TBL_SLI_PROVINCE" Association="Self.FK_TBL_SLI_DISTRICT_TBL_SLI_PROVINCE">
+            <End Role="TBL_SLI_PROVINCE" EntitySet="TBL_SLI_PROVINCE" />
+            <End Role="TBL_SLI_DISTRICT" EntitySet="TBL_SLI_DISTRICT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_SLI_PROVINCE_TBL_SLI_CITY" Association="Self.FK_TBL_SLI_PROVINCE_TBL_SLI_CITY">
+            <End Role="TBL_SLI_CITY" EntitySet="TBL_SLI_CITY" />
+            <End Role="TBL_SLI_PROVINCE" EntitySet="TBL_SLI_PROVINCE" />
+          </AssociationSet>
+          <AssociationSet Name="R_268" Association="Self.R_268">
+            <End Role="TBL_SLI_CURRENCY" EntitySet="TBL_SLI_CURRENCY" />
+            <End Role="TBL_SLI_COUNTRY" EntitySet="TBL_SLI_COUNTRY" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbCoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TBL_SLI_CITY">
+          <Key>
+            <PropertyRef Name="INT_CITYID" />
+          </Key>
+          <Property Name="INT_CITYID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VCH_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BIT_STATE" Type="Boolean" />
+          <Property Name="INT_COUNTRYID" Type="Int32" Nullable="false" />
+          <Property Name="VCH_INTCODE" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="VCH_IATACODE" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="TBL_SLI_COUNTRY" Relationship="Self.FK_TBL_SLI_CITY_TBL_SLI_COUNTRY" FromRole="TBL_SLI_CITY" ToRole="TBL_SLI_COUNTRY" />
+          <NavigationProperty Name="TBL_SLI_PROVINCE" Relationship="Self.FK_TBL_SLI_PROVINCE_TBL_SLI_CITY" FromRole="TBL_SLI_CITY" ToRole="TBL_SLI_PROVINCE" />
+        </EntityType>
+        <EntityType Name="TBL_SLI_CONTINENT">
+          <Key>
+            <PropertyRef Name="INT_CONTINENTID" />
+          </Key>
+          <Property Name="INT_CONTINENTID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VCH_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BIT_STATE" Type="Boolean" />
+          <NavigationProperty Name="TBL_SLI_COUNTRY" Relationship="Self.FK_TBL_SLI_COUNTRY_TBL_SLI_CONTINENT" FromRole="TBL_SLI_CONTINENT" ToRole="TBL_SLI_COUNTRY" />
+        </EntityType>
+        <EntityType Name="TBL_SLI_COUNTRY">
+          <Key>
+            <PropertyRef Name="INT_COUNTRYID" />
+          </Key>
+          <Property Name="INT_COUNTRYID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VCH_FREIGHTCODE" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="VCH_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BIT_STATE" Type="Boolean" />
+          <Property Name="INT_CURRENCYID" Type="Int32" />
+          <Property Name="INT_CONTINENTID" Type="Int32" />
+          <Property Name="BIT_SPANISHLANGUAGE" Type="Boolean" />
+          <NavigationProperty Name="TBL_SLI_CITY" Relationship="Self.FK_TBL_SLI_CITY_TBL_SLI_COUNTRY" FromRole="TBL_SLI_COUNTRY" ToRole="TBL_SLI_CITY" />
+          <NavigationProperty Name="TBL_SLI_CONTINENT" Relationship="Self.FK_TBL_SLI_COUNTRY_TBL_SLI_CONTINENT" FromRole="TBL_SLI_COUNTRY" ToRole="TBL_SLI_CONTINENT" />
+          <NavigationProperty Name="TBL_SLI_CURRENCY" Relationship="Self.R_268" FromRole="TBL_SLI_COUNTRY" ToRole="TBL_SLI_CURRENCY" />
+        </EntityType>
+        <EntityType Name="TBL_SLI_CURRENCY">
+          <Key>
+            <PropertyRef Name="INT_CURRENCYID" />
+          </Key>
+          <Property Name="INT_CURRENCYID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CHR_ADUANACODE" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="VCH_NAME" Type="String" MaxLength="72" FixedLength="false" Unicode="false" />
+          <Property Name="BIT_ACTIVE" Type="Boolean" />
+          <Property Name="VCH_SYMBOL" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="VCH_CURRENCYSYMBOL" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TBL_SLI_COUNTRY" Relationship="Self.R_268" FromRole="TBL_SLI_CURRENCY" ToRole="TBL_SLI_COUNTRY" />
+        </EntityType>
+        <EntityType Name="TBL_SLI_DISTRICT">
+          <Key>
+            <PropertyRef Name="INT_DISTRICTID" />
+          </Key>
+          <Property Name="INT_DISTRICTID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VCH_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BIT_STATE" Type="Boolean" />
+          <Property Name="INT_PROVINCEID" Type="Int32" />
+          <Property Name="VCH_INEICODE" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TBL_SLI_PROVINCE" Relationship="Self.FK_TBL_SLI_DISTRICT_TBL_SLI_PROVINCE" FromRole="TBL_SLI_DISTRICT" ToRole="TBL_SLI_PROVINCE" />
+        </EntityType>
+        <EntityType Name="TBL_SLI_PROVINCE">
+          <Key>
+            <PropertyRef Name="INT_PROVINCEID" />
+          </Key>
+          <Property Name="INT_PROVINCEID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VCH_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BIT_STATE" Type="Boolean" />
+          <Property Name="INT_CITYID" Type="Int32" />
+          <NavigationProperty Name="TBL_SLI_CITY" Relationship="Self.FK_TBL_SLI_PROVINCE_TBL_SLI_CITY" FromRole="TBL_SLI_PROVINCE" ToRole="TBL_SLI_CITY" />
+          <NavigationProperty Name="TBL_SLI_DISTRICT" Relationship="Self.FK_TBL_SLI_DISTRICT_TBL_SLI_PROVINCE" FromRole="TBL_SLI_PROVINCE" ToRole="TBL_SLI_DISTRICT" />
+        </EntityType>
+        <Association Name="FK_TBL_SLI_CITY_TBL_SLI_COUNTRY">
+          <End Role="TBL_SLI_COUNTRY" Type="Self.TBL_SLI_COUNTRY" Multiplicity="1" />
+          <End Role="TBL_SLI_CITY" Type="Self.TBL_SLI_CITY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_SLI_COUNTRY">
+              <PropertyRef Name="INT_COUNTRYID" />
+            </Principal>
+            <Dependent Role="TBL_SLI_CITY">
+              <PropertyRef Name="INT_COUNTRYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_SLI_PROVINCE_TBL_SLI_CITY">
+          <End Role="TBL_SLI_CITY" Type="Self.TBL_SLI_CITY" Multiplicity="0..1" />
+          <End Role="TBL_SLI_PROVINCE" Type="Self.TBL_SLI_PROVINCE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_SLI_CITY">
+              <PropertyRef Name="INT_CITYID" />
+            </Principal>
+            <Dependent Role="TBL_SLI_PROVINCE">
+              <PropertyRef Name="INT_CITYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_SLI_COUNTRY_TBL_SLI_CONTINENT">
+          <End Role="TBL_SLI_CONTINENT" Type="Self.TBL_SLI_CONTINENT" Multiplicity="0..1" />
+          <End Role="TBL_SLI_COUNTRY" Type="Self.TBL_SLI_COUNTRY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_SLI_CONTINENT">
+              <PropertyRef Name="INT_CONTINENTID" />
+            </Principal>
+            <Dependent Role="TBL_SLI_COUNTRY">
+              <PropertyRef Name="INT_CONTINENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_268">
+          <End Role="TBL_SLI_CURRENCY" Type="Self.TBL_SLI_CURRENCY" Multiplicity="0..1" />
+          <End Role="TBL_SLI_COUNTRY" Type="Self.TBL_SLI_COUNTRY" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_SLI_CURRENCY">
+              <PropertyRef Name="INT_CURRENCYID" />
+            </Principal>
+            <Dependent Role="TBL_SLI_COUNTRY">
+              <PropertyRef Name="INT_CURRENCYID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TBL_SLI_DISTRICT_TBL_SLI_PROVINCE">
+          <End Role="TBL_SLI_PROVINCE" Type="Self.TBL_SLI_PROVINCE" Multiplicity="0..1" />
+          <End Role="TBL_SLI_DISTRICT" Type="Self.TBL_SLI_DISTRICT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TBL_SLI_PROVINCE">
+              <PropertyRef Name="INT_PROVINCEID" />
+            </Principal>
+            <Dependent Role="TBL_SLI_DISTRICT">
+              <PropertyRef Name="INT_PROVINCEID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbCore" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TBL_SLI_CITY" EntityType="Self.TBL_SLI_CITY" />
+          <EntitySet Name="TBL_SLI_CONTINENT" EntityType="Self.TBL_SLI_CONTINENT" />
+          <EntitySet Name="TBL_SLI_COUNTRY" EntityType="Self.TBL_SLI_COUNTRY" />
+          <EntitySet Name="TBL_SLI_CURRENCY" EntityType="Self.TBL_SLI_CURRENCY" />
+          <EntitySet Name="TBL_SLI_DISTRICT" EntityType="Self.TBL_SLI_DISTRICT" />
+          <EntitySet Name="TBL_SLI_PROVINCE" EntityType="Self.TBL_SLI_PROVINCE" />
+          <AssociationSet Name="FK_TBL_SLI_CITY_TBL_SLI_COUNTRY" Association="Self.FK_TBL_SLI_CITY_TBL_SLI_COUNTRY">
+            <End Role="TBL_SLI_COUNTRY" EntitySet="TBL_SLI_COUNTRY" />
+            <End Role="TBL_SLI_CITY" EntitySet="TBL_SLI_CITY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_SLI_PROVINCE_TBL_SLI_CITY" Association="Self.FK_TBL_SLI_PROVINCE_TBL_SLI_CITY">
+            <End Role="TBL_SLI_CITY" EntitySet="TBL_SLI_CITY" />
+            <End Role="TBL_SLI_PROVINCE" EntitySet="TBL_SLI_PROVINCE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_SLI_COUNTRY_TBL_SLI_CONTINENT" Association="Self.FK_TBL_SLI_COUNTRY_TBL_SLI_CONTINENT">
+            <End Role="TBL_SLI_CONTINENT" EntitySet="TBL_SLI_CONTINENT" />
+            <End Role="TBL_SLI_COUNTRY" EntitySet="TBL_SLI_COUNTRY" />
+          </AssociationSet>
+          <AssociationSet Name="R_268" Association="Self.R_268">
+            <End Role="TBL_SLI_CURRENCY" EntitySet="TBL_SLI_CURRENCY" />
+            <End Role="TBL_SLI_COUNTRY" EntitySet="TBL_SLI_COUNTRY" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TBL_SLI_DISTRICT_TBL_SLI_PROVINCE" Association="Self.FK_TBL_SLI_DISTRICT_TBL_SLI_PROVINCE">
+            <End Role="TBL_SLI_PROVINCE" EntitySet="TBL_SLI_PROVINCE" />
+            <End Role="TBL_SLI_DISTRICT" EntitySet="TBL_SLI_DISTRICT" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DbCoreModelStoreContainer" CdmEntityContainer="DbCore">
+          <EntitySetMapping Name="TBL_SLI_CITY">
+            <EntityTypeMapping TypeName="DbCoreModel.TBL_SLI_CITY">
+              <MappingFragment StoreEntitySet="TBL_SLI_CITY">
+                <ScalarProperty Name="INT_CITYID" ColumnName="INT_CITYID" />
+                <ScalarProperty Name="VCH_NAME" ColumnName="VCH_NAME" />
+                <ScalarProperty Name="BIT_STATE" ColumnName="BIT_STATE" />
+                <ScalarProperty Name="INT_COUNTRYID" ColumnName="INT_COUNTRYID" />
+                <ScalarProperty Name="VCH_INTCODE" ColumnName="VCH_INTCODE" />
+                <ScalarProperty Name="VCH_IATACODE" ColumnName="VCH_IATACODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_SLI_CONTINENT">
+            <EntityTypeMapping TypeName="DbCoreModel.TBL_SLI_CONTINENT">
+              <MappingFragment StoreEntitySet="TBL_SLI_CONTINENT">
+                <ScalarProperty Name="INT_CONTINENTID" ColumnName="INT_CONTINENTID" />
+                <ScalarProperty Name="VCH_NAME" ColumnName="VCH_NAME" />
+                <ScalarProperty Name="BIT_STATE" ColumnName="BIT_STATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_SLI_COUNTRY">
+            <EntityTypeMapping TypeName="DbCoreModel.TBL_SLI_COUNTRY">
+              <MappingFragment StoreEntitySet="TBL_SLI_COUNTRY">
+                <ScalarProperty Name="INT_COUNTRYID" ColumnName="INT_COUNTRYID" />
+                <ScalarProperty Name="VCH_FREIGHTCODE" ColumnName="VCH_FREIGHTCODE" />
+                <ScalarProperty Name="VCH_NAME" ColumnName="VCH_NAME" />
+                <ScalarProperty Name="BIT_STATE" ColumnName="BIT_STATE" />
+                <ScalarProperty Name="INT_CURRENCYID" ColumnName="INT_CURRENCYID" />
+                <ScalarProperty Name="INT_CONTINENTID" ColumnName="INT_CONTINENTID" />
+                <ScalarProperty Name="BIT_SPANISHLANGUAGE" ColumnName="BIT_SPANISHLANGUAGE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_SLI_CURRENCY">
+            <EntityTypeMapping TypeName="DbCoreModel.TBL_SLI_CURRENCY">
+              <MappingFragment StoreEntitySet="TBL_SLI_CURRENCY">
+                <ScalarProperty Name="INT_CURRENCYID" ColumnName="INT_CURRENCYID" />
+                <ScalarProperty Name="CHR_ADUANACODE" ColumnName="CHR_ADUANACODE" />
+                <ScalarProperty Name="VCH_NAME" ColumnName="VCH_NAME" />
+                <ScalarProperty Name="BIT_ACTIVE" ColumnName="BIT_ACTIVE" />
+                <ScalarProperty Name="VCH_SYMBOL" ColumnName="VCH_SYMBOL" />
+                <ScalarProperty Name="VCH_CURRENCYSYMBOL" ColumnName="VCH_CURRENCYSYMBOL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_SLI_DISTRICT">
+            <EntityTypeMapping TypeName="DbCoreModel.TBL_SLI_DISTRICT">
+              <MappingFragment StoreEntitySet="TBL_SLI_DISTRICT">
+                <ScalarProperty Name="INT_DISTRICTID" ColumnName="INT_DISTRICTID" />
+                <ScalarProperty Name="VCH_NAME" ColumnName="VCH_NAME" />
+                <ScalarProperty Name="BIT_STATE" ColumnName="BIT_STATE" />
+                <ScalarProperty Name="INT_PROVINCEID" ColumnName="INT_PROVINCEID" />
+                <ScalarProperty Name="VCH_INEICODE" ColumnName="VCH_INEICODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_SLI_PROVINCE">
+            <EntityTypeMapping TypeName="DbCoreModel.TBL_SLI_PROVINCE">
+              <MappingFragment StoreEntitySet="TBL_SLI_PROVINCE">
+                <ScalarProperty Name="INT_PROVINCEID" ColumnName="INT_PROVINCEID" />
+                <ScalarProperty Name="VCH_NAME" ColumnName="VCH_NAME" />
+                <ScalarProperty Name="BIT_STATE" ColumnName="BIT_STATE" />
+                <ScalarProperty Name="INT_CITYID" ColumnName="INT_CITYID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

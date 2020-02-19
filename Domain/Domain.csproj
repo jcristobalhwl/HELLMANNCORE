@@ -69,7 +69,46 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DbCore.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DbManifest.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbManifest.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbManifest.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbManifest.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbManifest.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbManifest.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TBL_ADU_ADUANAAGENT.cs">
+      <DependentUpon>DbManifest.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_ADU_ADUANADESTINATION.cs">
+      <DependentUpon>DbManifest.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_ADU_MANIFEST.cs">
+      <DependentUpon>DbManifest.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_ADU_MANIFESTSHIPMENTDETAILDOC.cs">
+      <DependentUpon>DbManifest.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_ADU_MANIFESTSHIPMENTDOC.cs">
+      <DependentUpon>DbManifest.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_ADU_MASTERINFORMATION.cs">
+      <DependentUpon>DbManifest.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_ADU_WAREDESCRIPTION.cs">
+      <DependentUpon>DbManifest.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_MAN_MANIFEST.cs">
+      <DependentUpon>DbManifest.tt</DependentUpon>
+    </Compile>
     <Compile Include="TBL_SLI_CITY.cs">
       <DependentUpon>DbCore.tt</DependentUpon>
     </Compile>
@@ -100,6 +139,13 @@
     <None Include="DbCore.edmx.diagram">
       <DependentUpon>DbCore.edmx</DependentUpon>
     </None>
+    <EntityDeploy Include="DbManifest.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DbManifest.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DbManifest.edmx.diagram">
+      <DependentUpon>DbManifest.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +158,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DbCore.edmx</DependentUpon>
       <LastGenOutput>DbCore.cs</LastGenOutput>
+    </Content>
+    <Content Include="DbManifest.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DbManifest.edmx</DependentUpon>
+      <LastGenOutput>DbManifest.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DbManifest.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DbManifest.edmx</DependentUpon>
+      <LastGenOutput>DbManifest.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

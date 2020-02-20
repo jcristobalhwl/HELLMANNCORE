@@ -93,5 +93,18 @@ namespace Service.Implementations.Manifest
                 throw ex;
             }
         }
+
+        public List<TBL_ADU_WEBTRACKING> getWebsTracking()
+        {
+            try
+            {
+               return _context.TBL_ADU_WEBTRACKING.ToList();
+            }
+            catch (Exception ex)
+            {
+                _context.Database.Connection.Close();
+                throw ex;
+            }
+        }
     }
 }

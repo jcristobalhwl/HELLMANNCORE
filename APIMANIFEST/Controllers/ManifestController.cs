@@ -11,7 +11,6 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 using System.Web.Http.Results;
-
 namespace APIMANIFEST.Controllers
 {
     public class ManifestController : ApiController
@@ -23,11 +22,23 @@ namespace APIMANIFEST.Controllers
         }
         public JsonResult<ResponseBase<TBL_MAN_MANIFEST>> GetData()
         {
+
+            var options = new ChromeOptions();
+            options.AddArguments("--disabled-gpu");
+            var chromeDriver = new ChromeDriver(options);
+            chromeDriver.Navigate().GoToUrl("https://www.unitedcargo.com/OurNetwork/TrackingCargo1512/Tracking.jsp?id=35710113&pfx=016");
+
+            var tables = chromeDriver.FindElements(By.CssSelector("b"));
+
+
+
             int tableId = 0;
             int trId = 0;
             string startDate = Convert.ToDateTime("10/02/2020").ToString("dd/MM/yyyy");//.ToShortDateString("dd/MM/yyyy");
             string endDate = Convert.ToDateTime("10/02/2020").ToString("dd/MM/yyyy"); //.ToShortDateString();
             string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=100000";
+
+            //string url = "https://www.deltacargo.com/Cargo/trackShipment?awbNumber=00623405023&timeZoneOffset=300";
             HtmlWeb htmlWeb = new HtmlWeb();
             htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
             HtmlDocument document = htmlWeb.Load(url);
@@ -63,7 +74,7 @@ namespace APIMANIFEST.Controllers
                         }
                         trId++;
                     }
-                    //manifestList.GroupBy(x => x.manifestNumber).Select(x => x.First()).ToList();
+                    manifestList.GroupBy(x => x.VCH_MANIFESTNUMBER).Select(x => x.First()).ToList();
                     _manifestService.insertManifest(ref manifestList);
                 }
                 tableId++;
@@ -82,7 +93,7 @@ namespace APIMANIFEST.Controllers
 
                 while (document.ParsedText.Length <= 1500)
                 {
-                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.manifestNumber.Substring(0, 2) + "&CMc1_Numero=" + item.manifestNumber.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
+                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.VCH_MANIFESTNUMBER.Substring(0, 2) + "&CMc1_Numero=" + item.VCH_MANIFESTNUMBER.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
                     htmlWeb = new HtmlWeb();
                     htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
                     document = htmlWeb.Load(url);
@@ -91,7 +102,7 @@ namespace APIMANIFEST.Controllers
                 while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
                         || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
                 {
-                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.manifestNumber.Substring(0, 2) + "&CMc1_Numero=" + item.manifestNumber.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
+                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.VCH_MANIFESTNUMBER.Substring(0, 2) + "&CMc1_Numero=" + item.VCH_MANIFESTNUMBER.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
                     htmlWeb = new HtmlWeb();
                     htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
                     document = htmlWeb.Load(url);
@@ -231,6 +242,8 @@ namespace APIMANIFEST.Controllers
             }
             _manifestService.insertManifestShipmentDocument(ref manifestSDList);
             _manifestService.insertManifestShipmentDetailDocument(ref manifestSDDetailList);
+            
+            #endregion
 
             #region RECORRE LA CONSULTA DE MANIFIESTOS DE SALIDA
             string manifestYear = "";
@@ -243,9 +256,120 @@ namespace APIMANIFEST.Controllers
 
             TBL_ADU_WAREDESCRIPTION wareDescriptionObj = new TBL_ADU_WAREDESCRIPTION();
             List<TBL_ADU_WAREDESCRIPTION> wareDescriptionList = new List<TBL_ADU_WAREDESCRIPTION>();
-
+            List<TBL_ADU_WEBTRACKING> webTrackingsList = new List<TBL_ADU_WEBTRACKING>();
+            TBL_ADU_WEBTRACKING webTrackingObj;
+            string masterGuidePrefix = "";
             foreach (var item in manifestSDDetailList)
             {
+                #region DESTINOS DE VUELOS
+                webTrackingsList = _manifestService.getWebsTracking();
+                masterGuidePrefix = item.VCH_DIRECTMASTERGUIDE.Substring(0, 3);
+                webTrackingObj =  webTrackingsList.Where(x => x.CHR_PREFIX == masterGuidePrefix).FirstOrDefault();
+                if (webTrackingObj != null)
+                {
+                    switch (webTrackingObj.CHR_PREFIX)
+                    {
+                        case "001":
+                            //url = $"{webTrackingObj.VCH_LINK}/"  + item.VCH_MANIFESTNUMBER.Substring(0, 2) + "&CMc1_Numero=" + item.VCH_MANIFESTNUMBER.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
+                            //htmlWeb = new HtmlWeb();
+                            //htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                            //document = htmlWeb.Load(url);
+
+                            //Problema POST
+
+                            break;
+                        case "006":
+                            //url = $"{webTrackingObj.VCH_LINK}?awbNumber={item.VCH_DIRECTMASTERGUIDE}&timeZoneOffset=300";
+                            //htmlWeb = new HtmlWeb();
+                            //htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                            //document = htmlWeb.Load(url);
+                            //Problema JAVASCRIPT
+
+                            break;
+                        case "014":
+                            //url = $"{webTrackingObj.VCH_LINK}/?s_acn=014&s_sref={item.VCH_DIRECTMASTERGUIDE.Substring(3,8)}";
+                            //htmlWeb = new HtmlWeb();
+                            //htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                            //document = htmlWeb.Load(url);
+                            //var tables = document.DocumentNode.CssSelect("table");
+                            //tableId = 0;
+                            //foreach (HtmlNode table in document.DocumentNode.CssSelect("table"))
+                            //{
+                            //    if (tableId == 0)
+                            //    {
+
+                            //    }
+                            //    tableId++;
+                            //}
+
+                            //Problema JAVASCRIPT
+
+                            break;
+                        case "016":
+                          
+                            //url = $"{webTrackingObj.VCH_LINK}?id={item.VCH_DIRECTMASTERGUIDE.Substring(3, 8)}&pfx=016";
+                            //htmlWeb = new HtmlWeb();
+                            //htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                            //document = htmlWeb.Load(url);
+                            //var result = document.GetElementbyId("dispTable0");
+                            //break;
+
+                        case "044":
+
+                            break;
+                        case "057":
+
+                            break;
+                        case "074":
+
+                            break;
+                        case "075":
+
+                            break;
+                        case "139":
+
+                        case "125":
+
+                            break;
+                        case "144":
+
+                            break;
+                        case "145":
+
+                            break;
+                        case "180":
+
+                            break;
+                        case "230":
+
+                            break;
+                        case "369":
+
+                            break;
+                        case "489":
+
+                            break;
+                        case "530":
+
+                            break;
+                        case "605":
+                            break;
+
+                        case "729":
+
+                            break;
+                        case "996":
+
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+
+                }
+                #endregion
                 #region DESTINACIONES ADUANERAS POR CONOCIMIENTO/GUIA
                 manifestYear = "";
                 manifestYear = "20" + manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(0, 2);
@@ -533,8 +657,6 @@ namespace APIMANIFEST.Controllers
 
             //INSERTA DESCRIPCION DE MERCANCIA
             _manifestService.insertWareDescription(ref wareDescriptionList);
-
-            #endregion
 
             #endregion
 

@@ -32,6 +32,16 @@
           <Property Name="NUM_WEIGHTREQUESTED" Type="numeric" Precision="18" Scale="3" />
           <Property Name="INT_PACKAGEREQUESTED" Type="int" />
         </EntityType>
+        <EntityType Name="TBL_ADU_FLIGHT">
+          <Key>
+            <PropertyRef Name="INT_FREIGHTDESTINATION" />
+          </Key>
+          <Property Name="INT_FREIGHTDESTINATION" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="VCH_ORIGIN" Type="varchar" MaxLength="10" />
+          <Property Name="VCH_DESTINATION" Type="varchar" MaxLength="10" />
+          <Property Name="VCH_CONNECTION" Type="varchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="TBL_ADU_MANIFEST">
           <Key>
             <PropertyRef Name="NUM_MANIFESTID" />
@@ -123,6 +133,15 @@
           <Property Name="VCH_MARKSANDNUMBERS" Type="varchar(max)" />
           <Property Name="VCH_DESCRIPTION" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="TBL_ADU_WEBTRACKING">
+          <Key>
+            <PropertyRef Name="INT_WEBTRACKINGID" />
+          </Key>
+          <Property Name="INT_WEBTRACKINGID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CHR_PREFIX" Type="char" MaxLength="3" />
+          <Property Name="VCH_AIRLINE" Type="varchar" MaxLength="50" />
+          <Property Name="VCH_LINK" Type="varchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="TBL_MAN_MANIFEST">
           <Key>
             <PropertyRef Name="INT_MANIFESTID" />
@@ -153,11 +172,13 @@
         <EntityContainer Name="DB_MANIFESTModelStoreContainer">
           <EntitySet Name="TBL_ADU_ADUANAAGENT" EntityType="Self.TBL_ADU_ADUANAAGENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_ADU_ADUANADESTINATION" EntityType="Self.TBL_ADU_ADUANADESTINATION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_ADU_FLIGHT" EntityType="Self.TBL_ADU_FLIGHT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_ADU_MANIFEST" EntityType="Self.TBL_ADU_MANIFEST" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_ADU_MANIFESTSHIPMENTDETAILDOC" EntityType="Self.TBL_ADU_MANIFESTSHIPMENTDETAILDOC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_ADU_MANIFESTSHIPMENTDOC" EntityType="Self.TBL_ADU_MANIFESTSHIPMENTDOC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_ADU_MASTERINFORMATION" EntityType="Self.TBL_ADU_MASTERINFORMATION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_ADU_WAREDESCRIPTION" EntityType="Self.TBL_ADU_WAREDESCRIPTION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_ADU_WEBTRACKING" EntityType="Self.TBL_ADU_WEBTRACKING" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_MAN_MANIFEST" EntityType="Self.TBL_MAN_MANIFEST" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -318,7 +339,28 @@
           <EntitySet Name="TBL_ADU_MASTERINFORMATION" EntityType="Self.TBL_ADU_MASTERINFORMATION" />
           <EntitySet Name="TBL_ADU_WAREDESCRIPTION" EntityType="Self.TBL_ADU_WAREDESCRIPTION" />
           <EntitySet Name="TBL_MAN_MANIFEST" EntityType="Self.TBL_MAN_MANIFEST" />
+          <EntitySet Name="TBL_ADU_FLIGHT" EntityType="DB_MANIFESTModel.TBL_ADU_FLIGHT" />
+          <EntitySet Name="TBL_ADU_WEBTRACKING" EntityType="DB_MANIFESTModel.TBL_ADU_WEBTRACKING" />
         </EntityContainer>
+        <EntityType Name="TBL_ADU_FLIGHT">
+          <Key>
+            <PropertyRef Name="INT_FREIGHTDESTINATION" />
+          </Key>
+          <Property Name="INT_FREIGHTDESTINATION" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="VCH_ORIGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="VCH_DESTINATION" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="VCH_CONNECTION" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_ADU_WEBTRACKING">
+          <Key>
+            <PropertyRef Name="INT_WEBTRACKINGID" />
+          </Key>
+          <Property Name="INT_WEBTRACKINGID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CHR_PREFIX" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="VCH_AIRLINE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VCH_LINK" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -475,6 +517,27 @@
                 <ScalarProperty Name="DTM_TRANSMISSION_DATE" ColumnName="DTM_TRANSMISSION_DATE" />
                 <ScalarProperty Name="VCH_ANOTHERAGENT" ColumnName="VCH_ANOTHERAGENT" />
                 <ScalarProperty Name="VCH_DESTINATION" ColumnName="VCH_DESTINATION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ADU_FLIGHT">
+            <EntityTypeMapping TypeName="DB_MANIFESTModel.TBL_ADU_FLIGHT">
+              <MappingFragment StoreEntitySet="TBL_ADU_FLIGHT">
+                <ScalarProperty Name="VCH_CONNECTION" ColumnName="VCH_CONNECTION" />
+                <ScalarProperty Name="VCH_DESTINATION" ColumnName="VCH_DESTINATION" />
+                <ScalarProperty Name="VCH_ORIGIN" ColumnName="VCH_ORIGIN" />
+                <ScalarProperty Name="DEC_MANIFESTSHIPDETDOCID" ColumnName="DEC_MANIFESTSHIPDETDOCID" />
+                <ScalarProperty Name="INT_FREIGHTDESTINATION" ColumnName="INT_FREIGHTDESTINATION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ADU_WEBTRACKING">
+            <EntityTypeMapping TypeName="DB_MANIFESTModel.TBL_ADU_WEBTRACKING">
+              <MappingFragment StoreEntitySet="TBL_ADU_WEBTRACKING">
+                <ScalarProperty Name="VCH_LINK" ColumnName="VCH_LINK" />
+                <ScalarProperty Name="VCH_AIRLINE" ColumnName="VCH_AIRLINE" />
+                <ScalarProperty Name="CHR_PREFIX" ColumnName="CHR_PREFIX" />
+                <ScalarProperty Name="INT_WEBTRACKINGID" ColumnName="INT_WEBTRACKINGID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

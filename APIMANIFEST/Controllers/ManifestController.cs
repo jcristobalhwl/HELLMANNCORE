@@ -80,23 +80,23 @@ namespace APIMANIFEST.Controllers
                 htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
                 document = htmlWeb.Load(url);
 
-                //while (document.ParsedText.Length <= 1500)
-                //{
-                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.manifestNumber.Substring(0, 2) + "&CMc1_Numero=" + item.manifestNumber.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
-                //    htmlWeb = new HtmlWeb();
-                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                //    document = htmlWeb.Load(url);
-                //}
+                while (document.ParsedText.Length <= 1500)
+                {
+                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.manifestNumber.Substring(0, 2) + "&CMc1_Numero=" + item.manifestNumber.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
+                    htmlWeb = new HtmlWeb();
+                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                    document = htmlWeb.Load(url);
+                }
                 evalua = document.DocumentNode.CssSelect("td").First();
-                //while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
-                //        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
-                //{
-                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.manifestNumber.Substring(0, 2) + "&CMc1_Numero=" + item.manifestNumber.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
-                //    htmlWeb = new HtmlWeb();
-                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                //    document = htmlWeb.Load(url);
-                //    evalua = document.DocumentNode.CssSelect("td").First();
-                //}
+                while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
+                        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
+                {
+                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.manifestNumber.Substring(0, 2) + "&CMc1_Numero=" + item.manifestNumber.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
+                    htmlWeb = new HtmlWeb();
+                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                    document = htmlWeb.Load(url);
+                    evalua = document.DocumentNode.CssSelect("td").First();
+                }
 
                 tableId = 0;
                 foreach (HtmlNode tabla in document.DocumentNode.CssSelect("table"))
@@ -256,24 +256,23 @@ namespace APIMANIFEST.Controllers
                 htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
                 document = htmlWeb.Load(url);
 
-                //while (document.ParsedText.Length <= 1500)
-                //{
-                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuiaDUA&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&tamanioPagina=100000";
-                //    htmlWeb = new HtmlWeb();
-                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                //    document = htmlWeb.Load(url);
-                //}
-                //evalua = new HtmlNode();
+                while (document.ParsedText.Length <= 1500)
+                {
+                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuiaDUA&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&tamanioPagina=100000";
+                    htmlWeb = new HtmlWeb();
+                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                    document = htmlWeb.Load(url);
+                }
                 evalua = document.DocumentNode.CssSelect("td").First();
-                //while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
-                //        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
-                //{
-                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuiaDUA&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&tamanioPagina=100000";
-                //    htmlWeb = new HtmlWeb();
-                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                //    document = htmlWeb.Load(url);
-                //    evalua = document.DocumentNode.CssSelect("td").First();
-                //}
+                while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
+                        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
+                {
+                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuiaDUA&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&tamanioPagina=100000";
+                    htmlWeb = new HtmlWeb();
+                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                    document = htmlWeb.Load(url);
+                    evalua = document.DocumentNode.CssSelect("td").First();
+                }
 
                 tableId = 0;
                 aduanaDestinationObj = new TBL_ADU_ADUANADESTINATION();
@@ -351,24 +350,23 @@ namespace APIMANIFEST.Controllers
                 htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
                 document = htmlWeb.Load(url);
 
-                //while (document.ParsedText.Length <= 1500)
-                //{
-                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleMasterExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&tamanioPagina=100000";
-                //    htmlWeb = new HtmlWeb();
-                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                //    document = htmlWeb.Load(url);
-                //}
-                //evalua = new HtmlNode();
+                while (document.ParsedText.Length <= 1500)
+                {
+                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleMasterExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&tamanioPagina=100000";
+                    htmlWeb = new HtmlWeb();
+                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                    document = htmlWeb.Load(url);
+                }
                 evalua = document.DocumentNode.CssSelect("td").First();
-                //while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
-                //        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
-                //{
-                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleMasterExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&tamanioPagina=100000";
-                //    htmlWeb = new HtmlWeb();
-                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                //    document = htmlWeb.Load(url);
-                //    evalua = document.DocumentNode.CssSelect("td").First();
-                //}
+                while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
+                        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
+                {
+                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleMasterExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&tamanioPagina=100000";
+                    htmlWeb = new HtmlWeb();
+                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                    document = htmlWeb.Load(url);
+                    evalua = document.DocumentNode.CssSelect("td").First();
+                }
 
                 tableId = 0;
                 masterInformationObj = new TBL_ADU_MASTERINFORMATION();
@@ -445,24 +443,23 @@ namespace APIMANIFEST.Controllers
                 htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
                 document = htmlWeb.Load(url);
 
-                //while (document.ParsedText.Length <= 1500)
-                //{
-                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleConocimientoEmbarqueExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&CMc2_NumDet=" + item.VCH_DETAIL.ToString().PadLeft(3, '+') + "&tamanioPagina=100000";
-                //    htmlWeb = new HtmlWeb();
-                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                //    document = htmlWeb.Load(url);
-                //}
-                //evalua = new HtmlNode();
+                while (document.ParsedText.Length <= 1500)
+                {
+                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleConocimientoEmbarqueExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&CMc2_NumDet=" + item.VCH_DETAIL.ToString().PadLeft(3, '+') + "&tamanioPagina=100000";
+                    htmlWeb = new HtmlWeb();
+                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                    document = htmlWeb.Load(url);
+                }
                 evalua = document.DocumentNode.CssSelect("td").First();
-                //while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
-                //        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
-                //{
-                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleConocimientoEmbarqueExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&CMc2_NumDet=" + item.VCH_DETAIL.ToString().PadLeft(3, '+') + "&tamanioPagina=100000";
-                //    htmlWeb = new HtmlWeb();
-                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                //    document = htmlWeb.Load(url);
-                //    evalua = document.DocumentNode.CssSelect("td").First();
-                //}
+                while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
+                        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
+                {
+                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleConocimientoEmbarqueExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&CMc2_NumDet=" + item.VCH_DETAIL.ToString().PadLeft(3, '+') + "&tamanioPagina=100000";
+                    htmlWeb = new HtmlWeb();
+                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                    document = htmlWeb.Load(url);
+                    evalua = document.DocumentNode.CssSelect("td").First();
+                }
 
                 tableId = 0;
                 wareDescriptionObj = new TBL_ADU_WAREDESCRIPTION();
@@ -538,11 +535,6 @@ namespace APIMANIFEST.Controllers
             _manifestService.insertWareDescription(ref wareDescriptionList);
 
             #endregion
-            //BLManifiesto.insertaManifiestoDE(ref manifestSDList);
-            //dgvManifiestoDocEmb.DataSource = manifestSDList;
-
-            //BLManifiesto.insertaManifiestoDEDetalle(ref manifestSDDetailList);
-            //dgvManifiestoDocEmbDet.DataSource = manifestSDDetailList;
 
             #endregion
 

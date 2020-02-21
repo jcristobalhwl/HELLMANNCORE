@@ -170,6 +170,7 @@
       <DependentUpon>DbManifest.edmx</DependentUpon>
       <LastGenOutput>DbManifest.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="DbManifest.edmx.sql" />
     <Content Include="DbManifest.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DbManifest.edmx</DependentUpon>

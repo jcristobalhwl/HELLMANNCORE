@@ -13,8 +13,8 @@
         <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_MASTERINFORMATION" Width="2.375" PointX="7" PointY="5.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_WAREDESCRIPTION" Width="3" PointX="9.375" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_MAN_MANIFEST" Width="2.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_FLIGHT" Width="1.5" PointX="3.375" PointY="9.75" />
         <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_WEBTRACKING" Width="1.5" PointX="5.375" PointY="10.75" />
+        <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_TRACK" Width="1.5" PointX="7.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

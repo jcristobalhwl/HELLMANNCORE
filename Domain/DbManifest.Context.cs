@@ -33,7 +33,7 @@ namespace Domain
         public virtual DbSet<TBL_ADU_MASTERINFORMATION> TBL_ADU_MASTERINFORMATION { get; set; }
         public virtual DbSet<TBL_ADU_WAREDESCRIPTION> TBL_ADU_WAREDESCRIPTION { get; set; }
         public virtual DbSet<TBL_MAN_MANIFEST> TBL_MAN_MANIFEST { get; set; }
-        public virtual DbSet<TBL_ADU_FLIGHT> TBL_ADU_FLIGHT { get; set; }
         public virtual DbSet<TBL_ADU_WEBTRACKING> TBL_ADU_WEBTRACKING { get; set; }
+        public virtual DbSet<TBL_ADU_TRACK> TBL_ADU_TRACK { get; set; }
     }
 }

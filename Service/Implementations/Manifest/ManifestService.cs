@@ -106,5 +106,19 @@ namespace Service.Implementations.Manifest
                 throw ex;
             }
         }
+
+        public void insertTracks(ref List<TBL_ADU_TRACK> trackList)
+        {
+            try
+            {
+                _context.TBL_ADU_TRACK.AddRange(trackList);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _context.Database.Connection.Close();
+                throw ex;
+            }
+        }
     }
 }

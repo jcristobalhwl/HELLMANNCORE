@@ -91,9 +91,6 @@
     <Compile Include="TBL_ADU_ADUANADESTINATION.cs">
       <DependentUpon>DbManifest.tt</DependentUpon>
     </Compile>
-    <Compile Include="TBL_ADU_FLIGHT.cs">
-      <DependentUpon>DbManifest.tt</DependentUpon>
-    </Compile>
     <Compile Include="TBL_ADU_MANIFEST.cs">
       <DependentUpon>DbManifest.tt</DependentUpon>
     </Compile>
@@ -104,6 +101,9 @@
       <DependentUpon>DbManifest.tt</DependentUpon>
     </Compile>
     <Compile Include="TBL_ADU_MASTERINFORMATION.cs">
+      <DependentUpon>DbManifest.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TBL_ADU_TRACK.cs">
       <DependentUpon>DbManifest.tt</DependentUpon>
     </Compile>
     <Compile Include="TBL_ADU_WAREDESCRIPTION.cs">

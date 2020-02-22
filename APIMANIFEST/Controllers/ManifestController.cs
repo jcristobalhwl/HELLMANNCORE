@@ -3,6 +3,7 @@ using Domain;
 using HtmlAgilityPack;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using ScrapySharp.Extensions;
 using Service.Implementations.Manifest;
 using System;
@@ -11,6 +12,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 namespace APIMANIFEST.Controllers
@@ -24,15 +27,63 @@ namespace APIMANIFEST.Controllers
         }
         public JsonResult<ResponseBase<TBL_MAN_MANIFEST>> GetData()
         {
+            //List<TBL_ADU_TRACK> trackList = new List<TBL_ADU_TRACK>();
+            //TBL_ADU_WEBTRACKING webTrackingObj;
+            //TBL_ADU_TRACK trackObj;
+            //string masterGuidePrefix = "";
 
-            var options = new ChromeOptions();
-            options.AddArguments("--disabled-gpu");
-            var chromeDriver = new ChromeDriver(options);
-            chromeDriver.Navigate().GoToUrl("https://www.unitedcargo.com/OurNetwork/TrackingCargo1512/Tracking.jsp?id=35710113&pfx=016");
+            //ChromeOptions options = new ChromeOptions();
+            //options.AddArguments("--disabled-gpu");
+            //ChromeDriver chromeDriver;
 
-            var tables = chromeDriver.FindElements(By.CssSelector("span"));
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    chromeDriver = new ChromeDriver(options);
+            //    chromeDriver.Navigate().GoToUrl("https://www.unitedcargo.com/OurNetwork/TrackingCargo1512/Tracking.jsp?id=35710146&pfx=016");
+            //    //chromeDriver.FindElementsByCssSelector("ul.listClass li");
+            //    Thread.Sleep(30000);
+            //    IReadOnlyCollection<IWebElement> elementList = chromeDriver.FindElementsByCssSelector("ul.listClass li");
+            //    //chromeDriver.FindElementsByCssSelector("ul.listClass li");
+            //    if (elementList.Count > 0)
+            //    {
+            //        trackObj = new TBL_ADU_TRACK();
+            //        //trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
+            //        trackObj.VCH_DIRECTMASTERGUIDE = elementList.ElementAt(0).Text.Trim();
+            //        //trackObj.VCH_CONFIRMATION = elementList.ElementAt(1).Text;
+            //        //trackObj.VCH_STATUS = elementList.ElementAt(2).Text;
+            //        //trackObj.VCH_ORIGIN = elementList.ElementAt(3).Text;
+            //        //trackObj.VCH_DESTINATION = elementList.ElementAt(4).Text;
+            //        //trackObj.VCH_SERVICE = elementList.ElementAt(5).Text;
+            //        //trackObj.INT_PIECES = Convert.ToInt32(elementList.ElementAt(6).Text);
+            //        //trackObj.NUM_WEIGHT = Convert.ToDecimal(Convert.ToDouble(elementList.ElementAt(7).Text) / 2.205); //Guardado en kilos;
+            //        //trackObj.NUM_VOLUME = Convert.ToDecimal(Convert.ToDouble(elementList.ElementAt(8).Text) / 35.315); //Volumen en metros cubicos
+            //        //trackObj.VCH_PRODUCT = elementList.ElementAt(9).Text;
+            //        trackList.Add(trackObj);
+            //    }
+            //    chromeDriver.Quit();
+            //    if (true)
+            //    {
 
-
+            //    }
+            //    //if (elementList.Count > 0)
+            //    //{
+            //    //    trackObj = new TBL_ADU_TRACK();
+            //    //    //trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
+            //    //    trackObj.VCH_DIRECTMASTERGUIDE = elementList.ElementAt(0).Text.Trim();
+            //    //    //trackObj.VCH_CONFIRMATION = elementList.ElementAt(1).Text;
+            //    //    //trackObj.VCH_STATUS = elementList.ElementAt(2).Text;
+            //    //    //trackObj.VCH_ORIGIN = elementList.ElementAt(3).Text;
+            //    //    //trackObj.VCH_DESTINATION = elementList.ElementAt(4).Text;
+            //    //    //trackObj.VCH_SERVICE = elementList.ElementAt(5).Text;
+            //    //    //trackObj.INT_PIECES = Convert.ToInt32(elementList.ElementAt(6).Text);
+            //    //    //trackObj.NUM_WEIGHT = Convert.ToDecimal(Convert.ToDouble(elementList.ElementAt(7).Text) / 2.205); //Guardado en kilos;
+            //    //    //trackObj.NUM_VOLUME = Convert.ToDecimal(Convert.ToDouble(elementList.ElementAt(8).Text) / 35.315); //Volumen en metros cubicos
+            //    //    //trackObj.VCH_PRODUCT = elementList.ElementAt(9).Text;
+            //    //    trackList.Add(trackObj);
+            //    //}
+            //    //chromeDriver.Quit();
+            //}
+            //_manifestService.insertTracks(ref trackList);
 
             int tableId = 0;
             int trId = 0;
@@ -49,6 +100,7 @@ namespace APIMANIFEST.Controllers
             TBL_ADU_MANIFEST manifestObj;
             HtmlNode anchorNode;
             HtmlNode evalua;
+
             foreach (HtmlNode table in document.DocumentNode.CssSelect("table"))
             {
                 if (tableId == 7)
@@ -259,8 +311,16 @@ namespace APIMANIFEST.Controllers
             TBL_ADU_WAREDESCRIPTION wareDescriptionObj = new TBL_ADU_WAREDESCRIPTION();
             List<TBL_ADU_WAREDESCRIPTION> wareDescriptionList = new List<TBL_ADU_WAREDESCRIPTION>();
             List<TBL_ADU_WEBTRACKING> webTrackingsList = new List<TBL_ADU_WEBTRACKING>();
+
+            List<TBL_ADU_TRACK> trackList = new List<TBL_ADU_TRACK>();
             TBL_ADU_WEBTRACKING webTrackingObj;
+            TBL_ADU_TRACK trackObj;
             string masterGuidePrefix = "";
+
+            ChromeOptions options = new ChromeOptions();
+            options.AddArguments("--disabled-gpu");
+            ChromeDriver chromeDriver;
+            IReadOnlyCollection<IWebElement> elementList;
             foreach (var item in manifestSDDetailList)
             {
                 #region DESTINOS DE VUELOS
@@ -281,10 +341,13 @@ namespace APIMANIFEST.Controllers
 
                             break;
                         case "006":
-                            //url = $"{webTrackingObj.VCH_LINK}?awbNumber={item.VCH_DIRECTMASTERGUIDE}&timeZoneOffset=300";
-                            //htmlWeb = new HtmlWeb();
-                            //htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                            //document = htmlWeb.Load(url);
+
+                            chromeDriver = new ChromeDriver(options);
+                            url = $"{webTrackingObj.VCH_LINK}?awbNumber={item.VCH_DIRECTMASTERGUIDE}&timeZoneOffset=300";
+                            chromeDriver.Navigate().GoToUrl(url);
+                            elementList = chromeDriver.FindElementsByCssSelector("div.dc-bigger-font a span.dc-airport-code");
+                            chromeDriver.Quit();
+
                             //Problema JAVASCRIPT
 
                             break;
@@ -308,14 +371,29 @@ namespace APIMANIFEST.Controllers
 
                             break;
                         case "016":
-                          
+                            //chromeDriver  = new ChromeDriver(options);
                             //url = $"{webTrackingObj.VCH_LINK}?id={item.VCH_DIRECTMASTERGUIDE.Substring(3, 8)}&pfx=016";
-                            //htmlWeb = new HtmlWeb();
-                            //htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                            //document = htmlWeb.Load(url);
-                            //var result = document.GetElementbyId("dispTable0");
-                            //break;
-
+                            //chromeDriver.Navigate().GoToUrl(url);
+                            //Thread.Sleep(10000);
+                            //elementList = chromeDriver.FindElementsByCssSelector("ul.listClass li");
+                            //if (elementList.Count > 0)
+                            //{
+                            //    trackObj = new TBL_ADU_TRACK();
+                            //    trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
+                            //    trackObj.VCH_DIRECTMASTERGUIDE = elementList.ElementAt(0).Text.Trim();
+                            //    trackObj.VCH_CONFIRMATION = elementList.ElementAt(1).Text;
+                            //    trackObj.VCH_STATUS = elementList.ElementAt(2).Text;
+                            //    trackObj.VCH_ORIGIN = elementList.ElementAt(3).Text;
+                            //    trackObj.VCH_DESTINATION = elementList.ElementAt(4).Text;
+                            //    trackObj.VCH_SERVICE = elementList.ElementAt(5).Text;
+                            //    trackObj.INT_PIECES = Convert.ToInt32(elementList.ElementAt(6).Text);
+                            //    trackObj.NUM_WEIGHT = Convert.ToDecimal(Convert.ToDouble(elementList.ElementAt(7).Text) / 2.205); //Guardado en kilos;
+                            //    trackObj.NUM_VOLUME = Convert.ToDecimal(Convert.ToDouble(elementList.ElementAt(8).Text) / 35.315); //Volumen en metros cubicos
+                            //    trackObj.VCH_PRODUCT = elementList.ElementAt(9).Text;
+                            //    trackList.Add(trackObj);
+                            //}
+                            //chromeDriver.Quit();
+                            break;
                         case "044":
 
                             break;
@@ -373,292 +451,294 @@ namespace APIMANIFEST.Controllers
                 }
                 #endregion
                 #region DESTINACIONES ADUANERAS POR CONOCIMIENTO/GUIA
-                manifestYear = "";
-                manifestYear = "20" + manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(0, 2);
-                manifestNumber = "";
-                manifestNumber = manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(3).PadLeft(5, '+');
-                url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuiaDUA&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&tamanioPagina=100000";
-                htmlWeb = new HtmlWeb();
-                htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                document = htmlWeb.Load(url);
+                //manifestYear = "";
+                //manifestYear = "20" + manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(0, 2);
+                //manifestNumber = "";
+                //manifestNumber = manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(3).PadLeft(5, '+');
+                //url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuiaDUA&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&tamanioPagina=100000";
+                //htmlWeb = new HtmlWeb();
+                //htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                //document = htmlWeb.Load(url);
 
-                while (document.ParsedText.Length <= 1500)
-                {
-                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuiaDUA&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&tamanioPagina=100000";
-                    htmlWeb = new HtmlWeb();
-                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                    document = htmlWeb.Load(url);
-                }
-                evalua = document.DocumentNode.CssSelect("td").First();
-                while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
-                        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
-                {
-                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuiaDUA&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&tamanioPagina=100000";
-                    htmlWeb = new HtmlWeb();
-                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                    document = htmlWeb.Load(url);
-                    evalua = document.DocumentNode.CssSelect("td").First();
-                }
+                //while (document.ParsedText.Length <= 1500)
+                //{
+                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuiaDUA&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&tamanioPagina=100000";
+                //    htmlWeb = new HtmlWeb();
+                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                //    document = htmlWeb.Load(url);
+                //}
+                //evalua = document.DocumentNode.CssSelect("td").First();
+                //while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
+                //        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
+                //{
+                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuiaDUA&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&tamanioPagina=100000";
+                //    htmlWeb = new HtmlWeb();
+                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                //    document = htmlWeb.Load(url);
+                //    evalua = document.DocumentNode.CssSelect("td").First();
+                //}
 
-                tableId = 0;
-                aduanaDestinationObj = new TBL_ADU_ADUANADESTINATION();
-                foreach (HtmlNode tabla in document.DocumentNode.CssSelect("table"))
-                {
-                    if (tableId == 3)
-                    {
-                        trId = 0;
-                        foreach (var tr in tabla.CssSelect("tr"))
-                        {
-                            if (trId == 1)
-                            {
-                                td = new List<HtmlNode>();
-                                td = tr.CssSelect("td").ToList();
+                //tableId = 0;
+                //aduanaDestinationObj = new TBL_ADU_ADUANADESTINATION();
+                //foreach (HtmlNode tabla in document.DocumentNode.CssSelect("table"))
+                //{
+                //    if (tableId == 3)
+                //    {
+                //        trId = 0;
+                //        foreach (var tr in tabla.CssSelect("tr"))
+                //        {
+                //            if (trId == 1)
+                //            {
+                //                td = new List<HtmlNode>();
+                //                td = tr.CssSelect("td").ToList();
 
-                                anchorNode = td[1].CssSelect("b").First();
+                //                anchorNode = td[1].CssSelect("b").First();
 
-                                manifestNumber = "";
-                                manifestNumber = anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                            }
-                            trId++;
-                        }
-                    }
+                //                manifestNumber = "";
+                //                manifestNumber = anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //            }
+                //            trId++;
+                //        }
+                //    }
 
-                    if (tableId == 10)
-                    {
-                        trId = 0;
-                        foreach (var tr in tabla.CssSelect("tr"))
-                        {
-                            if (trId > 0)
-                            {
-                                td = new List<HtmlNode>();
-                                td = tr.CssSelect("td").ToList();
+                //    if (tableId == 10)
+                //    {
+                //        trId = 0;
+                //        foreach (var tr in tabla.CssSelect("tr"))
+                //        {
+                //            if (trId > 0)
+                //            {
+                //                td = new List<HtmlNode>();
+                //                td = tr.CssSelect("td").ToList();
 
-                                if (td.Count > 1)
-                                {
-                                    aduanaDestinationObj = new TBL_ADU_ADUANADESTINATION();
-                                    aduanaDestinationObj.DEC_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
-                                    aduanaDestinationObj.VCH_MANIFEST = manifestNumber;
-                                    aduanaDestinationObj.INT_SEC = Convert.ToInt32(td[0].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    aduanaDestinationObj.VCH_DUANUMBER = td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                    aduanaDestinationObj.VCH_DATENUMBERING = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                    aduanaDestinationObj.VCH_DATEDATED = td[3].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                    if ((td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim()).Any(x => char.IsNumber(x)))
-                                    {
-                                        aduanaDestinationObj.INT_DETAIL = Convert.ToInt32(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    }
+                //                if (td.Count > 1)
+                //                {
+                //                    aduanaDestinationObj = new TBL_ADU_ADUANADESTINATION();
+                //                    aduanaDestinationObj.DEC_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
+                //                    aduanaDestinationObj.VCH_MANIFEST = manifestNumber;
+                //                    aduanaDestinationObj.INT_SEC = Convert.ToInt32(td[0].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    aduanaDestinationObj.VCH_DUANUMBER = td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                    aduanaDestinationObj.VCH_DATENUMBERING = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                    aduanaDestinationObj.VCH_DATEDATED = td[3].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                    if ((td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim()).Any(x => char.IsNumber(x)))
+                //                    {
+                //                        aduanaDestinationObj.INT_DETAIL = Convert.ToInt32(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    }
 
-                                    aduanaDestinationObj.VCH_AGENT = td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                    aduanaDestinationObj.NUM_WEIGHTREQUESTED = Convert.ToDecimal(td[6].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    aduanaDestinationObj.INT_PACKAGEREQUESTED = Convert.ToInt32(td[7].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    aduanaDestinationObj.VCH_AGENT = td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                    aduanaDestinationObj.NUM_WEIGHTREQUESTED = Convert.ToDecimal(td[6].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    aduanaDestinationObj.INT_PACKAGEREQUESTED = Convert.ToInt32(td[7].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
 
-                                    aduanaDestinationList.Add(aduanaDestinationObj);
-                                }
-                            }
+                //                    aduanaDestinationList.Add(aduanaDestinationObj);
+                //                }
+                //            }
 
-                            trId++;
-                        }
-                    }
+                //            trId++;
+                //        }
+                //    }
 
 
-                    tableId++;
-                }
+                //    tableId++;
+                //}
 
                 #endregion
 
                 #region INFORMACION DEL DOCUMENTO DE TRANSPORTE MASTER
 
-                manifestYear = "";
-                manifestYear = "20" + manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(0, 2);
-                manifestNumber = "";
-                manifestNumber = manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(3).PadLeft(5, '+');
-                url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleMasterExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&tamanioPagina=100000";
-                htmlWeb = new HtmlWeb();
-                htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                document = htmlWeb.Load(url);
+                //manifestYear = "";
+                //manifestYear = "20" + manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(0, 2);
+                //manifestNumber = "";
+                //manifestNumber = manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(3).PadLeft(5, '+');
+                //url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleMasterExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&tamanioPagina=100000";
+                //htmlWeb = new HtmlWeb();
+                //htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                //document = htmlWeb.Load(url);
 
-                while (document.ParsedText.Length <= 1500)
-                {
-                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleMasterExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&tamanioPagina=100000";
-                    htmlWeb = new HtmlWeb();
-                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                    document = htmlWeb.Load(url);
-                }
-                evalua = document.DocumentNode.CssSelect("td").First();
-                while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
-                        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
-                {
-                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleMasterExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&tamanioPagina=100000";
-                    htmlWeb = new HtmlWeb();
-                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                    document = htmlWeb.Load(url);
-                    evalua = document.DocumentNode.CssSelect("td").First();
-                }
+                //while (document.ParsedText.Length <= 1500)
+                //{
+                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleMasterExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&tamanioPagina=100000";
+                //    htmlWeb = new HtmlWeb();
+                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                //    document = htmlWeb.Load(url);
+                //}
+                //evalua = document.DocumentNode.CssSelect("td").First();
+                //while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
+                //        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
+                //{
+                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleMasterExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&tamanioPagina=100000";
+                //    htmlWeb = new HtmlWeb();
+                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                //    document = htmlWeb.Load(url);
+                //    evalua = document.DocumentNode.CssSelect("td").First();
+                //}
 
-                tableId = 0;
-                masterInformationObj = new TBL_ADU_MASTERINFORMATION();
-                foreach (HtmlNode tabla in document.DocumentNode.CssSelect("table"))
-                {
-                    if (tableId == 3)
-                    {
-                        trId = 0;
-                        foreach (var tr in tabla.CssSelect("tr"))
-                        {
-                            if (trId == 1)
-                            {
-                                td = new List<HtmlNode>();
-                                td = tr.CssSelect("td").ToList();
+                //tableId = 0;
+                //masterInformationObj = new TBL_ADU_MASTERINFORMATION();
+                //foreach (HtmlNode tabla in document.DocumentNode.CssSelect("table"))
+                //{
+                //    if (tableId == 3)
+                //    {
+                //        trId = 0;
+                //        foreach (var tr in tabla.CssSelect("tr"))
+                //        {
+                //            if (trId == 1)
+                //            {
+                //                td = new List<HtmlNode>();
+                //                td = tr.CssSelect("td").ToList();
 
-                                anchorNode = td[1].CssSelect("b").First();
+                //                anchorNode = td[1].CssSelect("b").First();
 
-                                manifestNumber = "";
-                                manifestNumber = anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                            }
-                            trId++;
-                        }
-                    }
+                //                manifestNumber = "";
+                //                manifestNumber = anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //            }
+                //            trId++;
+                //        }
+                //    }
 
-                    if (tableId == 10)
-                    {
-                        trId = 0;
-                        foreach (var tr in tabla.CssSelect("tr"))
-                        {
-                            if (trId > 0)
-                            {
-                                td = new List<HtmlNode>();
-                                td = tr.CssSelect("td").ToList();
+                //    if (tableId == 10)
+                //    {
+                //        trId = 0;
+                //        foreach (var tr in tabla.CssSelect("tr"))
+                //        {
+                //            if (trId > 0)
+                //            {
+                //                td = new List<HtmlNode>();
+                //                td = tr.CssSelect("td").ToList();
 
-                                if (td.Count > 1)
-                                {
-                                    masterInformationObj = new TBL_ADU_MASTERINFORMATION();
-                                    masterInformationObj.DEC_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
-                                    masterInformationObj.VCH_MANIFEST = manifestNumber;
-                                    masterInformationObj.INT_DETAILNUMBER = Convert.ToInt32(td[0].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    masterInformationObj.VCH_TERMINALCODE = td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                    masterInformationObj.VCH_SHIPMENTPORT = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                    masterInformationObj.DEC_WEIGHTORIGIN = Convert.ToDecimal(td[3].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    masterInformationObj.DEC_PACKAGEORIGIN = Convert.ToDecimal(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    masterInformationObj.DEC_MANIFESTEDWEIGHT = Convert.ToDecimal(td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    masterInformationObj.DEC_MANIFESTEDPACKAGE = Convert.ToDecimal(td[6].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    masterInformationObj.DEC_WEIGHTRECEIVED = Convert.ToDecimal(td[7].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    masterInformationObj.DEC_PACKAGERECEIVED = Convert.ToDecimal(td[8].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    masterInformationObj.VCH_CONSIGNEE = td[9].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                    masterInformationObj.VCH_SHIPPER = td[10].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                    masterInformationObj.VCH_DESTINATIONPORT = td[11].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                    masterInformationObj.VCH_TRANSMISSIONDATE = td[12].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                if (td.Count > 1)
+                //                {
+                //                    masterInformationObj = new TBL_ADU_MASTERINFORMATION();
+                //                    masterInformationObj.DEC_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
+                //                    masterInformationObj.VCH_MANIFEST = manifestNumber;
+                //                    masterInformationObj.INT_DETAILNUMBER = Convert.ToInt32(td[0].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    masterInformationObj.VCH_TERMINALCODE = td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                    masterInformationObj.VCH_SHIPMENTPORT = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                    masterInformationObj.DEC_WEIGHTORIGIN = Convert.ToDecimal(td[3].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    masterInformationObj.DEC_PACKAGEORIGIN = Convert.ToDecimal(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    masterInformationObj.DEC_MANIFESTEDWEIGHT = Convert.ToDecimal(td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    masterInformationObj.DEC_MANIFESTEDPACKAGE = Convert.ToDecimal(td[6].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    masterInformationObj.DEC_WEIGHTRECEIVED = Convert.ToDecimal(td[7].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    masterInformationObj.DEC_PACKAGERECEIVED = Convert.ToDecimal(td[8].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    masterInformationObj.VCH_CONSIGNEE = td[9].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                    masterInformationObj.VCH_SHIPPER = td[10].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                    masterInformationObj.VCH_DESTINATIONPORT = td[11].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                    masterInformationObj.VCH_TRANSMISSIONDATE = td[12].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
 
-                                    masterInformationList.Add(masterInformationObj);
-                                }
-                            }
+                //                    masterInformationList.Add(masterInformationObj);
+                //                }
+                //            }
 
-                            trId++;
-                        }
-                    }
+                //            trId++;
+                //        }
+                //    }
 
-                    tableId++;
-                }
+                //    tableId++;
+                //}
 
                 #endregion
 
                 #region DESCRIPCION DE MERCANCIAS DEL DOCUMENTO DE TRANSPORTE
-                manifestYear = "";
-                manifestYear = "20" + manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(0, 2);
-                manifestNumber = "";
-                manifestNumber = manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(3).PadLeft(5, '+');
-                url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleConocimientoEmbarqueExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&CMc2_NumDet=" + item.VCH_DETAIL.ToString().PadLeft(3, '+') + "&tamanioPagina=100000";
-                htmlWeb = new HtmlWeb();
-                htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                document = htmlWeb.Load(url);
+                //manifestYear = "";
+                //manifestYear = "20" + manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(0, 2);
+                //manifestNumber = "";
+                //manifestNumber = manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(3).PadLeft(5, '+');
+                //url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleConocimientoEmbarqueExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&CMc2_NumDet=" + item.VCH_DETAIL.ToString().PadLeft(3, '+') + "&tamanioPagina=100000";
+                //htmlWeb = new HtmlWeb();
+                //htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                //document = htmlWeb.Load(url);
 
-                while (document.ParsedText.Length <= 1500)
-                {
-                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleConocimientoEmbarqueExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&CMc2_NumDet=" + item.VCH_DETAIL.ToString().PadLeft(3, '+') + "&tamanioPagina=100000";
-                    htmlWeb = new HtmlWeb();
-                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                    document = htmlWeb.Load(url);
-                }
-                evalua = document.DocumentNode.CssSelect("td").First();
-                while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
-                        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
-                {
-                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleConocimientoEmbarqueExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&CMc2_NumDet=" + item.VCH_DETAIL.ToString().PadLeft(3, '+') + "&tamanioPagina=100000";
-                    htmlWeb = new HtmlWeb();
-                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-                    document = htmlWeb.Load(url);
-                    evalua = document.DocumentNode.CssSelect("td").First();
-                }
+                //while (document.ParsedText.Length <= 1500)
+                //{
+                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleConocimientoEmbarqueExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&CMc2_NumDet=" + item.VCH_DETAIL.ToString().PadLeft(3, '+') + "&tamanioPagina=100000";
+                //    htmlWeb = new HtmlWeb();
+                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                //    document = htmlWeb.Load(url);
+                //}
+                //evalua = document.DocumentNode.CssSelect("td").First();
+                //while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
+                //        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
+                //{
+                //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultarDetalleConocimientoEmbarqueExportacion&CG_cadu=235&CMc2_Anno=" + manifestYear + "&CMc2_Numero=" + manifestNumber + "&CMc2_numcon=" + item.VCH_AIRGUIDE + "&CMc2_numconm=" + item.VCH_DIRECTMASTERGUIDE + "&CMc2_NumDet=" + item.VCH_DETAIL.ToString().PadLeft(3, '+') + "&tamanioPagina=100000";
+                //    htmlWeb = new HtmlWeb();
+                //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                //    document = htmlWeb.Load(url);
+                //    evalua = document.DocumentNode.CssSelect("td").First();
+                //}
 
-                tableId = 0;
-                wareDescriptionObj = new TBL_ADU_WAREDESCRIPTION();
-                foreach (HtmlNode tabla in document.DocumentNode.CssSelect("table"))
-                {
+                //tableId = 0;
+                //wareDescriptionObj = new TBL_ADU_WAREDESCRIPTION();
+                //foreach (HtmlNode tabla in document.DocumentNode.CssSelect("table"))
+                //{
 
-                    if (tableId == 3)
-                    {
-                        trId = 0;
-                        foreach (var tr in tabla.CssSelect("tr"))
-                        {
-                            if (trId == 1)
-                            {
-                                td = new List<HtmlNode>();
-                                td = tr.CssSelect("td").ToList();
+                //    if (tableId == 3)
+                //    {
+                //        trId = 0;
+                //        foreach (var tr in tabla.CssSelect("tr"))
+                //        {
+                //            if (trId == 1)
+                //            {
+                //                td = new List<HtmlNode>();
+                //                td = tr.CssSelect("td").ToList();
 
-                                anchorNode = td[1].CssSelect("b").First();
+                //                anchorNode = td[1].CssSelect("b").First();
 
-                                manifestNumber = "";
-                                manifestNumber = anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                            }
-                            trId++;
-                        }
-                    }
+                //                manifestNumber = "";
+                //                manifestNumber = anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //            }
+                //            trId++;
+                //        }
+                //    }
 
-                    if (tableId == 7)
-                    {
-                        trId = 0;
-                        foreach (var tr in tabla.CssSelect("tr"))
-                        {
-                            if (trId > 1)
-                            {
-                                td = new List<HtmlNode>();
-                                td = tr.CssSelect("td").ToList();
+                //    if (tableId == 7)
+                //    {
+                //        trId = 0;
+                //        foreach (var tr in tabla.CssSelect("tr"))
+                //        {
+                //            if (trId > 1)
+                //            {
+                //                td = new List<HtmlNode>();
+                //                td = tr.CssSelect("td").ToList();
 
-                                if (td.Count > 1)
-                                {
-                                    wareDescriptionObj = new TBL_ADU_WAREDESCRIPTION();
-                                    wareDescriptionObj.DEC_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
-                                    wareDescriptionObj.VCH_MANIFEST = manifestNumber;
-                                    wareDescriptionObj.DEC_PACKAGES = Convert.ToDecimal(td[0].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    wareDescriptionObj.DEC_GROSSWEIGHT = Convert.ToDecimal(td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    if (td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() != "")
-                                    {
-                                        //wareDescriptionObj.empaque = Convert.ToInt32(td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                        wareDescriptionObj.VCH_PACKING = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                    }
-                                    //wareDescriptionObj.empaque = Convert.ToInt32(td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    wareDescriptionObj.VCH_SHIPPER = td[3].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                    wareDescriptionObj.VCH_CONSIGNEE = td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                    wareDescriptionObj.VCH_MARKSANDNUMBERS = td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Replace("<br>", "").Trim();
-                                    wareDescriptionObj.VCH_DESCRIPTION = td[6].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                if (td.Count > 1)
+                //                {
+                //                    wareDescriptionObj = new TBL_ADU_WAREDESCRIPTION();
+                //                    wareDescriptionObj.DEC_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
+                //                    wareDescriptionObj.VCH_MANIFEST = manifestNumber;
+                //                    wareDescriptionObj.DEC_PACKAGES = Convert.ToDecimal(td[0].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    wareDescriptionObj.DEC_GROSSWEIGHT = Convert.ToDecimal(td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    if (td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() != "")
+                //                    {
+                //                        //wareDescriptionObj.empaque = Convert.ToInt32(td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                        wareDescriptionObj.VCH_PACKING = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                    }
+                //                    //wareDescriptionObj.empaque = Convert.ToInt32(td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                //                    wareDescriptionObj.VCH_SHIPPER = td[3].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                    wareDescriptionObj.VCH_CONSIGNEE = td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                //                    wareDescriptionObj.VCH_MARKSANDNUMBERS = td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Replace("<br>", "").Trim();
+                //                    wareDescriptionObj.VCH_DESCRIPTION = td[6].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
 
-                                    wareDescriptionList.Add(wareDescriptionObj);
-                                }
-                            }
-                            trId++;
-                        }
+                //                    wareDescriptionList.Add(wareDescriptionObj);
+                //                }
+                //            }
+                //            trId++;
+                //        }
 
-                    }
-                    tableId++;
-                }
+                //    }
+                //    tableId++;
+                //}
                 #endregion
             }
+            //INSERTA EL TRACKING DE VUELOS
+            _manifestService.insertTracks(ref trackList);
 
-            //INSERTA DESTINACIONES ADUANERAS
-            _manifestService.insertAduanaDestinations(ref aduanaDestinationList);
+            ////INSERTA DESTINACIONES ADUANERAS
+            //_manifestService.insertAduanaDestinations(ref aduanaDestinationList);
 
-            //INSERTA INFORMACION MASTER
-            _manifestService.insertMasterInformation(ref masterInformationList);
+            ////INSERTA INFORMACION MASTER
+            //_manifestService.insertMasterInformation(ref masterInformationList);
 
-            //INSERTA DESCRIPCION DE MERCANCIA
-            _manifestService.insertWareDescription(ref wareDescriptionList);
+            ////INSERTA DESCRIPCION DE MERCANCIA
+            //_manifestService.insertWareDescription(ref wareDescriptionList);
 
             #endregion
 

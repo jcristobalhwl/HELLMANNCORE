@@ -12,12 +12,20 @@ namespace Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class TBL_ADU_FLIGHT
+    public partial class TBL_ADU_TRACK
     {
-        public int INT_FREIGHTDESTINATION { get; set; }
-        public Nullable<decimal> DEC_MANIFESTSHIPDETDOCID { get; set; }
+        public int INT_TRACKID { get; set; }
+        public Nullable<decimal> NUM_MANIFESTSHIPDETDOCID { get; set; }
+        public string VCH_DIRECTMASTERGUIDE { get; set; }
         public string VCH_ORIGIN { get; set; }
         public string VCH_DESTINATION { get; set; }
         public string VCH_CONNECTION { get; set; }
+        public Nullable<int> INT_PIECES { get; set; }
+        public Nullable<decimal> NUM_WEIGHT { get; set; }
+        public Nullable<decimal> NUM_VOLUME { get; set; }
+        public string VCH_PRODUCT { get; set; }
+        public string VCH_STATUS { get; set; }
+        public string VCH_CONFIRMATION { get; set; }
+        public string VCH_SERVICE { get; set; }
     }
 }

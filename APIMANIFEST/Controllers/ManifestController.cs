@@ -1,6 +1,8 @@
 ﻿using Common;
 using Domain;
 using HtmlAgilityPack;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using ScrapySharp.Extensions;
 using Service.Implementations.Manifest;
 using System;
@@ -28,7 +30,7 @@ namespace APIMANIFEST.Controllers
             var chromeDriver = new ChromeDriver(options);
             chromeDriver.Navigate().GoToUrl("https://www.unitedcargo.com/OurNetwork/TrackingCargo1512/Tracking.jsp?id=35710113&pfx=016");
 
-            var tables = chromeDriver.FindElements(By.CssSelector("b"));
+            var tables = chromeDriver.FindElements(By.CssSelector("span"));
 
 
 

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/19/2020 23:06:00
+-- Date Created: 02/22/2020 21:05:08
 -- Generated from EDMX file: C:\Users\skyfu\source\repos\HELLMANNCORE\Domain\DbManifest.edmx
 -- --------------------------------------------------
 
@@ -16,7 +16,7 @@ GO
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
-        
+
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -40,8 +40,14 @@ GO
 IF OBJECT_ID(N'[dbo].[TBL_ADU_MASTERINFORMATION]', 'U') IS NOT NULL
     DROP TABLE [dbo].[TBL_ADU_MASTERINFORMATION];
 GO
+IF OBJECT_ID(N'[dbo].[TBL_ADU_TRACK]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TBL_ADU_TRACK];
+GO
 IF OBJECT_ID(N'[dbo].[TBL_ADU_WAREDESCRIPTION]', 'U') IS NOT NULL
     DROP TABLE [dbo].[TBL_ADU_WAREDESCRIPTION];
+GO
+IF OBJECT_ID(N'[dbo].[TBL_ADU_WEBTRACKING]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TBL_ADU_WEBTRACKING];
 GO
 IF OBJECT_ID(N'[dbo].[TBL_MAN_MANIFEST]', 'U') IS NOT NULL
     DROP TABLE [dbo].[TBL_MAN_MANIFEST];
@@ -196,6 +202,33 @@ CREATE TABLE [dbo].[TBL_MAN_MANIFEST] (
 );
 GO
 
+-- Creating table 'TBL_ADU_WEBTRACKING'
+CREATE TABLE [dbo].[TBL_ADU_WEBTRACKING] (
+    [INT_WEBTRACKINGID] int IDENTITY(1,1) NOT NULL,
+    [CHR_PREFIX] char(3)  NULL,
+    [VCH_AIRLINE] varchar(50)  NULL,
+    [VCH_LINK] varchar(200)  NULL
+);
+GO
+
+-- Creating table 'TBL_ADU_TRACK'
+CREATE TABLE [dbo].[TBL_ADU_TRACK] (
+    [INT_TRACKID] int IDENTITY(1,1) NOT NULL,
+    [NUM_MANIFESTSHIPDETDOCID] decimal(18,0)  NULL,
+    [VCH_DIRECTMASTERGUIDE] varchar(max)  NULL,
+    [VCH_ORIGIN] varchar(10)  NULL,
+    [VCH_DESTINATION] varchar(10)  NULL,
+    [VCH_CONNECTION] varchar(10)  NULL,
+    [INT_PIECES] int  NULL,
+    [NUM_WEIGHT] decimal(18,3)  NULL,
+    [NUM_VOLUME] decimal(18,3)  NULL,
+    [VCH_PRODUCT] varchar(max)  NULL,
+    [VCH_STATUS] varchar(125)  NULL,
+    [VCH_CONFIRMATION] varchar(125)  NULL,
+    [VCH_SERVICE] varchar(50)  NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -246,6 +279,18 @@ GO
 ALTER TABLE [dbo].[TBL_MAN_MANIFEST]
 ADD CONSTRAINT [PK_TBL_MAN_MANIFEST]
     PRIMARY KEY CLUSTERED ([INT_MANIFESTID] ASC);
+GO
+
+-- Creating primary key on [INT_WEBTRACKINGID] in table 'TBL_ADU_WEBTRACKING'
+ALTER TABLE [dbo].[TBL_ADU_WEBTRACKING]
+ADD CONSTRAINT [PK_TBL_ADU_WEBTRACKING]
+    PRIMARY KEY CLUSTERED ([INT_WEBTRACKINGID] ASC);
+GO
+
+-- Creating primary key on [INT_TRACKID] in table 'TBL_ADU_TRACK'
+ALTER TABLE [dbo].[TBL_ADU_TRACK]
+ADD CONSTRAINT [PK_TBL_ADU_TRACK]
+    PRIMARY KEY CLUSTERED ([INT_TRACKID] ASC);
 GO
 
 -- --------------------------------------------------

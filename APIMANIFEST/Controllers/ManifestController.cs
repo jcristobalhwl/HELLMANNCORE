@@ -490,7 +490,6 @@ namespace APIMANIFEST.Controllers
                             //chromeDriver = new ChromeDriver(options);
                             //url = $"{webTrackingObj.VCH_LINK}/{item.VCH_DIRECTMASTERGUIDE}";
                             //chromeDriver.Navigate().GoToUrl(url);
-                            //Thread.Sleep(5000);
                             //IReadOnlyCollection<IWebElement> awbDetails = chromeDriver.FindElementsByCssSelector("div#tab-0 b");
                             //IWebElement trackStatus = chromeDriver.FindElementByCssSelector("div#tab-0 table.tracking-summary tbody tr:nth-child(3) td:first-child");
                             //if (awbDetails.Count() > 0 && trackStatus != null)

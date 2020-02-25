@@ -260,18 +260,10 @@ namespace APIMANIFEST.Controllers
             string masterGuidePrefix = "";
 
             ChromeOptions options = new ChromeOptions();
-            options.AddArguments("--disabled-gpu");
+            options.AddArgument("--disabled-gpu");
+            options.AddArgument("--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/60.0.3112.50 Safari/537.36");
             ChromeDriver chromeDriver;
-            IReadOnlyCollection<IWebElement> resumeList = null;
-            IReadOnlyCollection<IWebElement> awbDetails = null;
             //IWebElement originElement, destinationElement, pieceElement, weightElement, statusElement,element = null;
-            IWebElement originElement = null;
-            IWebElement destinationElement = null;
-            IWebElement pieceElement = null;
-            IWebElement weightElement = null;
-            IWebElement statusElement = null;
-            IWebElement element = null;
-
             foreach (var item in manifestSDDetailList)
             {
                 #region DESTINOS DE VUELOS
@@ -280,43 +272,95 @@ namespace APIMANIFEST.Controllers
                 webTrackingObj =  webTrackingsList.Where(x => x.CHR_PREFIX == masterGuidePrefix).FirstOrDefault();
                 if (webTrackingObj != null)
                 {
+                    IReadOnlyCollection<IWebElement> resumeList = Array.Empty<IWebElement>();
+                    IReadOnlyCollection<IWebElement> awbDetails = Array.Empty<IWebElement>();
+                    IWebElement originElement = null;
+                    IWebElement destinationElement = null;
+                    IWebElement pieceElement = null;
+                    IWebElement weightElement = null;
+                    IWebElement statusElement = null;
+                    IWebElement element = null;
+
                     switch (webTrackingObj.CHR_PREFIX)
                     {
+
                         case "001":
                             //Pendiente observar denegacion de peticiones
-                            //chromeDriver = new ChromeDriver(options);
-                            //url = $"{webTrackingObj.VCH_LINK}";
-                            //chromeDriver.Navigate().GoToUrl(url);
-                            //try
+                            chromeDriver = new ChromeDriver(options);
+                            url = $"{webTrackingObj.VCH_LINK}";
+                            chromeDriver.Navigate().GoToUrl(url);
+                            try
+                            {
+                                element = chromeDriver.FindElementById("airwayBills0.awbNumber");
+                                Thread.Sleep(3000);
+                                element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
+                                element = chromeDriver.FindElementByName("track10Search");
+                                element.Click();
+                                Thread.Sleep(12000);
+                                element = chromeDriver.FindElementByCssSelector("li.awbDetailsHref a");
+                                element.Click();
+                                Thread.Sleep(5000);
+                                awbDetails = chromeDriver.FindElementsByCssSelector("div.awbShipmentDescriptionDetails div.shipData table tr:nth-child(2) td");
+                            }
+                            catch (NoSuchElementException)
+                            {
+                                if (chromeDriver.PageSource.ToString().Contains("Access Denied"))
+                                {
+                                    try
+                                    {
+                                        Thread.Sleep(600000);
+                                        //chromeDriver.Quit();
+                                        chromeDriver.Navigate().GoToUrl(url);
+                                        element = chromeDriver.FindElementById("airwayBills0.awbNumber");
+                                        Thread.Sleep(3000);
+                                        element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
+                                        element = chromeDriver.FindElementByName("track10Search");
+                                        element.Click();
+                                        Thread.Sleep(5000);
+                                        element = chromeDriver.FindElementByCssSelector("li.awbDetailsHref a");
+                                        element.Click();
+                                        Thread.Sleep(5000);
+                                        awbDetails = chromeDriver.FindElementsByCssSelector("div.awbShipmentDescriptionDetails div.shipData table tr:nth-child(2) td");
+                                    }
+                                    catch (Exception)
+                                    {
+                                    }
+
+                                }
+                            }
+                            //catch (WebDriverException ex ) 
                             //{
-                            //    element = chromeDriver.FindElementById("airwayBills0.awbNumber");
-                            //    Thread.Sleep(3000);
-                            //    element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
-                            //    element = chromeDriver.FindElementByName("track10Search");
-                            //    element.Click();
-                            //    Thread.Sleep(5000);
-                            //    element = chromeDriver.FindElementByCssSelector("ul#awbDetailTabs li.awbDetailsHref a");
-                            //    element.Click();
-                            //    Thread.Sleep(5000);
-                            //    awbDetails = chromeDriver.FindElementsByCssSelector("div.awbShipmentDescriptionDetails div.shipData table tr:nth-child(2) td");
+                            //    if (chromeDriver.PageSource.ToString().Contains("Access Denied"))
+                            //    {
+                            //        Thread.Sleep(600000);
+                            //        chromeDriver.Quit();
+                            //        chromeDriver.Navigate().GoToUrl(url);
+                            //        element = chromeDriver.FindElementById("airwayBills0.awbNumber");
+                            //        Thread.Sleep(3000);
+                            //        element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
+                            //        element = chromeDriver.FindElementByName("track10Search");
+                            //        element.Click();
+                            //        Thread.Sleep(5000);
+                            //        element = chromeDriver.FindElementByCssSelector("li.awbDetailsHref a");
+                            //        element.Click();
+                            //        Thread.Sleep(5000);
+                            //        awbDetails = chromeDriver.FindElementsByCssSelector("div.awbShipmentDescriptionDetails div.shipData table tr:nth-child(2) td");
+                            //    }
                             //}
-                            //catch (NoSuchElementException)
-                            //{
-                            //}
-                            //if (awbDetails.Count() > 0)
-                            //{
-                            //    trackObj = new TBL_ADU_TRACK();
-                            //    trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
-                            //    trackObj.VCH_DIRECTMASTERGUIDE = item.VCH_DIRECTMASTERGUIDE;
-                            //    trackObj.INT_PIECES = Convert.ToInt32(awbDetails.First().Text);
-                            //    trackObj.NUM_WEIGHT = Convert.ToDecimal(awbDetails.ElementAt(2).Text == "L" ? Convert.ToDouble(awbDetails.ElementAt(1).Text) / 2.205 : Convert.ToDouble(awbDetails.ElementAt(1).Text)); //Guardado en kilos;
-                            //    trackObj.NUM_VOLUME = Convert.ToDecimal(awbDetails.ElementAt(3).Text.Replace("MC", "").Trim());
-                            //    trackObj.VCH_ORIGIN = awbDetails.ElementAt(4).Text;
-                            //    trackObj.VCH_DESTINATION = awbDetails.ElementAt(5).Text;
-                            //    trackObj.VCH_CONNECTION = awbDetails.ElementAt(6).Text;
-                            //    trackList.Add(trackObj);
-                            //}
-                            //chromeDriver.Quit();
+                            if (awbDetails.Count() > 0 && awbDetails.First().Text != null)
+                            {
+                                trackObj = new TBL_ADU_TRACK();
+                                trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
+                                trackObj.VCH_DIRECTMASTERGUIDE = item.VCH_DIRECTMASTERGUIDE;
+                                trackObj.INT_PIECES = Convert.ToInt32(awbDetails.First().Text);
+                                trackObj.NUM_WEIGHT = Convert.ToDecimal(awbDetails.ElementAt(2).Text == "L" ? Convert.ToDouble(awbDetails.ElementAt(1).Text) / 2.205 : Convert.ToDouble(awbDetails.ElementAt(1).Text)); //Guardado en kilos;
+                                trackObj.NUM_VOLUME = Convert.ToDecimal(awbDetails.ElementAt(3).Text.Replace("MC", "").Trim());
+                                trackObj.VCH_ORIGIN = awbDetails.ElementAt(4).Text;
+                                trackObj.VCH_DESTINATION = awbDetails.ElementAt(5).Text;
+                                trackObj.VCH_CONNECTION = awbDetails.ElementAt(6).Text;
+                                trackList.Add(trackObj);
+                            }
+                            chromeDriver.Quit();
                             break;
                         case "006":
                             //chromeDriver = new ChromeDriver(options);
@@ -447,8 +491,6 @@ namespace APIMANIFEST.Controllers
                             break;
                         case "075":
                         case "125":
-                            //Por ver no chapa elemento
-
                             //chromeDriver = new ChromeDriver(options);
                             //url = $"{webTrackingObj.VCH_LINK}";
                             //chromeDriver.Navigate().GoToUrl(url);
@@ -460,26 +502,23 @@ namespace APIMANIFEST.Controllers
                             //    element = chromeDriver.FindElementByCssSelector("input[type='submit']");
                             //    element.Click();
                             //    Thread.Sleep(7000);
-                            //    element = chromeDriver.FindElementByCssSelector("div#privacyPolicyLayer button");
-                            //    element.Click();
-                            //    Thread.Sleep(5000);
-                            //    awbDetails = chromeDriver.FindElementsByCssSelector("h2");
-                            //    //awbDetails = chromeDriver.FindElementsByCssSelector("div.awbShipmentDescriptionDetails div.shipData table tr:nth-child(2) td");
+                            //    element = chromeDriver.FindElementByTagName("iframe");
+                            //    element = chromeDriver.SwitchTo().Frame(element).FindElement(By.CssSelector("div.container div.subtitleDetail"));
                             //}
                             //catch (NoSuchElementException)
                             //{
                             //}
-                            //if (awbDetails.Count() > 0)
+                            //if (element != null)
                             //{
+                            //    string[] elementDetails = element.Text.Replace("(","").Replace(")", "").Split(' ');
+                            //    string[] destinationElements = elementDetails.ElementAt(4).Split('\r');
                             //    trackObj = new TBL_ADU_TRACK();
                             //    trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
                             //    trackObj.VCH_DIRECTMASTERGUIDE = item.VCH_DIRECTMASTERGUIDE;
-                            //    trackObj.INT_PIECES = Convert.ToInt32(awbDetails.First().Text);
-                            //    trackObj.NUM_WEIGHT = Convert.ToDecimal(awbDetails.ElementAt(2).Text == "L" ? Convert.ToDouble(awbDetails.ElementAt(1).Text) / 2.205 : Convert.ToDouble(awbDetails.ElementAt(1).Text)); //Guardado en kilos;
-                            //    trackObj.NUM_VOLUME = Convert.ToDecimal(awbDetails.ElementAt(3).Text.Replace("MC", "").Trim());
-                            //    trackObj.VCH_ORIGIN = awbDetails.ElementAt(4).Text;
-                            //    trackObj.VCH_DESTINATION = awbDetails.ElementAt(5).Text;
-                            //    trackObj.VCH_CONNECTION = awbDetails.ElementAt(6).Text;
+                            //    trackObj.INT_PIECES = Convert.ToInt32(destinationElements.ElementAt(1).Replace("\n","").Trim());
+                            //    trackObj.NUM_WEIGHT = Convert.ToDecimal(elementDetails.ElementAt(7).Replace(",",".")); //Guardado en kilos;
+                            //    trackObj.VCH_ORIGIN = elementDetails.ElementAt(1);
+                            //    trackObj.VCH_DESTINATION = destinationElements.First();
                             //    trackList.Add(trackObj);
                             //}
                             //chromeDriver.Quit();
@@ -540,8 +579,41 @@ namespace APIMANIFEST.Controllers
                             //chromeDriver.Quit();
                             break;
                         case "145":
-
-                            //PROBLEMA POST ABRE NUEVA VENTANA
+                        case "045":
+                          //  chromeDriver = new ChromeDriver(options);
+                          //  url = "https://www.track-trace.com/aircargo"; //URL TRACK TRACE
+                          //  chromeDriver.Navigate().GoToUrl(url);
+                          //  try
+                          //  {
+                          //      Thread.Sleep(3000);
+                          //      element = chromeDriver.FindElementByCssSelector("div.tingle-modal-box__footer button:first-child");
+                          //      element.Click();
+                          //      Thread.Sleep(3000);
+                          //      element = chromeDriver.FindElementById("number");
+                          //      element.SendKeys(item.VCH_DIRECTMASTERGUIDE);
+                          //      element = chromeDriver.FindElementByName("commit");
+                          //      element.Click();
+                          //      Thread.Sleep(7000);
+                          //      element = chromeDriver.FindElementByTagName("iframe");
+                          //      awbDetails = chromeDriver.SwitchTo().Frame(element).FindElements(By.CssSelector("table.caja1:first-child tbody p"));
+                          //}
+                          //  catch (NoSuchElementException)
+                          //  {
+                          //  }
+                          //  if (awbDetails.Count() > 0)
+                          //  {
+                          //      trackObj = new TBL_ADU_TRACK();
+                          //      trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
+                          //      trackObj.VCH_DIRECTMASTERGUIDE = item.VCH_DIRECTMASTERGUIDE;
+                          //      trackObj.VCH_ORIGIN = awbDetails.ElementAt(1).Text;
+                          //      trackObj.VCH_PRODUCT = awbDetails.ElementAt(3).Text;
+                          //      trackObj.INT_PIECES = Convert.ToInt32(awbDetails.ElementAt(5).Text);
+                          //      trackObj.VCH_DESTINATION = awbDetails.ElementAt(9).Text;
+                          //      trackObj.VCH_SERVICE = awbDetails.ElementAt(11).Text;
+                          //      trackObj.NUM_WEIGHT = Convert.ToDecimal(awbDetails.ElementAt(13).Text.Replace("kg","").Trim()); //Guardado en kilos;
+                          //      trackList.Add(trackObj);
+                          //  }
+                          //  chromeDriver.Quit();
                             break;
                         case "180":
                             //chromeDriver = new ChromeDriver(options);
@@ -587,7 +659,35 @@ namespace APIMANIFEST.Controllers
                             //chromeDriver.Quit();
                             break;
                         case "489":
-                            //Problema POST
+                            //chromeDriver = new ChromeDriver(options);
+                            //url = $"{webTrackingObj.VCH_LINK}";
+                            //chromeDriver.Navigate().GoToUrl(url);
+                            //try
+                            //{
+                            //    Thread.Sleep(3000);
+                            //    element = chromeDriver.FindElementById("P857_AWBNUM");
+                            //    element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
+                            //    element = chromeDriver.FindElementById("P857_TRACK");
+                            //    element.Click();
+                            //    Thread.Sleep(7000);
+                            //    awbDetails = chromeDriver.FindElementsByCssSelector("table#report_R25280730414418592 tr:last-child table tr:last-child td font");
+                            //}
+                            //catch (NoSuchElementException)
+                            //{
+                            //}
+                            //if (awbDetails.Count() > 0)
+                            //{
+                            //    trackObj = new TBL_ADU_TRACK();
+                            //    trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
+                            //    trackObj.VCH_DIRECTMASTERGUIDE = item.VCH_DIRECTMASTERGUIDE;
+                            //    trackObj.VCH_ORIGIN = awbDetails.ElementAt(2).Text;
+                            //    trackObj.VCH_DESTINATION = awbDetails.ElementAt(3).Text;
+                            //    trackObj.INT_PIECES = Convert.ToInt32(awbDetails.ElementAt(4).Text);
+                            //    trackObj.NUM_WEIGHT = Convert.ToDecimal(awbDetails.ElementAt(5).Text); //Guardado en kilos;
+                            //    trackObj.NUM_VOLUME = Convert.ToDecimal(awbDetails.ElementAt(6).Text); //Guardado en metros cubicos;
+                            //    trackList.Add(trackObj);
+                            //}
+                            //chromeDriver.Quit();
                             break;
                         case "605":
                             //chromeDriver = new ChromeDriver(options);
@@ -614,39 +714,40 @@ namespace APIMANIFEST.Controllers
 
                         case "729":
                         case "530":
-                            chromeDriver = new ChromeDriver(options);
-                            url = $"{webTrackingObj.VCH_LINK}";
-                            chromeDriver.Navigate().GoToUrl(url);
-                            try
-                            {
-                                element = chromeDriver.FindElementByName("txtPrefix");
-                                element.SendKeys(masterGuidePrefix);
-                                element = chromeDriver.FindElementByName("txtNumber");
-                                element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
-                                Thread.Sleep(3000);
-                                element = chromeDriver.FindElementByCssSelector("input[type='submit']");
-                                element.Click();
-                                Thread.Sleep(7000);
-                                awbDetails = chromeDriver.FindElementsByCssSelector("tr#trackShiptable1row00 td");
-                            }
-                            catch (NoSuchElementException)
-                            {
-                            }
-                            if (awbDetails.Count() > 0)
-                            {
-                                trackObj = new TBL_ADU_TRACK();
-                                trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
-                                trackObj.VCH_DIRECTMASTERGUIDE = item.VCH_DIRECTMASTERGUIDE;
-                                trackObj.VCH_ORIGIN = awbDetails.ElementAt(2).Text;
-                                trackObj.VCH_DESTINATION = awbDetails.ElementAt(3).Text;
-                                trackObj.INT_PIECES = Convert.ToInt32(awbDetails.ElementAt(4).Text);
-                                trackObj.NUM_WEIGHT = Convert.ToDecimal(awbDetails.ElementAt(5).Text); //Guardado en kilos;
-                                trackObj.NUM_VOLUME = Convert.ToDecimal(awbDetails.ElementAt(6).Text); //Guardado en metros cubicos;
-                                trackObj.VCH_PRODUCT = awbDetails.ElementAt(7).Text;
-                                trackObj.VCH_SERVICE = awbDetails.ElementAt(8).Text;
-                                trackList.Add(trackObj);
-                            }
-                            chromeDriver.Quit();
+                        case "202":
+                            //chromeDriver = new ChromeDriver(options);
+                            //url = $"{webTrackingObj.VCH_LINK}";
+                            //chromeDriver.Navigate().GoToUrl(url);
+                            //try
+                            //{
+                            //    element = chromeDriver.FindElementByName("txtPrefix");
+                            //    element.SendKeys(masterGuidePrefix);
+                            //    element = chromeDriver.FindElementByName("txtNumber");
+                            //    element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
+                            //    Thread.Sleep(3000);
+                            //    element = chromeDriver.FindElementByCssSelector("input[type='submit']");
+                            //    element.Click();
+                            //    Thread.Sleep(7000);
+                            //    awbDetails = chromeDriver.FindElementsByCssSelector("tr#trackShiptable1row00 td");
+                            //}
+                            //catch (NoSuchElementException)
+                            //{
+                            //}
+                            //if (awbDetails.Count() > 0)
+                            //{
+                            //    trackObj = new TBL_ADU_TRACK();
+                            //    trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
+                            //    trackObj.VCH_DIRECTMASTERGUIDE = item.VCH_DIRECTMASTERGUIDE;
+                            //    trackObj.VCH_ORIGIN = awbDetails.ElementAt(2).Text;
+                            //    trackObj.VCH_DESTINATION = awbDetails.ElementAt(3).Text;
+                            //    trackObj.INT_PIECES = Convert.ToInt32(awbDetails.ElementAt(4).Text);
+                            //    trackObj.NUM_WEIGHT = Convert.ToDecimal(awbDetails.ElementAt(5).Text); //Guardado en kilos;
+                            //    trackObj.NUM_VOLUME = Convert.ToDecimal(awbDetails.ElementAt(6).Text); //Guardado en metros cubicos;
+                            //    trackObj.VCH_PRODUCT = awbDetails.ElementAt(7).Text;
+                            //    trackObj.VCH_SERVICE = awbDetails.ElementAt(8).Text;
+                            //    trackList.Add(trackObj);
+                            //}
+                            //chromeDriver.Quit();
                             break;
                         case "996":
                             //chromeDriver = new ChromeDriver(options);

@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Common;
+using Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -113,6 +114,21 @@ namespace Service.Implementations.Manifest
             {
                 _context.TBL_ADU_TRACK.AddRange(trackList);
                 _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _context.Database.Connection.Close();
+                throw ex;
+            }
+        }
+
+        public ResponseBase<TBL_MAN_MANIFEST> callStoreProcedureManifest()
+        {
+            try
+            {
+                var listManifest = _context.InsertAndGetManifests();
+                ResponseBase<TBL_MAN_MANIFEST> response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForList(listManifest.AsQueryable());
+                return response;
             }
             catch (Exception ex)
             {

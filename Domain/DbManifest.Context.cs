@@ -12,11 +12,13 @@ namespace Domain
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
-    public partial class DB_MANIFEST : DbContext
+    public partial class DB_MANIFESTCONNECTION : DbContext
     {
-        public DB_MANIFEST()
-            : base("name=DB_MANIFEST")
+        public DB_MANIFESTCONNECTION()
+            : base("name=DB_MANIFESTCONNECTION")
         {
         }
     
@@ -31,9 +33,19 @@ namespace Domain
         public virtual DbSet<TBL_ADU_MANIFESTSHIPMENTDETAILDOC> TBL_ADU_MANIFESTSHIPMENTDETAILDOC { get; set; }
         public virtual DbSet<TBL_ADU_MANIFESTSHIPMENTDOC> TBL_ADU_MANIFESTSHIPMENTDOC { get; set; }
         public virtual DbSet<TBL_ADU_MASTERINFORMATION> TBL_ADU_MASTERINFORMATION { get; set; }
-        public virtual DbSet<TBL_ADU_WAREDESCRIPTION> TBL_ADU_WAREDESCRIPTION { get; set; }
-        public virtual DbSet<TBL_MAN_MANIFEST> TBL_MAN_MANIFEST { get; set; }
-        public virtual DbSet<TBL_ADU_WEBTRACKING> TBL_ADU_WEBTRACKING { get; set; }
         public virtual DbSet<TBL_ADU_TRACK> TBL_ADU_TRACK { get; set; }
+        public virtual DbSet<TBL_ADU_WAREDESCRIPTION> TBL_ADU_WAREDESCRIPTION { get; set; }
+        public virtual DbSet<TBL_ADU_WEBTRACKING> TBL_ADU_WEBTRACKING { get; set; }
+        public virtual DbSet<TBL_MAN_MANIFEST> TBL_MAN_MANIFEST { get; set; }
+    
+        public virtual ObjectResult<TBL_MAN_MANIFEST> InsertAndGetManifests()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TBL_MAN_MANIFEST>("InsertAndGetManifests");
+        }
+    
+        public virtual ObjectResult<TBL_MAN_MANIFEST> InsertAndGetManifests(MergeOption mergeOption)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TBL_MAN_MANIFEST>("InsertAndGetManifests", mergeOption);
+        }
     }
 }

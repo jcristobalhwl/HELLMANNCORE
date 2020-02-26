@@ -24,7 +24,7 @@ namespace Domain
         public Nullable<decimal> DEC_WEIGHTRECEIVED { get; set; }
         public Nullable<int> DEC_PACKAGERECEIVED { get; set; }
         public string VCH_CONSIGNEE { get; set; }
-        public string VCH_DATETRANSMISSIONDOCUMENT { get; set; }
+        public Nullable<System.DateTime> DAT_DATETRANSMISSIONDOCUMENT { get; set; }
         public string VCH_DESCRIPTION { get; set; }
         public Nullable<decimal> DEC_MANIFESTEDWEIGHT { get; set; }
         public Nullable<int> DEC_MANIFESTEDPACKAGE { get; set; }

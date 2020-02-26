@@ -2,6 +2,7 @@
 using Domain;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,11 +11,11 @@ namespace Service.Implementations.Manifest
 {
     public class ManifestService
     {
-        private readonly DB_MANIFEST _context;
+        private readonly DB_MANIFESTCONNECTION _context;
 
         public ManifestService()
         {
-            _context = new DB_MANIFEST();
+            _context = new DB_MANIFESTCONNECTION();
         }
         public void insertManifest(ref List<TBL_ADU_MANIFEST> manifestList)
         {
@@ -124,14 +125,17 @@ namespace Service.Implementations.Manifest
 
         public ResponseBase<TBL_MAN_MANIFEST> callStoreProcedureManifest()
         {
+            ResponseBase<TBL_MAN_MANIFEST> response;
             try
             {
-                var listManifest = _context.InsertAndGetManifests();
-                ResponseBase<TBL_MAN_MANIFEST> response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForList(listManifest.AsQueryable());
+                var resultSP = _context.InsertAndGetManifests();
+
+                response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForOK(resultSP.ToList());
                 return response;
             }
             catch (Exception ex)
             {
+                response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForException(ex);
                 _context.Database.Connection.Close();
                 throw ex;
             }

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/22/2020 21:05:08
--- Generated from EDMX file: C:\Users\skyfu\source\repos\HELLMANNCORE\Domain\DbManifest.edmx
+-- Date Created: 02/26/2020 08:32:28
+-- Generated from EDMX file: C:\Users\jcristobal\source\repos\CORESOLUTION\Domain\DbManifest.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -112,7 +112,7 @@ CREATE TABLE [dbo].[TBL_ADU_MANIFESTSHIPMENTDETAILDOC] (
     [DEC_WEIGHTRECEIVED] decimal(18,3)  NULL,
     [DEC_PACKAGERECEIVED] int  NULL,
     [VCH_CONSIGNEE] varchar(max)  NULL,
-    [VCH_DATETRANSMISSIONDOCUMENT] varchar(23)  NULL,
+    [DAT_DATETRANSMISSIONDOCUMENT] datetime  NULL,
     [VCH_DESCRIPTION] varchar(max)  NULL,
     [DEC_MANIFESTEDWEIGHT] decimal(18,3)  NULL,
     [DEC_MANIFESTEDPACKAGE] int  NULL,
@@ -160,57 +160,6 @@ CREATE TABLE [dbo].[TBL_ADU_MASTERINFORMATION] (
 );
 GO
 
--- Creating table 'TBL_ADU_WAREDESCRIPTION'
-CREATE TABLE [dbo].[TBL_ADU_WAREDESCRIPTION] (
-    [DEC_WAREDESCRIPTION] decimal(18,0) IDENTITY(1,1) NOT NULL,
-    [VCH_MANIFEST] varchar(max)  NULL,
-    [DEC_PACKAGES] decimal(18,3)  NULL,
-    [DEC_GROSSWEIGHT] decimal(18,3)  NULL,
-    [VCH_PACKING] varchar(max)  NULL,
-    [VCH_CONSIGNEE] varchar(max)  NULL,
-    [VCH_MARKSANDNUMBERS] varchar(max)  NULL,
-    [VCH_DESCRIPTION] varchar(max)  NULL,
-    [DEC_MANIFESTSHIPDETDOCID] decimal(18,0)  NULL,
-    [VCH_SHIPPER] varchar(max)  NULL
-);
-GO
-
--- Creating table 'TBL_MAN_MANIFEST'
-CREATE TABLE [dbo].[TBL_MAN_MANIFEST] (
-    [INT_MANIFESTID] int IDENTITY(1,1) NOT NULL,
-    [INT_DAY] int  NULL,
-    [INT_MONTH] int  NULL,
-    [INT_YEAR] int  NULL,
-    [INT_WEEK] int  NULL,
-    [VCH_AIRLINE] varchar(20)  NULL,
-    [VCH_FLIGHT] varchar(20)  NULL,
-    [VCH_AIR_GUIDE] varchar(20)  NULL,
-    [VCH_MASTERGUIDE] varchar(20)  NULL,
-    [VCH_DESCRIPTION] varchar(50)  NULL,
-    [INT_TERMINALCODE] int  NULL,
-    [DEC_WEIGHTORIGIN] decimal(6,2)  NULL,
-    [DEC_ORIGINPACKAGES] decimal(6,2)  NULL,
-    [DEC_MANIFESTWEIGHT] decimal(6,2)  NULL,
-    [DEC_MANIFESTPACKAGES] decimal(6,2)  NULL,
-    [DEC_WEIGHTRECEIVED] decimal(6,2)  NULL,
-    [DEC_PACKAGESRECEIVED] decimal(6,2)  NULL,
-    [VCH_CONSIGNEE] varchar(50)  NULL,
-    [DTM_TRANSMISSION_DATE] datetime  NULL,
-    [VCH_ANOTHERAGENT] varchar(50)  NULL,
-    [VCH_DESTINATION] varchar(50)  NULL,
-    [VCH_SHIPPER] varchar(50)  NULL
-);
-GO
-
--- Creating table 'TBL_ADU_WEBTRACKING'
-CREATE TABLE [dbo].[TBL_ADU_WEBTRACKING] (
-    [INT_WEBTRACKINGID] int IDENTITY(1,1) NOT NULL,
-    [CHR_PREFIX] char(3)  NULL,
-    [VCH_AIRLINE] varchar(50)  NULL,
-    [VCH_LINK] varchar(200)  NULL
-);
-GO
-
 -- Creating table 'TBL_ADU_TRACK'
 CREATE TABLE [dbo].[TBL_ADU_TRACK] (
     [INT_TRACKID] int IDENTITY(1,1) NOT NULL,
@@ -226,6 +175,60 @@ CREATE TABLE [dbo].[TBL_ADU_TRACK] (
     [VCH_STATUS] varchar(125)  NULL,
     [VCH_CONFIRMATION] varchar(125)  NULL,
     [VCH_SERVICE] varchar(50)  NULL
+);
+GO
+
+-- Creating table 'TBL_ADU_WAREDESCRIPTION'
+CREATE TABLE [dbo].[TBL_ADU_WAREDESCRIPTION] (
+    [DEC_WAREDESCRIPTION] decimal(18,0) IDENTITY(1,1) NOT NULL,
+    [VCH_MANIFEST] varchar(max)  NULL,
+    [DEC_PACKAGES] decimal(18,3)  NULL,
+    [DEC_GROSSWEIGHT] decimal(18,3)  NULL,
+    [VCH_PACKING] varchar(max)  NULL,
+    [VCH_CONSIGNEE] varchar(max)  NULL,
+    [VCH_MARKSANDNUMBERS] varchar(max)  NULL,
+    [VCH_DESCRIPTION] varchar(max)  NULL,
+    [DEC_MANIFESTSHIPDETDOCID] decimal(18,0)  NULL,
+    [VCH_SHIPPER] varchar(max)  NULL
+);
+GO
+
+-- Creating table 'TBL_ADU_WEBTRACKING'
+CREATE TABLE [dbo].[TBL_ADU_WEBTRACKING] (
+    [INT_WEBTRACKINGID] int IDENTITY(1,1) NOT NULL,
+    [CHR_PREFIX] char(3)  NULL,
+    [VCH_AIRLINE] varchar(50)  NULL,
+    [VCH_LINK] varchar(200)  NULL
+);
+GO
+
+-- Creating table 'TBL_MAN_MANIFEST'
+CREATE TABLE [dbo].[TBL_MAN_MANIFEST] (
+    [INT_MANIFESTID] int IDENTITY(1,1) NOT NULL,
+    [INT_DAY] int  NULL,
+    [INT_MONTH] int  NULL,
+    [INT_YEAR] int  NULL,
+    [INT_WEEK] int  NULL,
+    [VCH_AIRLINE] varchar(20)  NULL,
+    [VCH_FLIGHTNUMBER] varchar(20)  NULL,
+    [VCH_AIRGUIDE] varchar(20)  NULL,
+    [VCH_DIRECTMASTERGUIDE] varchar(20)  NULL,
+    [VCH_DESCRIPTION] varchar(50)  NULL,
+    [VCH_TERMINALCODE] varchar(20)  NULL,
+    [DEC_WEIGHTORIGIN] decimal(6,2)  NULL,
+    [DEC_PACKAGEORIGIN] decimal(6,2)  NULL,
+    [DEC_MANIFESTEDWEIGHT] decimal(6,2)  NULL,
+    [DEC_MANIFESTEDPACKAGE] decimal(6,2)  NULL,
+    [DEC_WEIGHTRECEIVED] decimal(6,2)  NULL,
+    [DEC_PACKAGERECEIVED] decimal(6,2)  NULL,
+    [VCH_CONSIGNEE] varchar(50)  NULL,
+    [DAT_DATETRANSMISSIONDOCUMENT] datetime  NULL,
+    [VCH_ANOTHERAGENT] varchar(50)  NULL,
+    [VCH_DESTINATION] varchar(50)  NULL,
+    [VCH_SHIPPER] varchar(50)  NULL,
+    [VCH_ORIGIN] varchar(50)  NULL,
+    [DAT_DEPARTUREDATE] datetime  NULL,
+    [VCH_MANIFESTNUMBER] varchar(max)  NULL
 );
 GO
 
@@ -269,16 +272,16 @@ ADD CONSTRAINT [PK_TBL_ADU_MASTERINFORMATION]
     PRIMARY KEY CLUSTERED ([DEC_MASTERINFORMATIONID] ASC);
 GO
 
+-- Creating primary key on [INT_TRACKID] in table 'TBL_ADU_TRACK'
+ALTER TABLE [dbo].[TBL_ADU_TRACK]
+ADD CONSTRAINT [PK_TBL_ADU_TRACK]
+    PRIMARY KEY CLUSTERED ([INT_TRACKID] ASC);
+GO
+
 -- Creating primary key on [DEC_WAREDESCRIPTION] in table 'TBL_ADU_WAREDESCRIPTION'
 ALTER TABLE [dbo].[TBL_ADU_WAREDESCRIPTION]
 ADD CONSTRAINT [PK_TBL_ADU_WAREDESCRIPTION]
     PRIMARY KEY CLUSTERED ([DEC_WAREDESCRIPTION] ASC);
-GO
-
--- Creating primary key on [INT_MANIFESTID] in table 'TBL_MAN_MANIFEST'
-ALTER TABLE [dbo].[TBL_MAN_MANIFEST]
-ADD CONSTRAINT [PK_TBL_MAN_MANIFEST]
-    PRIMARY KEY CLUSTERED ([INT_MANIFESTID] ASC);
 GO
 
 -- Creating primary key on [INT_WEBTRACKINGID] in table 'TBL_ADU_WEBTRACKING'
@@ -287,10 +290,10 @@ ADD CONSTRAINT [PK_TBL_ADU_WEBTRACKING]
     PRIMARY KEY CLUSTERED ([INT_WEBTRACKINGID] ASC);
 GO
 
--- Creating primary key on [INT_TRACKID] in table 'TBL_ADU_TRACK'
-ALTER TABLE [dbo].[TBL_ADU_TRACK]
-ADD CONSTRAINT [PK_TBL_ADU_TRACK]
-    PRIMARY KEY CLUSTERED ([INT_TRACKID] ASC);
+-- Creating primary key on [INT_MANIFESTID] in table 'TBL_MAN_MANIFEST'
+ALTER TABLE [dbo].[TBL_MAN_MANIFEST]
+ADD CONSTRAINT [PK_TBL_MAN_MANIFEST]
+    PRIMARY KEY CLUSTERED ([INT_MANIFESTID] ASC);
 GO
 
 -- --------------------------------------------------

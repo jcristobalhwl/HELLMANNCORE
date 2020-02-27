@@ -16,7 +16,7 @@ namespace Domain
     {
         public decimal DEC_WAREDESCRIPTION { get; set; }
         public string VCH_MANIFEST { get; set; }
-        public Nullable<decimal> DEC_PACKAGES { get; set; }
+        public Nullable<int> INT_PACKAGES { get; set; }
         public Nullable<decimal> DEC_GROSSWEIGHT { get; set; }
         public string VCH_PACKING { get; set; }
         public string VCH_CONSIGNEE { get; set; }

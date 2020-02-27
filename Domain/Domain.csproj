@@ -85,9 +85,6 @@
       <DependentUpon>DbManifest.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SP_MANIFEST_Result.cs">
-      <DependentUpon>DbManifest.tt</DependentUpon>
-    </Compile>
     <Compile Include="TBL_ADU_ADUANAAGENT.cs">
       <DependentUpon>DbManifest.tt</DependentUpon>
     </Compile>

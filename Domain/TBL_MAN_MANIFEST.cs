@@ -26,8 +26,11 @@ namespace Domain
         public string VCH_DESCRIPTION { get; set; }
         public string VCH_TERMINALCODE { get; set; }
         public Nullable<decimal> DEC_WEIGHTORIGIN { get; set; }
+        public Nullable<int> INT_PACKAGEORIGIN { get; set; }
         public Nullable<decimal> DEC_MANIFESTEDWEIGHT { get; set; }
+        public Nullable<int> INT_MANIFESTEDPACKAGE { get; set; }
         public Nullable<decimal> DEC_WEIGHTRECEIVED { get; set; }
+        public Nullable<int> INT_PACKAGERECEIVED { get; set; }
         public string VCH_CONSIGNEE { get; set; }
         public Nullable<System.DateTime> DAT_DATETRANSMISSIONDOCUMENT { get; set; }
         public string VCH_ANOTHERAGENT { get; set; }
@@ -36,8 +39,5 @@ namespace Domain
         public string VCH_ORIGIN { get; set; }
         public Nullable<System.DateTime> DAT_DEPARTUREDATE { get; set; }
         public string VCH_MANIFESTNUMBER { get; set; }
-        public Nullable<int> INT_MANIFESTEDPACKAGE { get; set; }
-        public Nullable<int> INT_PACKAGEORIGIN { get; set; }
-        public Nullable<int> INT_PACKAGERECEIVED { get; set; }
     }
 }

@@ -15,10 +15,10 @@ namespace Domain
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class DB_MANIFESTCONNECTION : DbContext
+    public partial class DB_MANIFEST : DbContext
     {
-        public DB_MANIFESTCONNECTION()
-            : base("name=DB_MANIFESTCONNECTION")
+        public DB_MANIFEST()
+            : base("name=DB_MANIFEST")
         {
         }
     

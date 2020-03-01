@@ -11,11 +11,11 @@ namespace Service.Implementations.Manifest
 {
     public class ManifestService
     {
-        private readonly DB_MANIFESTCONNECTION _context;
+        private readonly DB_MANIFEST _context;
 
         public ManifestService()
         {
-            _context = new DB_MANIFESTCONNECTION();
+            _context = new DB_MANIFEST();
         }
         public void insertManifest(ref List<TBL_ADU_MANIFEST> manifestList)
         {

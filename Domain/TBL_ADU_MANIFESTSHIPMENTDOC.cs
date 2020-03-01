@@ -23,7 +23,7 @@ namespace Domain
         public string VCH_AIRLINE { get; set; }
         public string VCH_NATIONALITY { get; set; }
         public string VCH_FLIGHTNUMBER { get; set; }
-        public Nullable<int> DEC_PACKAGES { get; set; }
+        public Nullable<int> INT_PACKAGES { get; set; }
         public string VCH_FINALDATEBOARD { get; set; }
         public string VCH_DATEAUTHORIZATIONBOARD { get; set; }
         public string VCH_MANIFESTTRANSMISSIONDATE { get; set; }

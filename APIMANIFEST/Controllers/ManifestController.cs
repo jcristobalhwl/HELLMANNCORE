@@ -30,9 +30,11 @@ namespace APIMANIFEST.Controllers
         {
             int tableId = 0;
             int trId = 0;
-            string startDate = Convert.ToDateTime("10/02/2020").ToString("dd/MM/yyyy");//.ToShortDateString("dd/MM/yyyy");
-            string endDate = Convert.ToDateTime("10/02/2020").ToString("dd/MM/yyyy"); //.ToShortDateString();
-            string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=20";
+
+
+            string startDate = Convert.ToDateTime("10/02/2020").ToString("dd/MM/yyyy");
+            string endDate = Convert.ToDateTime("10/02/2020").ToString("dd/MM/yyyy");
+            string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=5";
 
             //string url = "https://www.deltacargo.com/Cargo/trackShipment?awbNumber=00623405023&timeZoneOffset=300";
             HtmlWeb htmlWeb = new HtmlWeb();
@@ -141,7 +143,7 @@ namespace APIMANIFEST.Controllers
                                         break;
                                     case 4:
                                         manifestSDObj.VCH_FLIGHTNUMBER = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-                                        manifestSDObj.DEC_PACKAGES = Convert.ToInt32(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                        manifestSDObj.INT_PACKAGES = Convert.ToInt32(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
                                         break;
                                     case 5:
                                         manifestSDObj.VCH_FINALDATEBOARD = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
@@ -208,11 +210,11 @@ namespace APIMANIFEST.Controllers
                                         manifestSDDetailObj.VCH_DETAIL = Convert.ToInt32(anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
                                         manifestSDDetailObj.VCH_TERMINALCODE = td[3].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
                                         manifestSDDetailObj.DEC_WEIGHTORIGIN = Convert.ToDecimal(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                        manifestSDDetailObj.DEC_PACKAGEORIGIN = Convert.ToInt32(td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                        manifestSDDetailObj.INT_PACKAGEORIGIN = Convert.ToInt32(td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
                                         manifestSDDetailObj.DEC_MANIFESTEDWEIGHT = Convert.ToDecimal(td[6].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                        manifestSDDetailObj.DEC_MANIFESTEDPACKAGE = Convert.ToInt32(td[7].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                        manifestSDDetailObj.INT_MANIFESTEDPACKAGE = Convert.ToInt32(td[7].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
                                         manifestSDDetailObj.DEC_WEIGHTRECEIVED = Convert.ToDecimal(td[8].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                        manifestSDDetailObj.DEC_PACKAGERECEIVED = Convert.ToInt32(td[9].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                        manifestSDDetailObj.INT_PACKAGERECEIVED = Convert.ToInt32(td[9].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
                                         manifestSDDetailObj.VCH_CONSIGNEE = td[10].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
                                         manifestSDDetailObj.VCH_SHIPPER = td[11].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
                                         manifestSDDetailObj.DAT_DATETRANSMISSIONDOCUMENT = Convert.ToDateTime(td[12].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
@@ -744,6 +746,7 @@ namespace APIMANIFEST.Controllers
                         case "729":
                         case "530":
                         case "202":
+                        case "133":
                             chromeDriver = new ChromeDriver(options);
                             url = $"{webTrackingObj.VCH_LINK}";
                             chromeDriver.Navigate().GoToUrl(url);
@@ -979,11 +982,11 @@ namespace APIMANIFEST.Controllers
                                     masterInformationObj.VCH_TERMINALCODE = td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
                                     masterInformationObj.VCH_SHIPMENTPORT = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
                                     masterInformationObj.DEC_WEIGHTORIGIN = Convert.ToDecimal(td[3].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    masterInformationObj.DEC_PACKAGEORIGIN = Convert.ToDecimal(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                    masterInformationObj.INT_PACKAGEORIGIN = Convert.ToInt32(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
                                     masterInformationObj.DEC_MANIFESTEDWEIGHT = Convert.ToDecimal(td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    masterInformationObj.DEC_MANIFESTEDPACKAGE = Convert.ToDecimal(td[6].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                    masterInformationObj.INT_MANIFESTEDPACKAGE = Convert.ToInt32(td[6].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
                                     masterInformationObj.DEC_WEIGHTRECEIVED = Convert.ToDecimal(td[7].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-                                    masterInformationObj.DEC_PACKAGERECEIVED = Convert.ToDecimal(td[8].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                    masterInformationObj.INT_PACKAGERECEIVED = Convert.ToInt32(td[8].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
                                     masterInformationObj.VCH_CONSIGNEE = td[9].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
                                     masterInformationObj.VCH_SHIPPER = td[10].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
                                     masterInformationObj.VCH_DESTINATIONPORT = td[11].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
@@ -1069,7 +1072,7 @@ namespace APIMANIFEST.Controllers
                                     wareDescriptionObj = new TBL_ADU_WAREDESCRIPTION();
                                     wareDescriptionObj.DEC_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
                                     wareDescriptionObj.VCH_MANIFEST = manifestNumber;
-                                    wareDescriptionObj.DEC_PACKAGES = Convert.ToDecimal(td[0].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                    wareDescriptionObj.INT_PACKAGES = Convert.ToInt32(td[0].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
                                     wareDescriptionObj.DEC_GROSSWEIGHT = Convert.ToDecimal(td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
                                     if (td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() != "")
                                     {

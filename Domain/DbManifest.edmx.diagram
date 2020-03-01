@@ -4,17 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bb0bf1fb98b04ff88e657e30c4f407a3" Name="Diagram1">
-        <EntityTypeShape EntityType="DB_MANIFEST.TBL_ADU_ADUANAAGENT" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_MANIFEST.TBL_ADU_ADUANADESTINATION" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_MANIFEST.TBL_ADU_MANIFEST" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_MANIFEST.TBL_ADU_MANIFESTSHIPMENTDETAILDOC" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_MANIFEST.TBL_ADU_MANIFESTSHIPMENTDOC" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_MANIFEST.TBL_ADU_MASTERINFORMATION" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_MANIFEST.TBL_ADU_TRACK" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_MANIFEST.TBL_ADU_WAREDESCRIPTION" Width="1.5" PointX="6.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_MANIFEST.TBL_ADU_WEBTRACKING" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_MANIFEST.TBL_MAN_MANIFEST" Width="3.25" PointX="8.75" PointY="3.75" IsExpanded="true" />
+      <Diagram DiagramId="c214d394cc4f4656b6ac37938b8bcd7a" Name="Diagram1">
+        <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_ADUANAAGENT" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_ADUANADESTINATION" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_MANIFEST" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_MANIFESTSHIPMENTDETAILDOC" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_MANIFESTSHIPMENTDOC" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_MASTERINFORMATION" Width="2.625" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_TRACK" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_WAREDESCRIPTION" Width="1.5" PointX="8.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_ADU_WEBTRACKING" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_MANIFESTModel.TBL_MAN_MANIFEST" Width="2.5" PointX="10.375" PointY="4" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

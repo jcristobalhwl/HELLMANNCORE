@@ -4,196 +4,195 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DB_MANIFEST.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="TBL_ADU_ADUANAAGENT">
-          <Key>
-            <PropertyRef Name="INT_ADUANAAGENTID" />
-          </Key>
-          <Property Name="INT_ADUANAAGENTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="VCH_SUNATCODE" Type="varchar" MaxLength="8" />
-          <Property Name="VCH_BUSINESSNAME" Type="varchar" MaxLength="800" />
-          <Property Name="VCH_SUNATJURISDICTIONCODE" Type="varchar" MaxLength="8" />
-          <Property Name="VCH_JURISDICTION" Type="varchar" MaxLength="400" />
-          <Property Name="VCH_STATE" Type="varchar" MaxLength="200" />
-        </EntityType>
-        <EntityType Name="TBL_ADU_ADUANADESTINATION">
-          <Key>
-            <PropertyRef Name="NUM_ADUANADESTINATIONID" />
-          </Key>
-          <Property Name="NUM_ADUANADESTINATIONID" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="VCH_MANIFEST" Type="varchar(max)" />
-          <Property Name="INT_SEC" Type="int" />
-          <Property Name="VCH_DUANUMBER" Type="varchar(max)" />
-          <Property Name="VCH_DATENUMBERING" Type="varchar" MaxLength="23" />
-          <Property Name="INT_DETAIL" Type="int" />
-          <Property Name="VCH_AGENT" Type="varchar(max)" />
-          <Property Name="NUM_WEIGHTREQUESTED" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="INT_PACKAGEREQUESTED" Type="int" />
-          <Property Name="VCH_DATEDATED" Type="varchar" MaxLength="23" />
-          <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="decimal" Precision="18" Scale="0" />
-        </EntityType>
-        <EntityType Name="TBL_ADU_MANIFEST">
-          <Key>
-            <PropertyRef Name="NUM_MANIFESTID" />
-          </Key>
-          <Property Name="NUM_MANIFESTID" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="VCH_MANIFESTNUMBER" Type="varchar(max)" />
-          <Property Name="VCH_TERMINAL" Type="varchar(max)" />
-          <Property Name="VCH_AIRLINE" Type="varchar(max)" />
-          <Property Name="VCH_SHIPMENTPORT" Type="varchar(max)" />
-          <Property Name="VCH_FLIGHTNUMBER" Type="varchar(max)" />
-          <Property Name="DAT_DEPARTUREDATE" Type="datetime" />
-          <Property Name="CHR_REGIME" Type="char" MaxLength="1" />
-          <Property Name="CHR_VIA" Type="char" MaxLength="1" />
-          <Property Name="BIT_COMPLETED" Type="bit" />
-          <Property Name="DAT_DOWNLOADDATE" Type="datetime" />
-        </EntityType>
-        <EntityType Name="TBL_ADU_MANIFESTSHIPMENTDETAILDOC">
-          <Key>
-            <PropertyRef Name="DEC_MANIFESTSHIPDETDOCID" />
-          </Key>
-          <Property Name="NUM_MANIFESTID" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="VCH_AIRGUIDE" Type="varchar(max)" />
-          <Property Name="VCH_DIRECTMASTERGUIDE" Type="varchar(max)" />
-          <Property Name="VCH_DETAIL" Type="int" />
-          <Property Name="VCH_TERMINALCODE" Type="varchar(max)" />
-          <Property Name="DEC_WEIGHTORIGIN" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="DEC_PACKAGEORIGIN" Type="int" />
-          <Property Name="DEC_WEIGHTRECEIVED" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="DEC_PACKAGERECEIVED" Type="int" />
-          <Property Name="VCH_CONSIGNEE" Type="varchar(max)" />
-          <Property Name="DAT_DATETRANSMISSIONDOCUMENT" Type="datetime" />
-          <Property Name="VCH_DESCRIPTION" Type="varchar(max)" />
-          <Property Name="DEC_MANIFESTEDWEIGHT" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="DEC_MANIFESTEDPACKAGE" Type="int" />
-          <Property Name="VCH_SHIPPER" Type="varchar(max)" />
-          <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TBL_ADU_MANIFESTSHIPMENTDOC">
-          <Key>
-            <PropertyRef Name="NUM_MANIFESTSHIPMENTDOCID" />
-          </Key>
-          <Property Name="NUM_MANIFESTSHIPMENTDOCID" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NUM_MANIFESTID" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="VCH_MANIFESTNUMBER" Type="varchar(max)" />
-          <Property Name="INT_DETAILSNUMBER" Type="int" />
-          <Property Name="DAT_DEPARTUREDATE" Type="varchar(max)" />
-          <Property Name="DEC_GROSSWEIGHT" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="VCH_AIRLINE" Type="varchar(max)" />
-          <Property Name="VCH_NATIONALITY" Type="varchar(max)" />
-          <Property Name="VCH_FLIGHTNUMBER" Type="varchar(max)" />
-          <Property Name="DEC_PACKAGES" Type="int" />
-          <Property Name="VCH_FINALDATEBOARD" Type="varchar(max)" />
-          <Property Name="VCH_DATEAUTHORIZATIONBOARD" Type="varchar(max)" />
-          <Property Name="VCH_MANIFESTTRANSMISSIONDATE" Type="varchar(max)" />
-        </EntityType>
-        <EntityType Name="TBL_ADU_MASTERINFORMATION">
-          <Key>
-            <PropertyRef Name="DEC_MASTERINFORMATIONID" />
-          </Key>
-          <Property Name="DEC_MASTERINFORMATIONID" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="VCH_MANIFEST" Type="varchar(max)" />
-          <Property Name="INT_DETAILNUMBER" Type="int" />
-          <Property Name="VCH_TERMINALCODE" Type="varchar(max)" />
-          <Property Name="VCH_SHIPMENTPORT" Type="varchar(max)" />
-          <Property Name="DEC_WEIGHTORIGIN" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="DEC_PACKAGEORIGIN" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="DEC_WEIGHTRECEIVED" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="DEC_PACKAGERECEIVED" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="VCH_CONSIGNEE" Type="varchar(max)" />
-          <Property Name="VCH_DESTINATIONPORT" Type="varchar(max)" />
-          <Property Name="VCH_TRANSMISSIONDATE" Type="varchar" MaxLength="23" />
-          <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="VCH_SHIPPER" Type="varchar(max)" />
-          <Property Name="DEC_MANIFESTEDWEIGHT" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="DEC_MANIFESTEDPACKAGE" Type="decimal" Precision="18" Scale="3" />
-        </EntityType>
-        <EntityType Name="TBL_ADU_TRACK">
-          <Key>
-            <PropertyRef Name="INT_TRACKID" />
-          </Key>
-          <Property Name="INT_TRACKID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NUM_MANIFESTSHIPDETDOCID" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="VCH_DIRECTMASTERGUIDE" Type="varchar(max)" />
-          <Property Name="VCH_ORIGIN" Type="varchar" MaxLength="10" />
-          <Property Name="VCH_DESTINATION" Type="varchar" MaxLength="10" />
-          <Property Name="VCH_CONNECTION" Type="varchar" MaxLength="10" />
-          <Property Name="INT_PIECES" Type="int" />
-          <Property Name="NUM_WEIGHT" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="NUM_VOLUME" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="VCH_PRODUCT" Type="varchar(max)" />
-          <Property Name="VCH_STATUS" Type="varchar" MaxLength="125" />
-          <Property Name="VCH_CONFIRMATION" Type="varchar" MaxLength="125" />
-          <Property Name="VCH_SERVICE" Type="varchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="TBL_ADU_WAREDESCRIPTION">
-          <Key>
-            <PropertyRef Name="DEC_WAREDESCRIPTION" />
-          </Key>
-          <Property Name="DEC_WAREDESCRIPTION" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="VCH_MANIFEST" Type="varchar(max)" />
-          <Property Name="DEC_PACKAGES" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="DEC_GROSSWEIGHT" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="VCH_PACKING" Type="varchar(max)" />
-          <Property Name="VCH_CONSIGNEE" Type="varchar(max)" />
-          <Property Name="VCH_MARKSANDNUMBERS" Type="varchar(max)" />
-          <Property Name="VCH_DESCRIPTION" Type="varchar(max)" />
-          <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="VCH_SHIPPER" Type="varchar(max)" />
-        </EntityType>
-        <EntityType Name="TBL_ADU_WEBTRACKING">
-          <Key>
-            <PropertyRef Name="INT_WEBTRACKINGID" />
-          </Key>
-          <Property Name="INT_WEBTRACKINGID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CHR_PREFIX" Type="char" MaxLength="3" />
-          <Property Name="VCH_AIRLINE" Type="varchar" MaxLength="50" />
-          <Property Name="VCH_LINK" Type="varchar" MaxLength="200" />
-        </EntityType>
-        <EntityType Name="TBL_MAN_MANIFEST">
-          <Key>
-            <PropertyRef Name="INT_MANIFESTID" />
-          </Key>
-          <Property Name="INT_MANIFESTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="INT_DAY" Type="int" />
-          <Property Name="INT_MONTH" Type="int" />
-          <Property Name="INT_YEAR" Type="int" />
-          <Property Name="INT_WEEK" Type="int" />
-          <Property Name="VCH_AIRLINE" Type="varchar" MaxLength="20" />
-          <Property Name="VCH_FLIGHTNUMBER" Type="varchar" MaxLength="20" />
-          <Property Name="VCH_AIRGUIDE" Type="varchar" MaxLength="20" />
-          <Property Name="VCH_DIRECTMASTERGUIDE" Type="varchar" MaxLength="20" />
-          <Property Name="VCH_DESCRIPTION" Type="varchar" MaxLength="50" />
-          <Property Name="VCH_TERMINALCODE" Type="varchar" MaxLength="20" />
-          <Property Name="DEC_WEIGHTORIGIN" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="INT_PACKAGEORIGIN" Type="int" />
-          <Property Name="DEC_MANIFESTEDWEIGHT" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="INT_MANIFESTEDPACKAGE" Type="int" />
-          <Property Name="DEC_WEIGHTRECEIVED" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="INT_PACKAGERECEIVED" Type="int" />
-          <Property Name="VCH_CONSIGNEE" Type="varchar" MaxLength="50" />
-          <Property Name="DAT_DATETRANSMISSIONDOCUMENT" Type="datetime" />
-          <Property Name="VCH_ANOTHERAGENT" Type="varchar" MaxLength="50" />
-          <Property Name="VCH_DESTINATION" Type="varchar" MaxLength="50" />
-          <Property Name="VCH_SHIPPER" Type="varchar" MaxLength="50" />
-          <Property Name="VCH_ORIGIN" Type="varchar" MaxLength="50" />
-          <Property Name="DAT_DEPARTUREDATE" Type="datetime" />
-          <Property Name="VCH_MANIFESTNUMBER" Type="varchar(max)" />
-        </EntityType>
-        <Function Name="SP_MANIFEST" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <EntityContainer Name="DB_MANIFESTStoreContainer">
-          <EntitySet Name="TBL_ADU_ADUANAAGENT" EntityType="Self.TBL_ADU_ADUANAAGENT" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TBL_ADU_ADUANADESTINATION" EntityType="Self.TBL_ADU_ADUANADESTINATION" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TBL_ADU_MANIFEST" EntityType="Self.TBL_ADU_MANIFEST" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TBL_ADU_MANIFESTSHIPMENTDETAILDOC" EntityType="Self.TBL_ADU_MANIFESTSHIPMENTDETAILDOC" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TBL_ADU_MANIFESTSHIPMENTDOC" EntityType="Self.TBL_ADU_MANIFESTSHIPMENTDOC" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TBL_ADU_MASTERINFORMATION" EntityType="Self.TBL_ADU_MASTERINFORMATION" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TBL_ADU_TRACK" EntityType="Self.TBL_ADU_TRACK" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TBL_ADU_WAREDESCRIPTION" EntityType="Self.TBL_ADU_WAREDESCRIPTION" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TBL_ADU_WEBTRACKING" EntityType="Self.TBL_ADU_WEBTRACKING" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TBL_MAN_MANIFEST" EntityType="Self.TBL_MAN_MANIFEST" Schema="dbo" store:Type="Tables" />
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="DB_MANIFEST.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DB_MANIFESTStoreContainer">
+    <EntitySet Name="TBL_ADU_ADUANAAGENT" EntityType="DB_MANIFEST.Store.TBL_ADU_ADUANAAGENT" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TBL_ADU_ADUANADESTINATION" EntityType="DB_MANIFEST.Store.TBL_ADU_ADUANADESTINATION" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TBL_ADU_MANIFEST" EntityType="DB_MANIFEST.Store.TBL_ADU_MANIFEST" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TBL_ADU_MANIFESTSHIPMENTDETAILDOC" EntityType="DB_MANIFEST.Store.TBL_ADU_MANIFESTSHIPMENTDETAILDOC" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TBL_ADU_MANIFESTSHIPMENTDOC" EntityType="DB_MANIFEST.Store.TBL_ADU_MANIFESTSHIPMENTDOC" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TBL_ADU_MASTERINFORMATION" EntityType="DB_MANIFEST.Store.TBL_ADU_MASTERINFORMATION" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TBL_ADU_TRACK" EntityType="DB_MANIFEST.Store.TBL_ADU_TRACK" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TBL_ADU_WAREDESCRIPTION" EntityType="DB_MANIFEST.Store.TBL_ADU_WAREDESCRIPTION" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TBL_ADU_WEBTRACKING" EntityType="DB_MANIFEST.Store.TBL_ADU_WEBTRACKING" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TBL_MAN_MANIFEST" EntityType="DB_MANIFEST.Store.TBL_MAN_MANIFEST" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="TBL_ADU_ADUANAAGENT">
+    <Key>
+      <PropertyRef Name="INT_ADUANAAGENTID" />
+    </Key>
+    <Property Name="INT_ADUANAAGENTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VCH_SUNATCODE" Type="varchar" Nullable="true" MaxLength="8" />
+    <Property Name="VCH_BUSINESSNAME" Type="varchar" Nullable="true" MaxLength="800" />
+    <Property Name="VCH_SUNATJURISDICTIONCODE" Type="varchar" Nullable="true" MaxLength="8" />
+    <Property Name="VCH_JURISDICTION" Type="varchar" Nullable="true" MaxLength="400" />
+    <Property Name="VCH_STATE" Type="varchar" Nullable="true" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="TBL_ADU_ADUANADESTINATION">
+    <Key>
+      <PropertyRef Name="NUM_ADUANADESTINATIONID" />
+    </Key>
+    <Property Name="NUM_ADUANADESTINATIONID" Type="decimal" StoreGeneratedPattern="Identity" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="VCH_MANIFEST" Type="varchar(max)" Nullable="true" />
+    <Property Name="INT_SEC" Type="int" Nullable="true" />
+    <Property Name="VCH_DUANUMBER" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_DATENUMBERING" Type="varchar" Nullable="true" MaxLength="23" />
+    <Property Name="INT_DETAIL" Type="int" Nullable="true" />
+    <Property Name="VCH_AGENT" Type="varchar(max)" Nullable="true" />
+    <Property Name="NUM_WEIGHTREQUESTED" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="INT_PACKAGEREQUESTED" Type="int" Nullable="true" />
+    <Property Name="VCH_DATEDATED" Type="varchar" Nullable="true" MaxLength="23" />
+    <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="TBL_ADU_MANIFEST">
+    <Key>
+      <PropertyRef Name="NUM_MANIFESTID" />
+    </Key>
+    <Property Name="NUM_MANIFESTID" Type="decimal" StoreGeneratedPattern="Identity" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="VCH_MANIFESTNUMBER" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_TERMINAL" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_AIRLINE" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_SHIPMENTPORT" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_FLIGHTNUMBER" Type="varchar(max)" Nullable="true" />
+    <Property Name="DAT_DEPARTUREDATE" Type="datetime" Nullable="true" />
+    <Property Name="CHR_REGIME" Type="char" Nullable="true" MaxLength="1" />
+    <Property Name="CHR_VIA" Type="char" Nullable="true" MaxLength="1" />
+    <Property Name="BIT_COMPLETED" Type="bit" Nullable="true" />
+    <Property Name="DAT_DOWNLOADDATE" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="TBL_ADU_MANIFESTSHIPMENTDETAILDOC">
+    <Key>
+      <PropertyRef Name="DEC_MANIFESTSHIPDETDOCID" />
+    </Key>
+    <Property Name="NUM_MANIFESTID" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="VCH_AIRGUIDE" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_DIRECTMASTERGUIDE" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_DETAIL" Type="int" Nullable="true" />
+    <Property Name="VCH_TERMINALCODE" Type="varchar(max)" Nullable="true" />
+    <Property Name="DEC_WEIGHTORIGIN" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="DEC_PACKAGEORIGIN" Type="int" Nullable="true" />
+    <Property Name="DEC_WEIGHTRECEIVED" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="DEC_PACKAGERECEIVED" Type="int" Nullable="true" />
+    <Property Name="VCH_CONSIGNEE" Type="varchar(max)" Nullable="true" />
+    <Property Name="DAT_DATETRANSMISSIONDOCUMENT" Type="datetime" Nullable="true" />
+    <Property Name="VCH_DESCRIPTION" Type="varchar(max)" Nullable="true" />
+    <Property Name="DEC_MANIFESTEDWEIGHT" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="DEC_MANIFESTEDPACKAGE" Type="int" Nullable="true" />
+    <Property Name="VCH_SHIPPER" Type="varchar(max)" Nullable="true" />
+    <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="decimal" StoreGeneratedPattern="Identity" Nullable="false" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="TBL_ADU_MANIFESTSHIPMENTDOC">
+    <Key>
+      <PropertyRef Name="NUM_MANIFESTSHIPMENTDOCID" />
+    </Key>
+    <Property Name="NUM_MANIFESTSHIPMENTDOCID" Type="decimal" StoreGeneratedPattern="Identity" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="NUM_MANIFESTID" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="VCH_MANIFESTNUMBER" Type="varchar(max)" Nullable="true" />
+    <Property Name="INT_DETAILSNUMBER" Type="int" Nullable="true" />
+    <Property Name="DAT_DEPARTUREDATE" Type="varchar(max)" Nullable="true" />
+    <Property Name="DEC_GROSSWEIGHT" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="VCH_AIRLINE" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_NATIONALITY" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_FLIGHTNUMBER" Type="varchar(max)" Nullable="true" />
+    <Property Name="DEC_PACKAGES" Type="int" Nullable="true" />
+    <Property Name="VCH_FINALDATEBOARD" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_DATEAUTHORIZATIONBOARD" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_MANIFESTTRANSMISSIONDATE" Type="varchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="TBL_ADU_MASTERINFORMATION">
+    <Key>
+      <PropertyRef Name="DEC_MASTERINFORMATIONID" />
+    </Key>
+    <Property Name="DEC_MASTERINFORMATIONID" Type="decimal" StoreGeneratedPattern="Identity" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="VCH_MANIFEST" Type="varchar(max)" Nullable="true" />
+    <Property Name="INT_DETAILNUMBER" Type="int" Nullable="true" />
+    <Property Name="VCH_TERMINALCODE" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_SHIPMENTPORT" Type="varchar(max)" Nullable="true" />
+    <Property Name="DEC_WEIGHTORIGIN" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="DEC_PACKAGEORIGIN" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="DEC_WEIGHTRECEIVED" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="DEC_PACKAGERECEIVED" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="VCH_CONSIGNEE" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_DESTINATIONPORT" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_TRANSMISSIONDATE" Type="varchar" Nullable="true" MaxLength="23" />
+    <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="VCH_SHIPPER" Type="varchar(max)" Nullable="true" />
+    <Property Name="DEC_MANIFESTEDWEIGHT" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="DEC_MANIFESTEDPACKAGE" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+  </EntityType>
+  <EntityType Name="TBL_ADU_TRACK">
+    <Key>
+      <PropertyRef Name="INT_TRACKID" />
+    </Key>
+    <Property Name="INT_TRACKID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NUM_MANIFESTSHIPDETDOCID" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="VCH_DIRECTMASTERGUIDE" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_ORIGIN" Type="varchar" Nullable="true" MaxLength="10" />
+    <Property Name="VCH_DESTINATION" Type="varchar" Nullable="true" MaxLength="10" />
+    <Property Name="VCH_CONNECTION" Type="varchar" Nullable="true" MaxLength="10" />
+    <Property Name="INT_PIECES" Type="int" Nullable="true" />
+    <Property Name="NUM_WEIGHT" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="NUM_VOLUME" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="VCH_PRODUCT" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_STATUS" Type="varchar" Nullable="true" MaxLength="125" />
+    <Property Name="VCH_CONFIRMATION" Type="varchar" Nullable="true" MaxLength="125" />
+    <Property Name="VCH_SERVICE" Type="varchar" Nullable="true" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="TBL_ADU_WAREDESCRIPTION">
+    <Key>
+      <PropertyRef Name="DEC_WAREDESCRIPTION" />
+    </Key>
+    <Property Name="DEC_WAREDESCRIPTION" Type="decimal" StoreGeneratedPattern="Identity" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="VCH_MANIFEST" Type="varchar(max)" Nullable="true" />
+    <Property Name="DEC_PACKAGES" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="DEC_GROSSWEIGHT" Type="decimal" Nullable="true" Precision="18" Scale="3" />
+    <Property Name="VCH_PACKING" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_CONSIGNEE" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_MARKSANDNUMBERS" Type="varchar(max)" Nullable="true" />
+    <Property Name="VCH_DESCRIPTION" Type="varchar(max)" Nullable="true" />
+    <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="VCH_SHIPPER" Type="varchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="TBL_ADU_WEBTRACKING">
+    <Key>
+      <PropertyRef Name="INT_WEBTRACKINGID" />
+    </Key>
+    <Property Name="INT_WEBTRACKINGID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CHR_PREFIX" Type="char" Nullable="true" MaxLength="3" />
+    <Property Name="VCH_AIRLINE" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="VCH_LINK" Type="varchar" Nullable="true" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="TBL_MAN_MANIFEST">
+    <Key>
+      <PropertyRef Name="INT_MANIFESTID" />
+    </Key>
+    <Property Name="INT_MANIFESTID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="INT_DAY" Type="int" Nullable="true" />
+    <Property Name="INT_MONTH" Type="int" Nullable="true" />
+    <Property Name="INT_YEAR" Type="int" Nullable="true" />
+    <Property Name="INT_WEEK" Type="int" Nullable="true" />
+    <Property Name="VCH_AIRLINE" Type="varchar" Nullable="true" MaxLength="20" />
+    <Property Name="VCH_FLIGHTNUMBER" Type="varchar" Nullable="true" MaxLength="20" />
+    <Property Name="VCH_AIRGUIDE" Type="varchar" Nullable="true" MaxLength="20" />
+    <Property Name="VCH_DIRECTMASTERGUIDE" Type="varchar" Nullable="true" MaxLength="20" />
+    <Property Name="VCH_DESCRIPTION" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="VCH_TERMINALCODE" Type="varchar" Nullable="true" MaxLength="20" />
+    <Property Name="DEC_WEIGHTORIGIN" Type="decimal" Nullable="true" Precision="6" Scale="2" />
+    <Property Name="DEC_MANIFESTEDWEIGHT" Type="decimal" Nullable="true" Precision="6" Scale="2" />
+    <Property Name="DEC_WEIGHTRECEIVED" Type="decimal" Nullable="true" Precision="6" Scale="2" />
+    <Property Name="VCH_CONSIGNEE" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="DAT_DATETRANSMISSIONDOCUMENT" Type="datetime" Nullable="true" />
+    <Property Name="VCH_ANOTHERAGENT" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="VCH_DESTINATION" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="VCH_SHIPPER" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="VCH_ORIGIN" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="DAT_DEPARTUREDATE" Type="datetime" Nullable="true" />
+    <Property Name="VCH_MANIFESTNUMBER" Type="varchar(max)" Nullable="true" />
+    <Property Name="INT_MANIFESTEDPACKAGE" Type="int" Nullable="true" />
+    <Property Name="INT_PACKAGEORIGIN" Type="int" Nullable="true" />
+    <Property Name="INT_PACKAGERECEIVED" Type="int" Nullable="true" />
+  </EntityType>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_MANIFEST" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -575,10 +574,7 @@
     <EntitySetMapping Name="TBL_MAN_MANIFEST">
       <EntityTypeMapping TypeName="IsTypeOf(DB_MANIFEST.TBL_MAN_MANIFEST)">
         <MappingFragment StoreEntitySet="TBL_MAN_MANIFEST">
-          <ScalarProperty Name="INT_PACKAGERECEIVED" ColumnName="INT_PACKAGERECEIVED" />
-                <ScalarProperty Name="INT_PACKAGEORIGIN" ColumnName="INT_PACKAGEORIGIN" />
-                <ScalarProperty Name="INT_MANIFESTEDPACKAGE" ColumnName="INT_MANIFESTEDPACKAGE" />
-                <ScalarProperty Name="INT_MANIFESTID" ColumnName="INT_MANIFESTID" />
+          <ScalarProperty Name="INT_MANIFESTID" ColumnName="INT_MANIFESTID" />
           <ScalarProperty Name="INT_DAY" ColumnName="INT_DAY" />
           <ScalarProperty Name="INT_MONTH" ColumnName="INT_MONTH" />
           <ScalarProperty Name="INT_YEAR" ColumnName="INT_YEAR" />
@@ -600,10 +596,12 @@
           <ScalarProperty Name="VCH_ORIGIN" ColumnName="VCH_ORIGIN" />
           <ScalarProperty Name="DAT_DEPARTUREDATE" ColumnName="DAT_DEPARTUREDATE" />
           <ScalarProperty Name="VCH_MANIFESTNUMBER" ColumnName="VCH_MANIFESTNUMBER" />
+          <ScalarProperty Name="INT_MANIFESTEDPACKAGE" ColumnName="INT_MANIFESTEDPACKAGE" />
+          <ScalarProperty Name="INT_PACKAGEORIGIN" ColumnName="INT_PACKAGEORIGIN" />
+          <ScalarProperty Name="INT_PACKAGERECEIVED" ColumnName="INT_PACKAGERECEIVED" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="InsertAndGetManifests" FunctionName="DB_MANIFEST.Store.SP_MANIFEST" />
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

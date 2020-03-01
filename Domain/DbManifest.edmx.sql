@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/26/2020 08:32:28
--- Generated from EDMX file: C:\Users\jcristobal\source\repos\CORESOLUTION\Domain\DbManifest.edmx
+-- Date Created: 02/27/2020 00:00:06
+-- Generated from EDMX file: C:\Users\skyfu\source\repos\HELLMANNCORE\Domain\DbManifest.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -216,11 +216,8 @@ CREATE TABLE [dbo].[TBL_MAN_MANIFEST] (
     [VCH_DESCRIPTION] varchar(50)  NULL,
     [VCH_TERMINALCODE] varchar(20)  NULL,
     [DEC_WEIGHTORIGIN] decimal(6,2)  NULL,
-    [DEC_PACKAGEORIGIN] decimal(6,2)  NULL,
     [DEC_MANIFESTEDWEIGHT] decimal(6,2)  NULL,
-    [DEC_MANIFESTEDPACKAGE] decimal(6,2)  NULL,
     [DEC_WEIGHTRECEIVED] decimal(6,2)  NULL,
-    [DEC_PACKAGERECEIVED] decimal(6,2)  NULL,
     [VCH_CONSIGNEE] varchar(50)  NULL,
     [DAT_DATETRANSMISSIONDOCUMENT] datetime  NULL,
     [VCH_ANOTHERAGENT] varchar(50)  NULL,
@@ -228,7 +225,10 @@ CREATE TABLE [dbo].[TBL_MAN_MANIFEST] (
     [VCH_SHIPPER] varchar(50)  NULL,
     [VCH_ORIGIN] varchar(50)  NULL,
     [DAT_DEPARTUREDATE] datetime  NULL,
-    [VCH_MANIFESTNUMBER] varchar(max)  NULL
+    [VCH_MANIFESTNUMBER] varchar(max)  NULL,
+    [INT_MANIFESTEDPACKAGE] int  NULL,
+    [INT_PACKAGEORIGIN] int  NULL,
+    [INT_PACKAGERECEIVED] int  NULL
 );
 GO
 

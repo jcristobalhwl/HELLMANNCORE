@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/27/2020 00:00:06
+-- Date Created: 03/01/2020 12:10:19
 -- Generated from EDMX file: C:\Users\skyfu\source\repos\HELLMANNCORE\Domain\DbManifest.edmx
 -- --------------------------------------------------
 
@@ -108,14 +108,14 @@ CREATE TABLE [dbo].[TBL_ADU_MANIFESTSHIPMENTDETAILDOC] (
     [VCH_DETAIL] int  NULL,
     [VCH_TERMINALCODE] varchar(max)  NULL,
     [DEC_WEIGHTORIGIN] decimal(18,3)  NULL,
-    [DEC_PACKAGEORIGIN] int  NULL,
+    [INT_PACKAGEORIGIN] int  NULL,
     [DEC_WEIGHTRECEIVED] decimal(18,3)  NULL,
-    [DEC_PACKAGERECEIVED] int  NULL,
+    [INT_PACKAGERECEIVED] int  NULL,
     [VCH_CONSIGNEE] varchar(max)  NULL,
     [DAT_DATETRANSMISSIONDOCUMENT] datetime  NULL,
     [VCH_DESCRIPTION] varchar(max)  NULL,
     [DEC_MANIFESTEDWEIGHT] decimal(18,3)  NULL,
-    [DEC_MANIFESTEDPACKAGE] int  NULL,
+    [INT_MANIFESTEDPACKAGE] int  NULL,
     [VCH_SHIPPER] varchar(max)  NULL,
     [DEC_MANIFESTSHIPDETDOCID] decimal(18,0) IDENTITY(1,1) NOT NULL
 );
@@ -132,7 +132,7 @@ CREATE TABLE [dbo].[TBL_ADU_MANIFESTSHIPMENTDOC] (
     [VCH_AIRLINE] varchar(max)  NULL,
     [VCH_NATIONALITY] varchar(max)  NULL,
     [VCH_FLIGHTNUMBER] varchar(max)  NULL,
-    [DEC_PACKAGES] int  NULL,
+    [INT_PACKAGES] int  NULL,
     [VCH_FINALDATEBOARD] varchar(max)  NULL,
     [VCH_DATEAUTHORIZATIONBOARD] varchar(max)  NULL,
     [VCH_MANIFESTTRANSMISSIONDATE] varchar(max)  NULL
@@ -147,16 +147,16 @@ CREATE TABLE [dbo].[TBL_ADU_MASTERINFORMATION] (
     [VCH_TERMINALCODE] varchar(max)  NULL,
     [VCH_SHIPMENTPORT] varchar(max)  NULL,
     [DEC_WEIGHTORIGIN] decimal(18,3)  NULL,
-    [DEC_PACKAGEORIGIN] decimal(18,3)  NULL,
-    [DEC_WEIGHTRECEIVED] decimal(18,3)  NULL,
-    [DEC_PACKAGERECEIVED] decimal(18,3)  NULL,
+    [DEC_WEIGHTRECEIVED] decimal(18,0)  NULL,
     [VCH_CONSIGNEE] varchar(max)  NULL,
     [VCH_DESTINATIONPORT] varchar(max)  NULL,
     [VCH_TRANSMISSIONDATE] varchar(23)  NULL,
     [DEC_MANIFESTSHIPDETDOCID] decimal(18,0)  NULL,
     [VCH_SHIPPER] varchar(max)  NULL,
     [DEC_MANIFESTEDWEIGHT] decimal(18,3)  NULL,
-    [DEC_MANIFESTEDPACKAGE] decimal(18,3)  NULL
+    [INT_PACKAGEORIGIN] int  NULL,
+    [INT_PACKAGERECEIVED] int  NULL,
+    [INT_MANIFESTEDPACKAGE] int  NULL
 );
 GO
 
@@ -182,7 +182,7 @@ GO
 CREATE TABLE [dbo].[TBL_ADU_WAREDESCRIPTION] (
     [DEC_WAREDESCRIPTION] decimal(18,0) IDENTITY(1,1) NOT NULL,
     [VCH_MANIFEST] varchar(max)  NULL,
-    [DEC_PACKAGES] decimal(18,3)  NULL,
+    [INT_PACKAGES] int  NULL,
     [DEC_GROSSWEIGHT] decimal(18,3)  NULL,
     [VCH_PACKING] varchar(max)  NULL,
     [VCH_CONSIGNEE] varchar(max)  NULL,
@@ -213,11 +213,14 @@ CREATE TABLE [dbo].[TBL_MAN_MANIFEST] (
     [VCH_FLIGHTNUMBER] varchar(20)  NULL,
     [VCH_AIRGUIDE] varchar(20)  NULL,
     [VCH_DIRECTMASTERGUIDE] varchar(20)  NULL,
-    [VCH_DESCRIPTION] varchar(50)  NULL,
+    [VCH_DESCRIPTION] varchar(max)  NULL,
     [VCH_TERMINALCODE] varchar(20)  NULL,
     [DEC_WEIGHTORIGIN] decimal(6,2)  NULL,
+    [INT_PACKAGEORIGIN] int  NULL,
     [DEC_MANIFESTEDWEIGHT] decimal(6,2)  NULL,
+    [INT_MANIFESTEDPACKAGE] int  NULL,
     [DEC_WEIGHTRECEIVED] decimal(6,2)  NULL,
+    [INT_PACKAGERECEIVED] int  NULL,
     [VCH_CONSIGNEE] varchar(50)  NULL,
     [DAT_DATETRANSMISSIONDOCUMENT] datetime  NULL,
     [VCH_ANOTHERAGENT] varchar(50)  NULL,
@@ -225,10 +228,7 @@ CREATE TABLE [dbo].[TBL_MAN_MANIFEST] (
     [VCH_SHIPPER] varchar(50)  NULL,
     [VCH_ORIGIN] varchar(50)  NULL,
     [DAT_DEPARTUREDATE] datetime  NULL,
-    [VCH_MANIFESTNUMBER] varchar(max)  NULL,
-    [INT_MANIFESTEDPACKAGE] int  NULL,
-    [INT_PACKAGEORIGIN] int  NULL,
-    [INT_PACKAGERECEIVED] int  NULL
+    [VCH_MANIFESTNUMBER] varchar(max)  NULL
 );
 GO
 

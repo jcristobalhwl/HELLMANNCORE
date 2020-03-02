@@ -32,9 +32,9 @@ namespace APIMANIFEST.Controllers
             int trId = 0;
 
 
-            string startDate = Convert.ToDateTime("10/02/2020").ToString("dd/MM/yyyy");
-            string endDate = Convert.ToDateTime("10/02/2020").ToString("dd/MM/yyyy");
-            string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=5";
+            string startDate = Convert.ToDateTime("27/02/2020").ToString("dd/MM/yyyy");
+            string endDate = Convert.ToDateTime("27/02/2020").ToString("dd/MM/yyyy");
+            string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=100000";
 
             //string url = "https://www.deltacargo.com/Cargo/trackShipment?awbNumber=00623405023&timeZoneOffset=300";
             HtmlWeb htmlWeb = new HtmlWeb();
@@ -295,6 +295,9 @@ namespace APIMANIFEST.Controllers
                             {
                                 element = chromeDriver.FindElementById("airwayBills0.awbNumber");
                                 Thread.Sleep(3000);
+                                //001 - 37606004
+
+                                //001 - 07518840
                                 element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
                                 element = chromeDriver.FindElementByName("track10Search");
                                 element.Click();
@@ -311,7 +314,8 @@ namespace APIMANIFEST.Controllers
                                     try
                                     {
                                         Thread.Sleep(600000);
-                                        //chromeDriver.Quit();
+                                        chromeDriver.Quit();
+                                        Thread.Sleep(3000);
                                         chromeDriver.Navigate().GoToUrl(url);
                                         element = chromeDriver.FindElementById("airwayBills0.awbNumber");
                                         Thread.Sleep(3000);
@@ -330,7 +334,7 @@ namespace APIMANIFEST.Controllers
 
                                 }
                             }
-                            if (awbDetails.Count() > 0 && awbDetails.First().Text != null)
+                            if (awbDetails.Count() > 0 && awbDetails.First().Text != "0")
                             {
                                 trackObj = new TBL_ADU_TRACK();
                                 trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
@@ -378,7 +382,7 @@ namespace APIMANIFEST.Controllers
                             chromeDriver.Navigate().GoToUrl(url);
                             try
                             {
-                                Thread.Sleep(10000);
+                                Thread.Sleep(20000);
                                 IReadOnlyCollection<IWebElement> tableRows = chromeDriver.FindElementsByCssSelector("div#track-cargo-resp table tbody tr td");
                                 IWebElement captionElement = chromeDriver.FindElementByCssSelector("div#track-cargo-resp table caption.main-info span.pull-right");
                                 if (tableRows.Count() > 0 && captionElement != null)
@@ -431,7 +435,8 @@ namespace APIMANIFEST.Controllers
                             }
                             chromeDriver.Quit();
                             break;
-                            case "044": case "230":
+                        case "044":
+                        case "230":
                             chromeDriver = new ChromeDriver(options);
                             url = $"{webTrackingObj.VCH_LINK}?AWBPrefix={masterGuidePrefix}&AWBNo={item.VCH_DIRECTMASTERGUIDE.Substring(3, 8)}";
                             chromeDriver.Navigate().GoToUrl(url);
@@ -460,7 +465,8 @@ namespace APIMANIFEST.Controllers
                             }
                             chromeDriver.Quit();
                             break;
-                        case "057": case "074":
+                        case "057":
+                        case "074":
                             chromeDriver = new ChromeDriver(options);
                             url = $"{webTrackingObj.VCH_LINK}/{masterGuidePrefix}-{item.VCH_DIRECTMASTERGUIDE.Substring(3, 8)}";
                             chromeDriver.Navigate().GoToUrl(url);

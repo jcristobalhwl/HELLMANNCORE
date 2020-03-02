@@ -97,15 +97,15 @@
           <Property Name="VCH_TERMINALCODE" Type="varchar(max)" />
           <Property Name="VCH_SHIPMENTPORT" Type="varchar(max)" />
           <Property Name="DEC_WEIGHTORIGIN" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="INT_PACKAGEORIGIN" Type="int" />
           <Property Name="DEC_WEIGHTRECEIVED" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="INT_PACKAGERECEIVED" Type="int" />
           <Property Name="VCH_CONSIGNEE" Type="varchar(max)" />
           <Property Name="VCH_DESTINATIONPORT" Type="varchar(max)" />
           <Property Name="VCH_TRANSMISSIONDATE" Type="varchar" MaxLength="23" />
           <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="VCH_SHIPPER" Type="varchar(max)" />
           <Property Name="DEC_MANIFESTEDWEIGHT" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="INT_PACKAGEORIGIN" Type="int" />
+          <Property Name="INT_PACKAGERECEIVED" Type="int" />
           <Property Name="INT_MANIFESTEDPACKAGE" Type="int" />
         </EntityType>
         <EntityType Name="TBL_ADU_TRACK">
@@ -385,201 +385,227 @@
           <EntitySet Name="TBL_MAN_MANIFEST" EntityType="Self.TBL_MAN_MANIFEST" />
           <FunctionImport Name="InsertAndGetManifests" EntitySet="TBL_MAN_MANIFEST" ReturnType="Collection(DB_MANIFESTModel.TBL_MAN_MANIFEST)" />
         </EntityContainer>
+        <ComplexType Name="SP_MANIFEST_Result">
+          <Property Type="Int32" Name="INT_MANIFESTID" Nullable="false" />
+          <Property Type="Int32" Name="INT_DAY" Nullable="true" />
+          <Property Type="Int32" Name="INT_MONTH" Nullable="true" />
+          <Property Type="Int32" Name="INT_YEAR" Nullable="true" />
+          <Property Type="Int32" Name="INT_WEEK" Nullable="true" />
+          <Property Type="String" Name="VCH_AIRLINE" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="VCH_FLIGHTNUMBER" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="VCH_AIRGUIDE" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="VCH_DIRECTMASTERGUIDE" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="VCH_DESCRIPTION" Nullable="true" />
+          <Property Type="String" Name="VCH_TERMINALCODE" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="DEC_WEIGHTORIGIN" Nullable="true" Precision="6" Scale="2" />
+          <Property Type="Int32" Name="INT_PACKAGEORIGIN" Nullable="true" />
+          <Property Type="Decimal" Name="DEC_MANIFESTEDWEIGHT" Nullable="true" Precision="6" Scale="2" />
+          <Property Type="Int32" Name="INT_MANIFESTEDPACKAGE" Nullable="true" />
+          <Property Type="Decimal" Name="DEC_WEIGHTRECEIVED" Nullable="true" Precision="6" Scale="2" />
+          <Property Type="Int32" Name="INT_PACKAGERECEIVED" Nullable="true" />
+          <Property Type="String" Name="VCH_CONSIGNEE" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="DAT_DATETRANSMISSIONDOCUMENT" Nullable="true" Precision="23" />
+          <Property Type="String" Name="VCH_ANOTHERAGENT" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VCH_DESTINATION" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VCH_SHIPPER" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VCH_ORIGIN" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="DAT_DEPARTUREDATE" Nullable="true" Precision="23" />
+          <Property Type="String" Name="VCH_MANIFESTNUMBER" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DB_MANIFESTModelStoreContainer" CdmEntityContainer="DB_MANIFEST">
-          <EntitySetMapping Name="TBL_ADU_ADUANAAGENT">
-            <EntityTypeMapping TypeName="DB_MANIFESTModel.TBL_ADU_ADUANAAGENT">
-              <MappingFragment StoreEntitySet="TBL_ADU_ADUANAAGENT">
-                <ScalarProperty Name="INT_ADUANAAGENTID" ColumnName="INT_ADUANAAGENTID" />
-                <ScalarProperty Name="VCH_SUNATCODE" ColumnName="VCH_SUNATCODE" />
-                <ScalarProperty Name="VCH_BUSINESSNAME" ColumnName="VCH_BUSINESSNAME" />
-                <ScalarProperty Name="VCH_SUNATJURISDICTIONCODE" ColumnName="VCH_SUNATJURISDICTIONCODE" />
-                <ScalarProperty Name="VCH_JURISDICTION" ColumnName="VCH_JURISDICTION" />
-                <ScalarProperty Name="VCH_STATE" ColumnName="VCH_STATE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBL_ADU_ADUANADESTINATION">
-            <EntityTypeMapping TypeName="DB_MANIFESTModel.TBL_ADU_ADUANADESTINATION">
-              <MappingFragment StoreEntitySet="TBL_ADU_ADUANADESTINATION">
-                <ScalarProperty Name="NUM_ADUANADESTINATIONID" ColumnName="NUM_ADUANADESTINATIONID" />
-                <ScalarProperty Name="VCH_MANIFEST" ColumnName="VCH_MANIFEST" />
-                <ScalarProperty Name="INT_SEC" ColumnName="INT_SEC" />
-                <ScalarProperty Name="VCH_DUANUMBER" ColumnName="VCH_DUANUMBER" />
-                <ScalarProperty Name="VCH_DATENUMBERING" ColumnName="VCH_DATENUMBERING" />
-                <ScalarProperty Name="INT_DETAIL" ColumnName="INT_DETAIL" />
-                <ScalarProperty Name="VCH_AGENT" ColumnName="VCH_AGENT" />
-                <ScalarProperty Name="NUM_WEIGHTREQUESTED" ColumnName="NUM_WEIGHTREQUESTED" />
-                <ScalarProperty Name="INT_PACKAGEREQUESTED" ColumnName="INT_PACKAGEREQUESTED" />
-                <ScalarProperty Name="VCH_DATEDATED" ColumnName="VCH_DATEDATED" />
-                <ScalarProperty Name="DEC_MANIFESTSHIPDETDOCID" ColumnName="DEC_MANIFESTSHIPDETDOCID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBL_ADU_MANIFEST">
-            <EntityTypeMapping TypeName="DB_MANIFESTModel.TBL_ADU_MANIFEST">
-              <MappingFragment StoreEntitySet="TBL_ADU_MANIFEST">
-                <ScalarProperty Name="NUM_MANIFESTID" ColumnName="NUM_MANIFESTID" />
-                <ScalarProperty Name="VCH_MANIFESTNUMBER" ColumnName="VCH_MANIFESTNUMBER" />
-                <ScalarProperty Name="VCH_TERMINAL" ColumnName="VCH_TERMINAL" />
-                <ScalarProperty Name="VCH_AIRLINE" ColumnName="VCH_AIRLINE" />
-                <ScalarProperty Name="VCH_SHIPMENTPORT" ColumnName="VCH_SHIPMENTPORT" />
-                <ScalarProperty Name="VCH_FLIGHTNUMBER" ColumnName="VCH_FLIGHTNUMBER" />
-                <ScalarProperty Name="DAT_DEPARTUREDATE" ColumnName="DAT_DEPARTUREDATE" />
-                <ScalarProperty Name="CHR_REGIME" ColumnName="CHR_REGIME" />
-                <ScalarProperty Name="CHR_VIA" ColumnName="CHR_VIA" />
-                <ScalarProperty Name="BIT_COMPLETED" ColumnName="BIT_COMPLETED" />
-                <ScalarProperty Name="DAT_DOWNLOADDATE" ColumnName="DAT_DOWNLOADDATE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBL_ADU_MANIFESTSHIPMENTDETAILDOC">
-            <EntityTypeMapping TypeName="DB_MANIFESTModel.TBL_ADU_MANIFESTSHIPMENTDETAILDOC">
-              <MappingFragment StoreEntitySet="TBL_ADU_MANIFESTSHIPMENTDETAILDOC">
-                <ScalarProperty Name="NUM_MANIFESTID" ColumnName="NUM_MANIFESTID" />
-                <ScalarProperty Name="VCH_AIRGUIDE" ColumnName="VCH_AIRGUIDE" />
-                <ScalarProperty Name="VCH_DIRECTMASTERGUIDE" ColumnName="VCH_DIRECTMASTERGUIDE" />
-                <ScalarProperty Name="VCH_DETAIL" ColumnName="VCH_DETAIL" />
-                <ScalarProperty Name="VCH_TERMINALCODE" ColumnName="VCH_TERMINALCODE" />
-                <ScalarProperty Name="DEC_WEIGHTORIGIN" ColumnName="DEC_WEIGHTORIGIN" />
-                <ScalarProperty Name="INT_PACKAGEORIGIN" ColumnName="INT_PACKAGEORIGIN" />
-                <ScalarProperty Name="DEC_WEIGHTRECEIVED" ColumnName="DEC_WEIGHTRECEIVED" />
-                <ScalarProperty Name="INT_PACKAGERECEIVED" ColumnName="INT_PACKAGERECEIVED" />
-                <ScalarProperty Name="VCH_CONSIGNEE" ColumnName="VCH_CONSIGNEE" />
-                <ScalarProperty Name="DAT_DATETRANSMISSIONDOCUMENT" ColumnName="DAT_DATETRANSMISSIONDOCUMENT" />
-                <ScalarProperty Name="VCH_DESCRIPTION" ColumnName="VCH_DESCRIPTION" />
-                <ScalarProperty Name="DEC_MANIFESTEDWEIGHT" ColumnName="DEC_MANIFESTEDWEIGHT" />
-                <ScalarProperty Name="INT_MANIFESTEDPACKAGE" ColumnName="INT_MANIFESTEDPACKAGE" />
-                <ScalarProperty Name="VCH_SHIPPER" ColumnName="VCH_SHIPPER" />
-                <ScalarProperty Name="DEC_MANIFESTSHIPDETDOCID" ColumnName="DEC_MANIFESTSHIPDETDOCID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBL_ADU_MANIFESTSHIPMENTDOC">
-            <EntityTypeMapping TypeName="DB_MANIFESTModel.TBL_ADU_MANIFESTSHIPMENTDOC">
-              <MappingFragment StoreEntitySet="TBL_ADU_MANIFESTSHIPMENTDOC">
-                <ScalarProperty Name="NUM_MANIFESTSHIPMENTDOCID" ColumnName="NUM_MANIFESTSHIPMENTDOCID" />
-                <ScalarProperty Name="NUM_MANIFESTID" ColumnName="NUM_MANIFESTID" />
-                <ScalarProperty Name="VCH_MANIFESTNUMBER" ColumnName="VCH_MANIFESTNUMBER" />
-                <ScalarProperty Name="INT_DETAILSNUMBER" ColumnName="INT_DETAILSNUMBER" />
-                <ScalarProperty Name="DAT_DEPARTUREDATE" ColumnName="DAT_DEPARTUREDATE" />
-                <ScalarProperty Name="DEC_GROSSWEIGHT" ColumnName="DEC_GROSSWEIGHT" />
-                <ScalarProperty Name="VCH_AIRLINE" ColumnName="VCH_AIRLINE" />
-                <ScalarProperty Name="VCH_NATIONALITY" ColumnName="VCH_NATIONALITY" />
-                <ScalarProperty Name="VCH_FLIGHTNUMBER" ColumnName="VCH_FLIGHTNUMBER" />
-                <ScalarProperty Name="INT_PACKAGES" ColumnName="INT_PACKAGES" />
-                <ScalarProperty Name="VCH_FINALDATEBOARD" ColumnName="VCH_FINALDATEBOARD" />
-                <ScalarProperty Name="VCH_DATEAUTHORIZATIONBOARD" ColumnName="VCH_DATEAUTHORIZATIONBOARD" />
-                <ScalarProperty Name="VCH_MANIFESTTRANSMISSIONDATE" ColumnName="VCH_MANIFESTTRANSMISSIONDATE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBL_ADU_MASTERINFORMATION">
-            <EntityTypeMapping TypeName="DB_MANIFESTModel.TBL_ADU_MASTERINFORMATION">
-              <MappingFragment StoreEntitySet="TBL_ADU_MASTERINFORMATION">
-                <ScalarProperty Name="INT_MANIFESTEDPACKAGE" ColumnName="INT_MANIFESTEDPACKAGE" />
-                <ScalarProperty Name="INT_PACKAGERECEIVED" ColumnName="INT_PACKAGERECEIVED" />
-                <ScalarProperty Name="INT_PACKAGEORIGIN" ColumnName="INT_PACKAGEORIGIN" />
-                <ScalarProperty Name="DEC_MASTERINFORMATIONID" ColumnName="DEC_MASTERINFORMATIONID" />
-                <ScalarProperty Name="VCH_MANIFEST" ColumnName="VCH_MANIFEST" />
-                <ScalarProperty Name="INT_DETAILNUMBER" ColumnName="INT_DETAILNUMBER" />
-                <ScalarProperty Name="VCH_TERMINALCODE" ColumnName="VCH_TERMINALCODE" />
-                <ScalarProperty Name="VCH_SHIPMENTPORT" ColumnName="VCH_SHIPMENTPORT" />
-                <ScalarProperty Name="DEC_WEIGHTORIGIN" ColumnName="DEC_WEIGHTORIGIN" />
-                <ScalarProperty Name="DEC_WEIGHTRECEIVED" ColumnName="DEC_WEIGHTRECEIVED" />
-                <ScalarProperty Name="VCH_CONSIGNEE" ColumnName="VCH_CONSIGNEE" />
-                <ScalarProperty Name="VCH_DESTINATIONPORT" ColumnName="VCH_DESTINATIONPORT" />
-                <ScalarProperty Name="VCH_TRANSMISSIONDATE" ColumnName="VCH_TRANSMISSIONDATE" />
-                <ScalarProperty Name="DEC_MANIFESTSHIPDETDOCID" ColumnName="DEC_MANIFESTSHIPDETDOCID" />
-                <ScalarProperty Name="VCH_SHIPPER" ColumnName="VCH_SHIPPER" />
-                <ScalarProperty Name="DEC_MANIFESTEDWEIGHT" ColumnName="DEC_MANIFESTEDWEIGHT" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBL_ADU_TRACK">
-            <EntityTypeMapping TypeName="DB_MANIFESTModel.TBL_ADU_TRACK">
-              <MappingFragment StoreEntitySet="TBL_ADU_TRACK">
-                <ScalarProperty Name="INT_TRACKID" ColumnName="INT_TRACKID" />
-                <ScalarProperty Name="NUM_MANIFESTSHIPDETDOCID" ColumnName="NUM_MANIFESTSHIPDETDOCID" />
-                <ScalarProperty Name="VCH_DIRECTMASTERGUIDE" ColumnName="VCH_DIRECTMASTERGUIDE" />
-                <ScalarProperty Name="VCH_ORIGIN" ColumnName="VCH_ORIGIN" />
-                <ScalarProperty Name="VCH_DESTINATION" ColumnName="VCH_DESTINATION" />
-                <ScalarProperty Name="VCH_CONNECTION" ColumnName="VCH_CONNECTION" />
-                <ScalarProperty Name="INT_PIECES" ColumnName="INT_PIECES" />
-                <ScalarProperty Name="NUM_WEIGHT" ColumnName="NUM_WEIGHT" />
-                <ScalarProperty Name="NUM_VOLUME" ColumnName="NUM_VOLUME" />
-                <ScalarProperty Name="VCH_PRODUCT" ColumnName="VCH_PRODUCT" />
-                <ScalarProperty Name="VCH_STATUS" ColumnName="VCH_STATUS" />
-                <ScalarProperty Name="VCH_CONFIRMATION" ColumnName="VCH_CONFIRMATION" />
-                <ScalarProperty Name="VCH_SERVICE" ColumnName="VCH_SERVICE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBL_ADU_WAREDESCRIPTION">
-            <EntityTypeMapping TypeName="DB_MANIFESTModel.TBL_ADU_WAREDESCRIPTION">
-              <MappingFragment StoreEntitySet="TBL_ADU_WAREDESCRIPTION">
-                <ScalarProperty Name="DEC_WAREDESCRIPTION" ColumnName="DEC_WAREDESCRIPTION" />
-                <ScalarProperty Name="VCH_MANIFEST" ColumnName="VCH_MANIFEST" />
-                <ScalarProperty Name="INT_PACKAGES" ColumnName="INT_PACKAGES" />
-                <ScalarProperty Name="DEC_GROSSWEIGHT" ColumnName="DEC_GROSSWEIGHT" />
-                <ScalarProperty Name="VCH_PACKING" ColumnName="VCH_PACKING" />
-                <ScalarProperty Name="VCH_CONSIGNEE" ColumnName="VCH_CONSIGNEE" />
-                <ScalarProperty Name="VCH_MARKSANDNUMBERS" ColumnName="VCH_MARKSANDNUMBERS" />
-                <ScalarProperty Name="VCH_DESCRIPTION" ColumnName="VCH_DESCRIPTION" />
-                <ScalarProperty Name="DEC_MANIFESTSHIPDETDOCID" ColumnName="DEC_MANIFESTSHIPDETDOCID" />
-                <ScalarProperty Name="VCH_SHIPPER" ColumnName="VCH_SHIPPER" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBL_ADU_WEBTRACKING">
-            <EntityTypeMapping TypeName="DB_MANIFESTModel.TBL_ADU_WEBTRACKING">
-              <MappingFragment StoreEntitySet="TBL_ADU_WEBTRACKING">
-                <ScalarProperty Name="INT_WEBTRACKINGID" ColumnName="INT_WEBTRACKINGID" />
-                <ScalarProperty Name="CHR_PREFIX" ColumnName="CHR_PREFIX" />
-                <ScalarProperty Name="VCH_AIRLINE" ColumnName="VCH_AIRLINE" />
-                <ScalarProperty Name="VCH_LINK" ColumnName="VCH_LINK" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBL_MAN_MANIFEST">
-            <EntityTypeMapping TypeName="DB_MANIFESTModel.TBL_MAN_MANIFEST">
-              <MappingFragment StoreEntitySet="TBL_MAN_MANIFEST">
-                <ScalarProperty Name="INT_MANIFESTID" ColumnName="INT_MANIFESTID" />
-                <ScalarProperty Name="INT_DAY" ColumnName="INT_DAY" />
-                <ScalarProperty Name="INT_MONTH" ColumnName="INT_MONTH" />
-                <ScalarProperty Name="INT_YEAR" ColumnName="INT_YEAR" />
-                <ScalarProperty Name="INT_WEEK" ColumnName="INT_WEEK" />
-                <ScalarProperty Name="VCH_AIRLINE" ColumnName="VCH_AIRLINE" />
-                <ScalarProperty Name="VCH_FLIGHTNUMBER" ColumnName="VCH_FLIGHTNUMBER" />
-                <ScalarProperty Name="VCH_AIRGUIDE" ColumnName="VCH_AIRGUIDE" />
-                <ScalarProperty Name="VCH_DIRECTMASTERGUIDE" ColumnName="VCH_DIRECTMASTERGUIDE" />
-                <ScalarProperty Name="VCH_DESCRIPTION" ColumnName="VCH_DESCRIPTION" />
-                <ScalarProperty Name="VCH_TERMINALCODE" ColumnName="VCH_TERMINALCODE" />
-                <ScalarProperty Name="DEC_WEIGHTORIGIN" ColumnName="DEC_WEIGHTORIGIN" />
-                <ScalarProperty Name="INT_PACKAGEORIGIN" ColumnName="INT_PACKAGEORIGIN" />
-                <ScalarProperty Name="DEC_MANIFESTEDWEIGHT" ColumnName="DEC_MANIFESTEDWEIGHT" />
-                <ScalarProperty Name="INT_MANIFESTEDPACKAGE" ColumnName="INT_MANIFESTEDPACKAGE" />
-                <ScalarProperty Name="DEC_WEIGHTRECEIVED" ColumnName="DEC_WEIGHTRECEIVED" />
-                <ScalarProperty Name="INT_PACKAGERECEIVED" ColumnName="INT_PACKAGERECEIVED" />
-                <ScalarProperty Name="VCH_CONSIGNEE" ColumnName="VCH_CONSIGNEE" />
-                <ScalarProperty Name="DAT_DATETRANSMISSIONDOCUMENT" ColumnName="DAT_DATETRANSMISSIONDOCUMENT" />
-                <ScalarProperty Name="VCH_ANOTHERAGENT" ColumnName="VCH_ANOTHERAGENT" />
-                <ScalarProperty Name="VCH_DESTINATION" ColumnName="VCH_DESTINATION" />
-                <ScalarProperty Name="VCH_SHIPPER" ColumnName="VCH_SHIPPER" />
-                <ScalarProperty Name="VCH_ORIGIN" ColumnName="VCH_ORIGIN" />
-                <ScalarProperty Name="DAT_DEPARTUREDATE" ColumnName="DAT_DEPARTUREDATE" />
-                <ScalarProperty Name="VCH_MANIFESTNUMBER" ColumnName="VCH_MANIFESTNUMBER" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DB_MANIFESTModelStoreContainer" CdmEntityContainer="DB_MANIFEST">
+    <EntitySetMapping Name="TBL_ADU_ADUANAAGENT">
+      <EntityTypeMapping TypeName="IsTypeOf(DB_MANIFESTModel.TBL_ADU_ADUANAAGENT)">
+        <MappingFragment StoreEntitySet="TBL_ADU_ADUANAAGENT">
+          <ScalarProperty Name="INT_ADUANAAGENTID" ColumnName="INT_ADUANAAGENTID" />
+          <ScalarProperty Name="VCH_SUNATCODE" ColumnName="VCH_SUNATCODE" />
+          <ScalarProperty Name="VCH_BUSINESSNAME" ColumnName="VCH_BUSINESSNAME" />
+          <ScalarProperty Name="VCH_SUNATJURISDICTIONCODE" ColumnName="VCH_SUNATJURISDICTIONCODE" />
+          <ScalarProperty Name="VCH_JURISDICTION" ColumnName="VCH_JURISDICTION" />
+          <ScalarProperty Name="VCH_STATE" ColumnName="VCH_STATE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_ADU_ADUANADESTINATION">
+      <EntityTypeMapping TypeName="IsTypeOf(DB_MANIFESTModel.TBL_ADU_ADUANADESTINATION)">
+        <MappingFragment StoreEntitySet="TBL_ADU_ADUANADESTINATION">
+          <ScalarProperty Name="NUM_ADUANADESTINATIONID" ColumnName="NUM_ADUANADESTINATIONID" />
+          <ScalarProperty Name="VCH_MANIFEST" ColumnName="VCH_MANIFEST" />
+          <ScalarProperty Name="INT_SEC" ColumnName="INT_SEC" />
+          <ScalarProperty Name="VCH_DUANUMBER" ColumnName="VCH_DUANUMBER" />
+          <ScalarProperty Name="VCH_DATENUMBERING" ColumnName="VCH_DATENUMBERING" />
+          <ScalarProperty Name="INT_DETAIL" ColumnName="INT_DETAIL" />
+          <ScalarProperty Name="VCH_AGENT" ColumnName="VCH_AGENT" />
+          <ScalarProperty Name="NUM_WEIGHTREQUESTED" ColumnName="NUM_WEIGHTREQUESTED" />
+          <ScalarProperty Name="INT_PACKAGEREQUESTED" ColumnName="INT_PACKAGEREQUESTED" />
+          <ScalarProperty Name="VCH_DATEDATED" ColumnName="VCH_DATEDATED" />
+          <ScalarProperty Name="DEC_MANIFESTSHIPDETDOCID" ColumnName="DEC_MANIFESTSHIPDETDOCID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_ADU_MANIFEST">
+      <EntityTypeMapping TypeName="IsTypeOf(DB_MANIFESTModel.TBL_ADU_MANIFEST)">
+        <MappingFragment StoreEntitySet="TBL_ADU_MANIFEST">
+          <ScalarProperty Name="NUM_MANIFESTID" ColumnName="NUM_MANIFESTID" />
+          <ScalarProperty Name="VCH_MANIFESTNUMBER" ColumnName="VCH_MANIFESTNUMBER" />
+          <ScalarProperty Name="VCH_TERMINAL" ColumnName="VCH_TERMINAL" />
+          <ScalarProperty Name="VCH_AIRLINE" ColumnName="VCH_AIRLINE" />
+          <ScalarProperty Name="VCH_SHIPMENTPORT" ColumnName="VCH_SHIPMENTPORT" />
+          <ScalarProperty Name="VCH_FLIGHTNUMBER" ColumnName="VCH_FLIGHTNUMBER" />
+          <ScalarProperty Name="DAT_DEPARTUREDATE" ColumnName="DAT_DEPARTUREDATE" />
+          <ScalarProperty Name="CHR_REGIME" ColumnName="CHR_REGIME" />
+          <ScalarProperty Name="CHR_VIA" ColumnName="CHR_VIA" />
+          <ScalarProperty Name="BIT_COMPLETED" ColumnName="BIT_COMPLETED" />
+          <ScalarProperty Name="DAT_DOWNLOADDATE" ColumnName="DAT_DOWNLOADDATE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_ADU_MANIFESTSHIPMENTDETAILDOC">
+      <EntityTypeMapping TypeName="IsTypeOf(DB_MANIFESTModel.TBL_ADU_MANIFESTSHIPMENTDETAILDOC)">
+        <MappingFragment StoreEntitySet="TBL_ADU_MANIFESTSHIPMENTDETAILDOC">
+          <ScalarProperty Name="DEC_MANIFESTSHIPDETDOCID" ColumnName="DEC_MANIFESTSHIPDETDOCID" />
+          <ScalarProperty Name="NUM_MANIFESTID" ColumnName="NUM_MANIFESTID" />
+          <ScalarProperty Name="VCH_AIRGUIDE" ColumnName="VCH_AIRGUIDE" />
+          <ScalarProperty Name="VCH_DIRECTMASTERGUIDE" ColumnName="VCH_DIRECTMASTERGUIDE" />
+          <ScalarProperty Name="VCH_DETAIL" ColumnName="VCH_DETAIL" />
+          <ScalarProperty Name="VCH_TERMINALCODE" ColumnName="VCH_TERMINALCODE" />
+          <ScalarProperty Name="DEC_WEIGHTORIGIN" ColumnName="DEC_WEIGHTORIGIN" />
+          <ScalarProperty Name="INT_PACKAGEORIGIN" ColumnName="INT_PACKAGEORIGIN" />
+          <ScalarProperty Name="DEC_WEIGHTRECEIVED" ColumnName="DEC_WEIGHTRECEIVED" />
+          <ScalarProperty Name="INT_PACKAGERECEIVED" ColumnName="INT_PACKAGERECEIVED" />
+          <ScalarProperty Name="VCH_CONSIGNEE" ColumnName="VCH_CONSIGNEE" />
+          <ScalarProperty Name="DAT_DATETRANSMISSIONDOCUMENT" ColumnName="DAT_DATETRANSMISSIONDOCUMENT" />
+          <ScalarProperty Name="VCH_DESCRIPTION" ColumnName="VCH_DESCRIPTION" />
+          <ScalarProperty Name="DEC_MANIFESTEDWEIGHT" ColumnName="DEC_MANIFESTEDWEIGHT" />
+          <ScalarProperty Name="INT_MANIFESTEDPACKAGE" ColumnName="INT_MANIFESTEDPACKAGE" />
+          <ScalarProperty Name="VCH_SHIPPER" ColumnName="VCH_SHIPPER" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_ADU_MANIFESTSHIPMENTDOC">
+      <EntityTypeMapping TypeName="IsTypeOf(DB_MANIFESTModel.TBL_ADU_MANIFESTSHIPMENTDOC)">
+        <MappingFragment StoreEntitySet="TBL_ADU_MANIFESTSHIPMENTDOC">
+          <ScalarProperty Name="NUM_MANIFESTSHIPMENTDOCID" ColumnName="NUM_MANIFESTSHIPMENTDOCID" />
+          <ScalarProperty Name="NUM_MANIFESTID" ColumnName="NUM_MANIFESTID" />
+          <ScalarProperty Name="VCH_MANIFESTNUMBER" ColumnName="VCH_MANIFESTNUMBER" />
+          <ScalarProperty Name="INT_DETAILSNUMBER" ColumnName="INT_DETAILSNUMBER" />
+          <ScalarProperty Name="DAT_DEPARTUREDATE" ColumnName="DAT_DEPARTUREDATE" />
+          <ScalarProperty Name="DEC_GROSSWEIGHT" ColumnName="DEC_GROSSWEIGHT" />
+          <ScalarProperty Name="VCH_AIRLINE" ColumnName="VCH_AIRLINE" />
+          <ScalarProperty Name="VCH_NATIONALITY" ColumnName="VCH_NATIONALITY" />
+          <ScalarProperty Name="VCH_FLIGHTNUMBER" ColumnName="VCH_FLIGHTNUMBER" />
+          <ScalarProperty Name="INT_PACKAGES" ColumnName="INT_PACKAGES" />
+          <ScalarProperty Name="VCH_FINALDATEBOARD" ColumnName="VCH_FINALDATEBOARD" />
+          <ScalarProperty Name="VCH_DATEAUTHORIZATIONBOARD" ColumnName="VCH_DATEAUTHORIZATIONBOARD" />
+          <ScalarProperty Name="VCH_MANIFESTTRANSMISSIONDATE" ColumnName="VCH_MANIFESTTRANSMISSIONDATE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_ADU_MASTERINFORMATION">
+      <EntityTypeMapping TypeName="IsTypeOf(DB_MANIFESTModel.TBL_ADU_MASTERINFORMATION)">
+        <MappingFragment StoreEntitySet="TBL_ADU_MASTERINFORMATION">
+          <ScalarProperty Name="DEC_MASTERINFORMATIONID" ColumnName="DEC_MASTERINFORMATIONID" />
+          <ScalarProperty Name="VCH_MANIFEST" ColumnName="VCH_MANIFEST" />
+          <ScalarProperty Name="INT_DETAILNUMBER" ColumnName="INT_DETAILNUMBER" />
+          <ScalarProperty Name="VCH_TERMINALCODE" ColumnName="VCH_TERMINALCODE" />
+          <ScalarProperty Name="VCH_SHIPMENTPORT" ColumnName="VCH_SHIPMENTPORT" />
+          <ScalarProperty Name="DEC_WEIGHTORIGIN" ColumnName="DEC_WEIGHTORIGIN" />
+          <ScalarProperty Name="DEC_WEIGHTRECEIVED" ColumnName="DEC_WEIGHTRECEIVED" />
+          <ScalarProperty Name="VCH_CONSIGNEE" ColumnName="VCH_CONSIGNEE" />
+          <ScalarProperty Name="VCH_DESTINATIONPORT" ColumnName="VCH_DESTINATIONPORT" />
+          <ScalarProperty Name="VCH_TRANSMISSIONDATE" ColumnName="VCH_TRANSMISSIONDATE" />
+          <ScalarProperty Name="DEC_MANIFESTSHIPDETDOCID" ColumnName="DEC_MANIFESTSHIPDETDOCID" />
+          <ScalarProperty Name="VCH_SHIPPER" ColumnName="VCH_SHIPPER" />
+          <ScalarProperty Name="DEC_MANIFESTEDWEIGHT" ColumnName="DEC_MANIFESTEDWEIGHT" />
+          <ScalarProperty Name="INT_PACKAGEORIGIN" ColumnName="INT_PACKAGEORIGIN" />
+          <ScalarProperty Name="INT_PACKAGERECEIVED" ColumnName="INT_PACKAGERECEIVED" />
+          <ScalarProperty Name="INT_MANIFESTEDPACKAGE" ColumnName="INT_MANIFESTEDPACKAGE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_ADU_TRACK">
+      <EntityTypeMapping TypeName="IsTypeOf(DB_MANIFESTModel.TBL_ADU_TRACK)">
+        <MappingFragment StoreEntitySet="TBL_ADU_TRACK">
+          <ScalarProperty Name="INT_TRACKID" ColumnName="INT_TRACKID" />
+          <ScalarProperty Name="NUM_MANIFESTSHIPDETDOCID" ColumnName="NUM_MANIFESTSHIPDETDOCID" />
+          <ScalarProperty Name="VCH_DIRECTMASTERGUIDE" ColumnName="VCH_DIRECTMASTERGUIDE" />
+          <ScalarProperty Name="VCH_ORIGIN" ColumnName="VCH_ORIGIN" />
+          <ScalarProperty Name="VCH_DESTINATION" ColumnName="VCH_DESTINATION" />
+          <ScalarProperty Name="VCH_CONNECTION" ColumnName="VCH_CONNECTION" />
+          <ScalarProperty Name="INT_PIECES" ColumnName="INT_PIECES" />
+          <ScalarProperty Name="NUM_WEIGHT" ColumnName="NUM_WEIGHT" />
+          <ScalarProperty Name="NUM_VOLUME" ColumnName="NUM_VOLUME" />
+          <ScalarProperty Name="VCH_PRODUCT" ColumnName="VCH_PRODUCT" />
+          <ScalarProperty Name="VCH_STATUS" ColumnName="VCH_STATUS" />
+          <ScalarProperty Name="VCH_CONFIRMATION" ColumnName="VCH_CONFIRMATION" />
+          <ScalarProperty Name="VCH_SERVICE" ColumnName="VCH_SERVICE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_ADU_WAREDESCRIPTION">
+      <EntityTypeMapping TypeName="IsTypeOf(DB_MANIFESTModel.TBL_ADU_WAREDESCRIPTION)">
+        <MappingFragment StoreEntitySet="TBL_ADU_WAREDESCRIPTION">
+          <ScalarProperty Name="DEC_WAREDESCRIPTION" ColumnName="DEC_WAREDESCRIPTION" />
+          <ScalarProperty Name="VCH_MANIFEST" ColumnName="VCH_MANIFEST" />
+          <ScalarProperty Name="INT_PACKAGES" ColumnName="INT_PACKAGES" />
+          <ScalarProperty Name="DEC_GROSSWEIGHT" ColumnName="DEC_GROSSWEIGHT" />
+          <ScalarProperty Name="VCH_PACKING" ColumnName="VCH_PACKING" />
+          <ScalarProperty Name="VCH_CONSIGNEE" ColumnName="VCH_CONSIGNEE" />
+          <ScalarProperty Name="VCH_MARKSANDNUMBERS" ColumnName="VCH_MARKSANDNUMBERS" />
+          <ScalarProperty Name="VCH_DESCRIPTION" ColumnName="VCH_DESCRIPTION" />
+          <ScalarProperty Name="DEC_MANIFESTSHIPDETDOCID" ColumnName="DEC_MANIFESTSHIPDETDOCID" />
+          <ScalarProperty Name="VCH_SHIPPER" ColumnName="VCH_SHIPPER" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_ADU_WEBTRACKING">
+      <EntityTypeMapping TypeName="IsTypeOf(DB_MANIFESTModel.TBL_ADU_WEBTRACKING)">
+        <MappingFragment StoreEntitySet="TBL_ADU_WEBTRACKING">
+          <ScalarProperty Name="INT_WEBTRACKINGID" ColumnName="INT_WEBTRACKINGID" />
+          <ScalarProperty Name="CHR_PREFIX" ColumnName="CHR_PREFIX" />
+          <ScalarProperty Name="VCH_AIRLINE" ColumnName="VCH_AIRLINE" />
+          <ScalarProperty Name="VCH_LINK" ColumnName="VCH_LINK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_MAN_MANIFEST">
+      <EntityTypeMapping TypeName="IsTypeOf(DB_MANIFESTModel.TBL_MAN_MANIFEST)">
+        <MappingFragment StoreEntitySet="TBL_MAN_MANIFEST">
+          <ScalarProperty Name="INT_MANIFESTID" ColumnName="INT_MANIFESTID" />
+          <ScalarProperty Name="INT_DAY" ColumnName="INT_DAY" />
+          <ScalarProperty Name="INT_MONTH" ColumnName="INT_MONTH" />
+          <ScalarProperty Name="INT_YEAR" ColumnName="INT_YEAR" />
+          <ScalarProperty Name="INT_WEEK" ColumnName="INT_WEEK" />
+          <ScalarProperty Name="VCH_AIRLINE" ColumnName="VCH_AIRLINE" />
+          <ScalarProperty Name="VCH_FLIGHTNUMBER" ColumnName="VCH_FLIGHTNUMBER" />
+          <ScalarProperty Name="VCH_AIRGUIDE" ColumnName="VCH_AIRGUIDE" />
+          <ScalarProperty Name="VCH_DIRECTMASTERGUIDE" ColumnName="VCH_DIRECTMASTERGUIDE" />
+          <ScalarProperty Name="VCH_DESCRIPTION" ColumnName="VCH_DESCRIPTION" />
+          <ScalarProperty Name="VCH_TERMINALCODE" ColumnName="VCH_TERMINALCODE" />
+          <ScalarProperty Name="DEC_WEIGHTORIGIN" ColumnName="DEC_WEIGHTORIGIN" />
+          <ScalarProperty Name="INT_PACKAGEORIGIN" ColumnName="INT_PACKAGEORIGIN" />
+          <ScalarProperty Name="DEC_MANIFESTEDWEIGHT" ColumnName="DEC_MANIFESTEDWEIGHT" />
+          <ScalarProperty Name="INT_MANIFESTEDPACKAGE" ColumnName="INT_MANIFESTEDPACKAGE" />
+          <ScalarProperty Name="DEC_WEIGHTRECEIVED" ColumnName="DEC_WEIGHTRECEIVED" />
+          <ScalarProperty Name="INT_PACKAGERECEIVED" ColumnName="INT_PACKAGERECEIVED" />
+          <ScalarProperty Name="VCH_CONSIGNEE" ColumnName="VCH_CONSIGNEE" />
+          <ScalarProperty Name="DAT_DATETRANSMISSIONDOCUMENT" ColumnName="DAT_DATETRANSMISSIONDOCUMENT" />
+          <ScalarProperty Name="VCH_ANOTHERAGENT" ColumnName="VCH_ANOTHERAGENT" />
+          <ScalarProperty Name="VCH_DESTINATION" ColumnName="VCH_DESTINATION" />
+          <ScalarProperty Name="VCH_SHIPPER" ColumnName="VCH_SHIPPER" />
+          <ScalarProperty Name="VCH_ORIGIN" ColumnName="VCH_ORIGIN" />
+          <ScalarProperty Name="DAT_DEPARTUREDATE" ColumnName="DAT_DEPARTUREDATE" />
+          <ScalarProperty Name="VCH_MANIFESTNUMBER" ColumnName="VCH_MANIFESTNUMBER" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="InsertAndGetManifests" FunctionName="DB_MANIFESTModel.Store.SP_MANIFEST" />
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -593,7 +619,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
       </DesignerInfoPropertySet>
     </Options>

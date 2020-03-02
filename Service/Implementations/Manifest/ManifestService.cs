@@ -17,7 +17,7 @@ namespace Service.Implementations.Manifest
         {
             _context = new DB_MANIFEST();
         }
-        public void insertManifest(ref List<TBL_ADU_MANIFEST> manifestList)
+        public void InsertManifest(ref List<TBL_ADU_MANIFEST> manifestList)
         {
             try
             {
@@ -26,11 +26,14 @@ namespace Service.Implementations.Manifest
             }
             catch (Exception ex)
             {
-                _context.Database.Connection.Close();
                 throw ex;
             }
+            finally
+            {
+                _context.Database.Connection.Close();
+            }
         }
-        public void insertManifestShipmentDocument(ref List<TBL_ADU_MANIFESTSHIPMENTDOC> manifestSDList)
+        public void InsertManifestShipmentDocument(ref List<TBL_ADU_MANIFESTSHIPMENTDOC> manifestSDList)
         {
             try
             {
@@ -39,11 +42,14 @@ namespace Service.Implementations.Manifest
             }
             catch (Exception ex)
             {
-                _context.Database.Connection.Close();
                 throw ex;
             }
+            finally
+            {
+                _context.Database.Connection.Close();
+            }
         }
-        public void insertManifestShipmentDetailDocument(ref List<TBL_ADU_MANIFESTSHIPMENTDETAILDOC> manifestSDDetailList)
+        public void InsertManifestShipmentDetailDocument(ref List<TBL_ADU_MANIFESTSHIPMENTDETAILDOC> manifestSDDetailList)
         {
             try
             {
@@ -52,11 +58,14 @@ namespace Service.Implementations.Manifest
             }
             catch (Exception ex)
             {
-                _context.Database.Connection.Close();
                 throw ex;
             }
+            finally
+            {
+                _context.Database.Connection.Close();
+            }
         }
-        public void insertAduanaDestinations(ref List<TBL_ADU_ADUANADESTINATION> aduanaDestinationList)
+        public void InsertAduanaDestinations(ref List<TBL_ADU_ADUANADESTINATION> aduanaDestinationList)
         {
             try
             {
@@ -65,11 +74,14 @@ namespace Service.Implementations.Manifest
             }
             catch (Exception ex)
             {
-                _context.Database.Connection.Close();
                 throw ex;
             }
+            finally
+            {
+                _context.Database.Connection.Close();
+            }
         }
-        public void insertMasterInformation(ref List<TBL_ADU_MASTERINFORMATION> masterInformationList)
+        public void InsertMasterInformation(ref List<TBL_ADU_MASTERINFORMATION> masterInformationList)
         {
             try
             {
@@ -78,11 +90,14 @@ namespace Service.Implementations.Manifest
             }
             catch (Exception ex)
             {
-                _context.Database.Connection.Close();
                 throw ex;
             }
+            finally
+            {
+                _context.Database.Connection.Close();
+            }
         }
-        public void insertWareDescription(ref List<TBL_ADU_WAREDESCRIPTION> manifestSDDetailList)
+        public void InsertWareDescription(ref List<TBL_ADU_WAREDESCRIPTION> manifestSDDetailList)
         {
             try
             {
@@ -91,8 +106,11 @@ namespace Service.Implementations.Manifest
             }
             catch (Exception ex)
             {
-                _context.Database.Connection.Close();
                 throw ex;
+            }
+            finally
+            {
+                _context.Database.Connection.Close();
             }
         }
 
@@ -104,12 +122,15 @@ namespace Service.Implementations.Manifest
             }
             catch (Exception ex)
             {
-                _context.Database.Connection.Close();
                 throw ex;
+            }
+            finally
+            {
+                _context.Database.Connection.Close();
             }
         }
 
-        public void insertTracks(ref List<TBL_ADU_TRACK> trackList)
+        public void InsertTracks(ref List<TBL_ADU_TRACK> trackList)
         {
             try
             {
@@ -118,12 +139,15 @@ namespace Service.Implementations.Manifest
             }
             catch (Exception ex)
             {
-                _context.Database.Connection.Close();
                 throw ex;
+            }
+            finally
+            {
+                _context.Database.Connection.Close();
             }
         }
 
-        public ResponseBase<TBL_MAN_MANIFEST> callStoreProcedureManifest()
+        public ResponseBase<TBL_MAN_MANIFEST> CallStoreProcedureManifest()
         {
             ResponseBase<TBL_MAN_MANIFEST> response;
             try
@@ -136,9 +160,20 @@ namespace Service.Implementations.Manifest
             catch (Exception ex)
             {
                 response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForException(ex);
-                _context.Database.Connection.Close();
                 throw ex;
             }
+            finally
+            {
+                _context.Database.Connection.Close();
+            }
+        }
+
+        public bool UpdateStateManifestDetail(TBL_ADU_MANIFESTSHIPMENTDETAILDOC manifestDetail)
+        {
+            var mDetailFound = _context.TBL_ADU_MANIFESTSHIPMENTDETAILDOC.Find(manifestDetail.DEC_MANIFESTSHIPDETDOCID);
+            mDetailFound.BIT_COMPLETED = manifestDetail.BIT_COMPLETED;
+            _context.SaveChanges();
+            return true;
         }
     }
 }

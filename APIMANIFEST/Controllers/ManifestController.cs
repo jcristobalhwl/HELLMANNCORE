@@ -34,7 +34,7 @@ namespace APIMANIFEST.Controllers
 
             string startDate = Convert.ToDateTime("27/02/2020").ToString("dd/MM/yyyy");
             string endDate = Convert.ToDateTime("27/02/2020").ToString("dd/MM/yyyy");
-            string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=100000";
+            string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=8";
 
             //string url = "https://www.deltacargo.com/Cargo/trackShipment?awbNumber=00623405023&timeZoneOffset=300";
             HtmlWeb htmlWeb = new HtmlWeb();
@@ -74,7 +74,7 @@ namespace APIMANIFEST.Controllers
                         trId++;
                     }
                     manifestList.GroupBy(x => x.VCH_MANIFESTNUMBER).Select(x => x.First()).ToList();
-                    _manifestService.insertManifest(ref manifestList);
+                    _manifestService.InsertManifest(ref manifestList);
                 }
                 tableId++;
             }
@@ -239,8 +239,8 @@ namespace APIMANIFEST.Controllers
                     tableId++;
                 }
             }
-            _manifestService.insertManifestShipmentDocument(ref manifestSDList);
-            _manifestService.insertManifestShipmentDetailDocument(ref manifestSDDetailList);
+            _manifestService.InsertManifestShipmentDocument(ref manifestSDList);
+            _manifestService.InsertManifestShipmentDetailDocument(ref manifestSDDetailList);
             
             #endregion
 
@@ -295,9 +295,6 @@ namespace APIMANIFEST.Controllers
                             {
                                 element = chromeDriver.FindElementById("airwayBills0.awbNumber");
                                 Thread.Sleep(3000);
-                                //001 - 37606004
-
-                                //001 - 07518840
                                 element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
                                 element = chromeDriver.FindElementByName("track10Search");
                                 element.Click();
@@ -306,46 +303,29 @@ namespace APIMANIFEST.Controllers
                                 element.Click();
                                 Thread.Sleep(10000);
                                 awbDetails = chromeDriver.FindElementsByCssSelector("div.awbShipmentDescriptionDetails div.shipData table tr:nth-child(2) td");
+
+                                if (awbDetails.Count() > 0 && awbDetails.First().Text != "0")
+                                {
+                                    trackObj = new TBL_ADU_TRACK();
+                                    trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
+                                    trackObj.VCH_DIRECTMASTERGUIDE = item.VCH_DIRECTMASTERGUIDE;
+                                    trackObj.INT_PIECES = Convert.ToInt32(awbDetails.First().Text);
+                                    trackObj.NUM_WEIGHT = Convert.ToDecimal(awbDetails.ElementAt(2).Text == "L" ? Convert.ToDouble(awbDetails.ElementAt(1).Text) / 2.205 : Convert.ToDouble(awbDetails.ElementAt(1).Text)); //Guardado en kilos;
+                                    trackObj.NUM_VOLUME = Convert.ToDecimal(awbDetails.ElementAt(3).Text.Replace("MC", "").Trim());
+                                    trackObj.VCH_ORIGIN = awbDetails.ElementAt(4).Text;
+                                    trackObj.VCH_DESTINATION = awbDetails.ElementAt(5).Text;
+                                    trackObj.VCH_CONNECTION = awbDetails.ElementAt(6).Text;
+                                    trackList.Add(trackObj);
+                                }
                             }
                             catch (Exception)
                             {
                                 if (chromeDriver.PageSource.ToString().Contains("Access Denied"))
                                 {
-                                    try
-                                    {
-                                        Thread.Sleep(600000);
-                                        chromeDriver.Quit();
-                                        Thread.Sleep(3000);
-                                        chromeDriver.Navigate().GoToUrl(url);
-                                        element = chromeDriver.FindElementById("airwayBills0.awbNumber");
-                                        Thread.Sleep(3000);
-                                        element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
-                                        element = chromeDriver.FindElementByName("track10Search");
-                                        element.Click();
-                                        Thread.Sleep(10000);
-                                        element = chromeDriver.FindElementByCssSelector("li.awbDetailsHref a");
-                                        element.Click();
-                                        Thread.Sleep(10000);
-                                        awbDetails = chromeDriver.FindElementsByCssSelector("div.awbShipmentDescriptionDetails div.shipData table tr:nth-child(2) td");
-                                    }
-                                    catch (Exception)
-                                    {
-                                    }
-
+                                    chromeDriver.Quit();
+                                    Thread.Sleep(600000);
+                                    goto case "001";
                                 }
-                            }
-                            if (awbDetails.Count() > 0 && awbDetails.First().Text != "0")
-                            {
-                                trackObj = new TBL_ADU_TRACK();
-                                trackObj.NUM_MANIFESTSHIPDETDOCID = item.DEC_MANIFESTSHIPDETDOCID;
-                                trackObj.VCH_DIRECTMASTERGUIDE = item.VCH_DIRECTMASTERGUIDE;
-                                trackObj.INT_PIECES = Convert.ToInt32(awbDetails.First().Text);
-                                trackObj.NUM_WEIGHT = Convert.ToDecimal(awbDetails.ElementAt(2).Text == "L" ? Convert.ToDouble(awbDetails.ElementAt(1).Text) / 2.205 : Convert.ToDouble(awbDetails.ElementAt(1).Text)); //Guardado en kilos;
-                                trackObj.NUM_VOLUME = Convert.ToDecimal(awbDetails.ElementAt(3).Text.Replace("MC", "").Trim());
-                                trackObj.VCH_ORIGIN = awbDetails.ElementAt(4).Text;
-                                trackObj.VCH_DESTINATION = awbDetails.ElementAt(5).Text;
-                                trackObj.VCH_CONNECTION = awbDetails.ElementAt(6).Text;
-                                trackList.Add(trackObj);
                             }
                             chromeDriver.Quit();
                             break;
@@ -514,7 +494,7 @@ namespace APIMANIFEST.Controllers
                                 element.SendKeys($"{masterGuidePrefix}-{item.VCH_DIRECTMASTERGUIDE.Substring(3, 8)}");
                                 element = chromeDriver.FindElementByCssSelector("input[type='submit']");
                                 element.Click();
-                                Thread.Sleep(7000);
+                                Thread.Sleep(12000);
                                 element = chromeDriver.FindElementByTagName("iframe");
                                 element = chromeDriver.SwitchTo().Frame(element).FindElement(By.CssSelector("div.container div.subtitleDetail"));
                                 if (element != null)
@@ -612,7 +592,7 @@ namespace APIMANIFEST.Controllers
                                 element.SendKeys(item.VCH_DIRECTMASTERGUIDE);
                                 element = chromeDriver.FindElementByName("commit");
                                 element.Click();
-                                Thread.Sleep(7000);
+                                Thread.Sleep(12000);
                                 element = chromeDriver.FindElementByTagName("iframe");
                                 awbDetails = chromeDriver.SwitchTo().Frame(element).FindElements(By.CssSelector("table.caja1:first-child tbody p"));
                                 if (awbDetails.Count() > 0)
@@ -640,7 +620,7 @@ namespace APIMANIFEST.Controllers
                             chromeDriver.Navigate().GoToUrl(url);
                             try
                             {
-                                Thread.Sleep(7000);
+                                Thread.Sleep(12000);
                                 awbDetails = chromeDriver.FindElementsByCssSelector("div#react-tabs-1 div.form-group div.card div.card-body");
                                 if (awbDetails.Count() > 0)
                                 {
@@ -670,7 +650,7 @@ namespace APIMANIFEST.Controllers
                             chromeDriver.Navigate().GoToUrl(url);
                             try
                             {
-                                Thread.Sleep(10000);
+                                Thread.Sleep(12000);
                                 awbDetails = chromeDriver.FindElementsByCssSelector("table#tblAWBInfo tbody tr:nth-child(2) td");
                                 if (awbDetails.Count() > 0)
                                 {
@@ -700,7 +680,7 @@ namespace APIMANIFEST.Controllers
                                 element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
                                 element = chromeDriver.FindElementById("P857_TRACK");
                                 element.Click();
-                                Thread.Sleep(7000);
+                                Thread.Sleep(12000);
                                 awbDetails = chromeDriver.FindElementsByCssSelector("table#report_R25280730414418592 tr:last-child table tr:last-child td font");
                                 if (awbDetails.Count() > 0)
                                 {
@@ -753,6 +733,7 @@ namespace APIMANIFEST.Controllers
                         case "530":
                         case "202":
                         case "133":
+                        //case "417":
                             chromeDriver = new ChromeDriver(options);
                             url = $"{webTrackingObj.VCH_LINK}";
                             chromeDriver.Navigate().GoToUrl(url);
@@ -762,10 +743,10 @@ namespace APIMANIFEST.Controllers
                                 element.SendKeys(masterGuidePrefix);
                                 element = chromeDriver.FindElementByName("txtNumber");
                                 element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
-                                Thread.Sleep(3000);
+                                Thread.Sleep(7000);
                                 element = chromeDriver.FindElementByCssSelector("input[type='submit']");
                                 element.Click();
-                                Thread.Sleep(7000);
+                                Thread.Sleep(12000);
                                 awbDetails = chromeDriver.FindElementsByCssSelector("tr#trackShiptable1row00 td");
                                 if (awbDetails.Count() > 0)
                                 {
@@ -1103,21 +1084,20 @@ namespace APIMANIFEST.Controllers
                 #endregion
             }
             //INSERTA DESTINACIONES ADUANERAS
-            _manifestService.insertAduanaDestinations(ref aduanaDestinationList);
+            _manifestService.InsertAduanaDestinations(ref aduanaDestinationList);
 
             //INSERTA INFORMACION MASTER
-            _manifestService.insertMasterInformation(ref masterInformationList);
+            _manifestService.InsertMasterInformation(ref masterInformationList);
 
             //INSERTA DESCRIPCION DE MERCANCIA
-            _manifestService.insertWareDescription(ref wareDescriptionList);
+            _manifestService.InsertWareDescription(ref wareDescriptionList);
 
             //INSERTA EL TRACKING DE VUELOS
-            _manifestService.insertTracks(ref trackList);
+            _manifestService.InsertTracks(ref trackList);
 
             #endregion
 
-
-            return Json(_manifestService.callStoreProcedureManifest());
+            return Json(_manifestService.CallStoreProcedureManifest());
         }
     }
 }

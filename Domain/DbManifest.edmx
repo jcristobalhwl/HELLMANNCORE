@@ -68,6 +68,7 @@
           <Property Name="INT_MANIFESTEDPACKAGE" Type="int" />
           <Property Name="VCH_SHIPPER" Type="varchar(max)" />
           <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BIT_COMPLETED" Type="bit" />
         </EntityType>
         <EntityType Name="TBL_ADU_MANIFESTSHIPMENTDOC">
           <Key>
@@ -97,15 +98,15 @@
           <Property Name="VCH_TERMINALCODE" Type="varchar(max)" />
           <Property Name="VCH_SHIPMENTPORT" Type="varchar(max)" />
           <Property Name="DEC_WEIGHTORIGIN" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="INT_PACKAGEORIGIN" Type="int" />
           <Property Name="DEC_WEIGHTRECEIVED" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="INT_PACKAGERECEIVED" Type="int" />
           <Property Name="VCH_CONSIGNEE" Type="varchar(max)" />
           <Property Name="VCH_DESTINATIONPORT" Type="varchar(max)" />
           <Property Name="VCH_TRANSMISSIONDATE" Type="varchar" MaxLength="23" />
           <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="VCH_SHIPPER" Type="varchar(max)" />
           <Property Name="DEC_MANIFESTEDWEIGHT" Type="decimal" Precision="18" Scale="3" />
-          <Property Name="INT_PACKAGEORIGIN" Type="int" />
-          <Property Name="INT_PACKAGERECEIVED" Type="int" />
           <Property Name="INT_MANIFESTEDPACKAGE" Type="int" />
         </EntityType>
         <EntityType Name="TBL_ADU_TRACK">
@@ -260,6 +261,7 @@
           <Property Name="INT_MANIFESTEDPACKAGE" Type="Int32" />
           <Property Name="VCH_SHIPPER" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DEC_MANIFESTSHIPDETDOCID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BIT_COMPLETED" Type="Boolean" />
         </EntityType>
         <EntityType Name="TBL_ADU_MANIFESTSHIPMENTDOC">
           <Key>
@@ -467,7 +469,8 @@
     <EntitySetMapping Name="TBL_ADU_MANIFESTSHIPMENTDETAILDOC">
       <EntityTypeMapping TypeName="IsTypeOf(DB_MANIFESTModel.TBL_ADU_MANIFESTSHIPMENTDETAILDOC)">
         <MappingFragment StoreEntitySet="TBL_ADU_MANIFESTSHIPMENTDETAILDOC">
-          <ScalarProperty Name="DEC_MANIFESTSHIPDETDOCID" ColumnName="DEC_MANIFESTSHIPDETDOCID" />
+          <ScalarProperty Name="BIT_COMPLETED" ColumnName="BIT_COMPLETED" />
+                <ScalarProperty Name="DEC_MANIFESTSHIPDETDOCID" ColumnName="DEC_MANIFESTSHIPDETDOCID" />
           <ScalarProperty Name="NUM_MANIFESTID" ColumnName="NUM_MANIFESTID" />
           <ScalarProperty Name="VCH_AIRGUIDE" ColumnName="VCH_AIRGUIDE" />
           <ScalarProperty Name="VCH_DIRECTMASTERGUIDE" ColumnName="VCH_DIRECTMASTERGUIDE" />

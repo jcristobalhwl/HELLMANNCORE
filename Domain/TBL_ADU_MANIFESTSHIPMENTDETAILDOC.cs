@@ -30,5 +30,6 @@ namespace Domain
         public Nullable<int> INT_MANIFESTEDPACKAGE { get; set; }
         public string VCH_SHIPPER { get; set; }
         public decimal DEC_MANIFESTSHIPDETDOCID { get; set; }
+        public Nullable<bool> BIT_COMPLETED { get; set; }
     }
 }

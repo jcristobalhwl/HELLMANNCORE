@@ -160,20 +160,17 @@
           <Property Name="INT_MONTH" Type="int" />
           <Property Name="INT_YEAR" Type="int" />
           <Property Name="INT_WEEK" Type="int" />
-          <Property Name="VCH_AIRLINE" Type="varchar" MaxLength="20" />
-          <Property Name="VCH_FLIGHTNUMBER" Type="varchar" MaxLength="20" />
-          <Property Name="VCH_AIRGUIDE" Type="varchar" MaxLength="20" />
-          <Property Name="VCH_DIRECTMASTERGUIDE" Type="varchar" MaxLength="20" />
+          <Property Name="VCH_AIRLINE" Type="varchar" MaxLength="50" />
+          <Property Name="VCH_FLIGHTNUMBER" Type="varchar" MaxLength="50" />
+          <Property Name="VCH_AIRGUIDE" Type="varchar" MaxLength="50" />
+          <Property Name="VCH_DIRECTMASTERGUIDE" Type="varchar" MaxLength="50" />
           <Property Name="VCH_DESCRIPTION" Type="varchar(max)" />
           <Property Name="VCH_TERMINALCODE" Type="varchar" MaxLength="20" />
-          <Property Name="DEC_WEIGHTORIGIN" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="INT_PACKAGEORIGIN" Type="int" />
-          <Property Name="DEC_MANIFESTEDWEIGHT" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="DEC_MANIFESTEDWEIGHT" Type="decimal" Precision="18" Scale="3" />
           <Property Name="INT_MANIFESTEDPACKAGE" Type="int" />
-          <Property Name="DEC_WEIGHTRECEIVED" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="DEC_WEIGHTRECEIVED" Type="decimal" Precision="18" Scale="3" />
           <Property Name="INT_PACKAGERECEIVED" Type="int" />
           <Property Name="VCH_CONSIGNEE" Type="varchar" MaxLength="50" />
-          <Property Name="DAT_DATETRANSMISSIONDOCUMENT" Type="datetime" />
           <Property Name="VCH_ANOTHERAGENT" Type="varchar" MaxLength="50" />
           <Property Name="VCH_DESTINATION" Type="varchar" MaxLength="50" />
           <Property Name="VCH_SHIPPER" Type="varchar" MaxLength="50" />
@@ -353,20 +350,17 @@
           <Property Name="INT_MONTH" Type="Int32" />
           <Property Name="INT_YEAR" Type="Int32" />
           <Property Name="INT_WEEK" Type="Int32" />
-          <Property Name="VCH_AIRLINE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="VCH_FLIGHTNUMBER" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="VCH_AIRGUIDE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="VCH_DIRECTMASTERGUIDE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VCH_AIRLINE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VCH_FLIGHTNUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VCH_AIRGUIDE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VCH_DIRECTMASTERGUIDE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="VCH_DESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="VCH_TERMINALCODE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="DEC_WEIGHTORIGIN" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="INT_PACKAGEORIGIN" Type="Int32" />
-          <Property Name="DEC_MANIFESTEDWEIGHT" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="DEC_MANIFESTEDWEIGHT" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="INT_MANIFESTEDPACKAGE" Type="Int32" />
-          <Property Name="DEC_WEIGHTRECEIVED" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="DEC_WEIGHTRECEIVED" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="INT_PACKAGERECEIVED" Type="Int32" />
           <Property Name="VCH_CONSIGNEE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DAT_DATETRANSMISSIONDOCUMENT" Type="DateTime" Precision="3" />
           <Property Name="VCH_ANOTHERAGENT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="VCH_DESTINATION" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="VCH_SHIPPER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -431,6 +425,33 @@
           <Property Type="Decimal" Name="DEC_MANIFESTEDWEIGHT" Nullable="true" Precision="6" Scale="2" />
           <Property Type="Int32" Name="INT_MANIFESTEDPACKAGE" Nullable="true" />
           <Property Type="Decimal" Name="DEC_WEIGHTRECEIVED" Nullable="true" Precision="6" Scale="2" />
+          <Property Type="Int32" Name="INT_PACKAGERECEIVED" Nullable="true" />
+          <Property Type="String" Name="VCH_CONSIGNEE" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="DAT_DATETRANSMISSIONDOCUMENT" Nullable="true" Precision="23" />
+          <Property Type="String" Name="VCH_ANOTHERAGENT" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VCH_DESTINATION" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VCH_SHIPPER" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VCH_ORIGIN" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="DAT_DEPARTUREDATE" Nullable="true" Precision="23" />
+          <Property Type="String" Name="VCH_MANIFESTNUMBER" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_MANIFEST_Result2">
+          <Property Type="Int32" Name="INT_MANIFESTID" Nullable="false" />
+          <Property Type="Int32" Name="INT_DAY" Nullable="true" />
+          <Property Type="Int32" Name="INT_MONTH" Nullable="true" />
+          <Property Type="Int32" Name="INT_YEAR" Nullable="true" />
+          <Property Type="Int32" Name="INT_WEEK" Nullable="true" />
+          <Property Type="String" Name="VCH_AIRLINE" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VCH_FLIGHTNUMBER" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VCH_AIRGUIDE" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VCH_DIRECTMASTERGUIDE" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VCH_DESCRIPTION" Nullable="true" />
+          <Property Type="String" Name="VCH_TERMINALCODE" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="DEC_WEIGHTORIGIN" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="Int32" Name="INT_PACKAGEORIGIN" Nullable="true" />
+          <Property Type="Decimal" Name="DEC_MANIFESTEDWEIGHT" Nullable="true" Precision="18" Scale="3" />
+          <Property Type="Int32" Name="INT_MANIFESTEDPACKAGE" Nullable="true" />
+          <Property Type="Decimal" Name="DEC_WEIGHTRECEIVED" Nullable="true" Precision="18" Scale="3" />
           <Property Type="Int32" Name="INT_PACKAGERECEIVED" Nullable="true" />
           <Property Type="String" Name="VCH_CONSIGNEE" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="DAT_DATETRANSMISSIONDOCUMENT" Nullable="true" Precision="23" />
@@ -616,14 +637,11 @@
           <ScalarProperty Name="VCH_DIRECTMASTERGUIDE" ColumnName="VCH_DIRECTMASTERGUIDE" />
           <ScalarProperty Name="VCH_DESCRIPTION" ColumnName="VCH_DESCRIPTION" />
           <ScalarProperty Name="VCH_TERMINALCODE" ColumnName="VCH_TERMINALCODE" />
-          <ScalarProperty Name="DEC_WEIGHTORIGIN" ColumnName="DEC_WEIGHTORIGIN" />
-          <ScalarProperty Name="INT_PACKAGEORIGIN" ColumnName="INT_PACKAGEORIGIN" />
           <ScalarProperty Name="DEC_MANIFESTEDWEIGHT" ColumnName="DEC_MANIFESTEDWEIGHT" />
           <ScalarProperty Name="INT_MANIFESTEDPACKAGE" ColumnName="INT_MANIFESTEDPACKAGE" />
           <ScalarProperty Name="DEC_WEIGHTRECEIVED" ColumnName="DEC_WEIGHTRECEIVED" />
           <ScalarProperty Name="INT_PACKAGERECEIVED" ColumnName="INT_PACKAGERECEIVED" />
           <ScalarProperty Name="VCH_CONSIGNEE" ColumnName="VCH_CONSIGNEE" />
-          <ScalarProperty Name="DAT_DATETRANSMISSIONDOCUMENT" ColumnName="DAT_DATETRANSMISSIONDOCUMENT" />
           <ScalarProperty Name="VCH_ANOTHERAGENT" ColumnName="VCH_ANOTHERAGENT" />
           <ScalarProperty Name="VCH_DESTINATION" ColumnName="VCH_DESTINATION" />
           <ScalarProperty Name="VCH_SHIPPER" ColumnName="VCH_SHIPPER" />

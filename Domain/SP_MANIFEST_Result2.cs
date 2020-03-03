@@ -10,9 +10,8 @@
 namespace Domain
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class TBL_MAN_MANIFEST
+    public partial class SP_MANIFEST_Result2
     {
         public int INT_MANIFESTID { get; set; }
         public Nullable<int> INT_DAY { get; set; }
@@ -25,11 +24,14 @@ namespace Domain
         public string VCH_DIRECTMASTERGUIDE { get; set; }
         public string VCH_DESCRIPTION { get; set; }
         public string VCH_TERMINALCODE { get; set; }
+        public Nullable<decimal> DEC_WEIGHTORIGIN { get; set; }
+        public Nullable<int> INT_PACKAGEORIGIN { get; set; }
         public Nullable<decimal> DEC_MANIFESTEDWEIGHT { get; set; }
         public Nullable<int> INT_MANIFESTEDPACKAGE { get; set; }
         public Nullable<decimal> DEC_WEIGHTRECEIVED { get; set; }
         public Nullable<int> INT_PACKAGERECEIVED { get; set; }
         public string VCH_CONSIGNEE { get; set; }
+        public Nullable<System.DateTime> DAT_DATETRANSMISSIONDOCUMENT { get; set; }
         public string VCH_ANOTHERAGENT { get; set; }
         public string VCH_DESTINATION { get; set; }
         public string VCH_SHIPPER { get; set; }

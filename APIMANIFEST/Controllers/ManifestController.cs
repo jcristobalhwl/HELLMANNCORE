@@ -32,12 +32,12 @@ namespace APIMANIFEST.Controllers
             int trId = 0;
 
 
-            //string startDate = Convert.ToDateTime("27/02/2020").ToString("dd/MM/yyyy");
-            //string endDate = Convert.ToDateTime("27/02/2020").ToString("dd/MM/yyyy");
+            string startDate = Convert.ToDateTime("24/02/2020").ToString("dd/MM/yyyy");
+            string endDate = Convert.ToDateTime("29/02/2020").ToString("dd/MM/yyyy");
 
-            string startDate = DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
-            string endDate = DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
-            string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=5";
+            //string startDate = DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
+            //string endDate = DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
+            string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=100000";
 
             //string url = "https://www.deltacargo.com/Cargo/trackShipment?awbNumber=00623405023&timeZoneOffset=300";
             HtmlWeb htmlWeb = new HtmlWeb();
@@ -248,7 +248,7 @@ namespace APIMANIFEST.Controllers
             
             #endregion
 
-            #region RECORRE LA CONSULTA DE MANIFIESTOS DE SALIDA
+            #region RECORRE LA C    ONSULTA DE MANIFIESTOS DE SALIDA
             string manifestYear = "";
             string manifestNumber = "";
             TBL_ADU_ADUANADESTINATION aduanaDestinationObj = new TBL_ADU_ADUANADESTINATION();

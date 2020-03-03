@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/01/2020 12:10:19
+-- Date Created: 03/02/2020 21:53:39
 -- Generated from EDMX file: C:\Users\skyfu\source\repos\HELLMANNCORE\Domain\DbManifest.edmx
 -- --------------------------------------------------
 
@@ -117,7 +117,8 @@ CREATE TABLE [dbo].[TBL_ADU_MANIFESTSHIPMENTDETAILDOC] (
     [DEC_MANIFESTEDWEIGHT] decimal(18,3)  NULL,
     [INT_MANIFESTEDPACKAGE] int  NULL,
     [VCH_SHIPPER] varchar(max)  NULL,
-    [DEC_MANIFESTSHIPDETDOCID] decimal(18,0) IDENTITY(1,1) NOT NULL
+    [DEC_MANIFESTSHIPDETDOCID] decimal(18,0) IDENTITY(1,1) NOT NULL,
+    [BIT_COMPLETED] bit  NULL
 );
 GO
 

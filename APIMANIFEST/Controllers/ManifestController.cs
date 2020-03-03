@@ -32,9 +32,12 @@ namespace APIMANIFEST.Controllers
             int trId = 0;
 
 
-            string startDate = Convert.ToDateTime("27/02/2020").ToString("dd/MM/yyyy");
-            string endDate = Convert.ToDateTime("27/02/2020").ToString("dd/MM/yyyy");
-            string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=8";
+            //string startDate = Convert.ToDateTime("27/02/2020").ToString("dd/MM/yyyy");
+            //string endDate = Convert.ToDateTime("27/02/2020").ToString("dd/MM/yyyy");
+
+            string startDate = DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
+            string endDate = DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
+            string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=5";
 
             //string url = "https://www.deltacargo.com/Cargo/trackShipment?awbNumber=00623405023&timeZoneOffset=300";
             HtmlWeb htmlWeb = new HtmlWeb();
@@ -218,6 +221,7 @@ namespace APIMANIFEST.Controllers
                                         manifestSDDetailObj.VCH_CONSIGNEE = td[10].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
                                         manifestSDDetailObj.VCH_SHIPPER = td[11].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
                                         manifestSDDetailObj.DAT_DATETRANSMISSIONDOCUMENT = Convert.ToDateTime(td[12].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                        manifestSDDetailObj.BIT_COMPLETED = true;
                                     }
                                     else
                                     {
@@ -295,7 +299,7 @@ namespace APIMANIFEST.Controllers
                             {
                                 element = chromeDriver.FindElementById("airwayBills0.awbNumber");
                                 Thread.Sleep(3000);
-                                element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));
+                                element.SendKeys(item.VCH_DIRECTMASTERGUIDE.Substring(3, 8));   
                                 element = chromeDriver.FindElementByName("track10Search");
                                 element.Click();
                                 Thread.Sleep(12000);
@@ -318,7 +322,7 @@ namespace APIMANIFEST.Controllers
                                     trackList.Add(trackObj);
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
                                 if (chromeDriver.PageSource.ToString().Contains("Access Denied"))
                                 {
@@ -733,7 +737,7 @@ namespace APIMANIFEST.Controllers
                         case "530":
                         case "202":
                         case "133":
-                        //case "417":
+                            //case "417":
                             chromeDriver = new ChromeDriver(options);
                             url = $"{webTrackingObj.VCH_LINK}";
                             chromeDriver.Navigate().GoToUrl(url);
@@ -800,11 +804,10 @@ namespace APIMANIFEST.Controllers
                             break;
                     }
                 }
-                else
-                {
-
-                }
+                
                 #endregion
+
+
                 #region DESTINACIONES ADUANERAS POR CONOCIMIENTO/GUIA
                 manifestYear = "";
                 manifestYear = "20" + manifestList.Where(x => x.NUM_MANIFESTID == item.NUM_MANIFESTID).Select(j => j.VCH_MANIFESTNUMBER).FirstOrDefault().Substring(0, 2);

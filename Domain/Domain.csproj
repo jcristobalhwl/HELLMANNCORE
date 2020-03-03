@@ -88,6 +88,9 @@
     <Compile Include="SP_MANIFEST_Result.cs">
       <DependentUpon>DbManifest.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_MANIFEST_Result1.cs">
+      <DependentUpon>DbManifest.tt</DependentUpon>
+    </Compile>
     <Compile Include="TBL_ADU_ADUANAAGENT.cs">
       <DependentUpon>DbManifest.tt</DependentUpon>
     </Compile>

@@ -583,8 +583,9 @@ namespace APIMANIFEST.Controllers
                             break;
                         case "145":
                         case "045":
+                        case "549":
                             chromeDriver = new ChromeDriver(options);
-                            url = "https://www.track-trace.com/aircargo"; //URL TRACK TRACE
+                            url = $"{webTrackingObj.VCH_LINK}"; //URL TRACK TRACE
                             chromeDriver.Navigate().GoToUrl(url);
                             try
                             {
@@ -737,7 +738,7 @@ namespace APIMANIFEST.Controllers
                         case "530":
                         case "202":
                         case "133":
-                            //case "417":
+                        case "134":
                             chromeDriver = new ChromeDriver(options);
                             url = $"{webTrackingObj.VCH_LINK}";
                             chromeDriver.Navigate().GoToUrl(url);

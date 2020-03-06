@@ -1,5 +1,6 @@
 ﻿using Common;
 using Domain;
+using Model.Request.Maintenance;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
@@ -12,7 +13,7 @@ namespace Service.Implementations.Manifest
     public class ManifestService
     {
         private readonly DB_MANIFEST _context;
-
+        private ResponseBase<TBL_MAN_MANIFEST> _response;
         public ManifestService()
         {
             _context = new DB_MANIFEST();
@@ -149,17 +150,16 @@ namespace Service.Implementations.Manifest
 
         public ResponseBase<TBL_MAN_MANIFEST> CallStoreProcedureManifest()
         {
-            ResponseBase<TBL_MAN_MANIFEST> response;
             try
             {
                 var resultSP = _context.InsertAndGetManifests();
 
-                response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForOK(resultSP.ToList());
-                return response;
+                _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForOK(resultSP.ToList());
+                return _response;
             }
             catch (Exception ex)
             {
-                response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForException(ex);
+                _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForException(ex);
                 throw ex;
             }
             finally
@@ -174,6 +174,31 @@ namespace Service.Implementations.Manifest
             mDetailFound.BIT_COMPLETED = manifestDetail.BIT_COMPLETED;
             _context.SaveChanges();
             return true;
+        }
+
+
+        public ResponseBase<TBL_MAN_MANIFEST> FindData(ManifestRequest request)
+        {
+            try
+            {
+                var queryResult = _context.TBL_MAN_MANIFEST.Where(x => x.DAT_DEPARTUREDATE >= request.DAT_STARTDATE && x.DAT_DEPARTUREDATE <= request.DAT_ENDDATE
+                && (x.VCH_CONSIGNEE.Contains(request.VCH_CONSIGNEE) || x.VCH_SHIPPER.Contains(request.VCH_SHIPPER)
+                || x.VCH_DESCRIPTION.Contains(request.VCH_DESCRIPTION) || x.VCH_AIRLINE.Contains(request.VCH_AIRLINE)
+                || x.VCH_DESTINATION == request.VCH_DESTINATION || x.INT_WEEK == request.INT_WEEK));
+
+                _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForList(queryResult);
+                return _response;
+            }
+            catch (Exception ex)
+            {
+                _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForException(ex);
+                return _response;
+            }
+            finally 
+            {
+                _response = null;
+                _context.Database.Connection.Close();
+            }
         }
     }
 }

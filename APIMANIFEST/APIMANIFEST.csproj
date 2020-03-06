@@ -284,6 +284,10 @@
       <Project>{C715336B-4BEC-426E-A32C-B16083FBCF86}</Project>
       <Name>Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{CEF48114-E4E7-49BC-96D8-EE32CDF45482}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{268c2b7a-b56a-43f3-a7b9-d48c6be31cb5}</Project>
       <Name>Service</Name>

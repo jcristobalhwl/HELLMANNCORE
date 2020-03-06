@@ -1,6 +1,7 @@
 ﻿using Common;
 using Domain;
 using HtmlAgilityPack;
+using Model.Request.Maintenance;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -1103,5 +1104,10 @@ namespace APIMANIFEST.Controllers
 
             return Json(_manifestService.CallStoreProcedureManifest());
         }
+        public JsonResult<ResponseBase<TBL_MAN_MANIFEST>> FindData(ManifestRequest request)
+        {
+            return Json(_manifestService.FindData(request));
+        }
+    
     }
 }

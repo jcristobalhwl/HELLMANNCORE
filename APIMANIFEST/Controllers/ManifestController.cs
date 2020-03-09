@@ -38,7 +38,7 @@ namespace APIMANIFEST.Controllers
 
             //string startDate = DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
             //string endDate = DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
-            string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=100000";
+            string url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiesto&fec_inicio=" + startDate + "&fec_fin=" + endDate + "&cod_terminal=0000&tamanioPagina=100";
 
             //string url = "https://www.deltacargo.com/Cargo/trackShipment?awbNumber=00623405023&timeZoneOffset=300";
             HtmlWeb htmlWeb = new HtmlWeb();
@@ -269,8 +269,12 @@ namespace APIMANIFEST.Controllers
 
             ChromeOptions options = new ChromeOptions();
             options.AddArgument("--disabled-gpu");
-            options.AddArgument("--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/60.0.3112.50 Safari/537.36");
+
+            //options.AddArgument("--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/60.0.3112.50 Safari/537.36");
             ChromeDriver chromeDriver;
+            //chromeDriver = new ChromeDriver(options);
+            //url = $"https://www.aircanada.com/cargo/en/tools-forms/?s_acn=014&s_sref=85869932";
+            //chromeDriver.Navigate().GoToUrl(url);
             //IWebElement originElement, destinationElement, pieceElement, weightElement, statusElement,element = null;
             foreach (var item in manifestSDDetailList)
             {
@@ -1108,6 +1112,10 @@ namespace APIMANIFEST.Controllers
         {
             return Json(_manifestService.FindData(request));
         }
-    
+        public JsonResult<ResponseBase<TBL_MAN_MANIFEST>> GetManifests()
+        {
+            return Json(_manifestService.GetManifests());
+        }
+
     }
 }

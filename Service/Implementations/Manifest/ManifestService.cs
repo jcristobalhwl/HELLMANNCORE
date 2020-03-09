@@ -160,11 +160,12 @@ namespace Service.Implementations.Manifest
             catch (Exception ex)
             {
                 _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForException(ex);
-                throw ex;
+                return _response;
             }
             finally
             {
                 _context.Database.Connection.Close();
+                _response = null;
             }
         }
 
@@ -176,6 +177,32 @@ namespace Service.Implementations.Manifest
             return true;
         }
 
+
+        public ResponseBase<TBL_MAN_MANIFEST> GetManifests()
+        {
+            try
+            {
+                var queryResult = _context.TBL_MAN_MANIFEST.AsQueryable()
+                //    .Where(x => x.DAT_DEPARTUREDATE >= request.DAT_STARTDATE && x.DAT_DEPARTUREDATE <= request.DAT_ENDDATE
+                //&& (x.VCH_CONSIGNEE.Contains(request.VCH_CONSIGNEE) || x.VCH_SHIPPER.Contains(request.VCH_SHIPPER)
+                //|| x.VCH_DESCRIPTION.Contains(request.VCH_DESCRIPTION) || x.VCH_AIRLINE.Contains(request.VCH_AIRLINE)
+                //|| x.VCH_DESTINATION == request.VCH_DESTINATION || x.INT_WEEK == request.INT_WEEK))
+                    ;
+
+                _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForList(queryResult);
+                return _response;
+            }
+            catch (Exception ex)
+            {
+                _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForException(ex);
+                return _response;
+            }
+            finally
+            {
+                _response = null;
+                _context.Database.Connection.Close();
+            }
+        }
 
         public ResponseBase<TBL_MAN_MANIFEST> FindData(ManifestRequest request)
         {

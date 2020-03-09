@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request\Maintenance\ManifestRequest.cs" />
+    <Compile Include="Request\Manifest\ManifestRequest.cs" />
     <Compile Include="Response\Maintenance\CityListResponse.cs" />
     <Compile Include="Response\Maintenance\CountryListResponse.cs" />
     <Compile Include="Response\Maintenance\DistrictListResponse.cs" />

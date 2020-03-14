@@ -1,6 +1,10 @@
 ﻿using Common;
 using Domain;
-using Model.Request.Maintenance;
+using FluentValidation.Results;
+using Model.Request.Manifest;
+using Model.Response;
+using Model.Response.Manifest;
+using Service.Validators.Manifest;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
@@ -154,12 +158,12 @@ namespace Service.Implementations.Manifest
             {
                 var resultSP = _context.InsertAndGetManifests();
 
-                _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForOK(resultSP.ToList());
+                _response = new UtilityResponse<TBL_MAN_MANIFEST>().SetResponseBaseForOK(resultSP.ToList());
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_MAN_MANIFEST>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -189,12 +193,12 @@ namespace Service.Implementations.Manifest
                 //|| x.VCH_DESTINATION == request.VCH_DESTINATION || x.INT_WEEK == request.INT_WEEK))
                     ;
 
-                _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForList(queryResult);
+                _response = new UtilityResponse<TBL_MAN_MANIFEST>().SetResponseBaseForList(queryResult);
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_MAN_MANIFEST>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -204,26 +208,97 @@ namespace Service.Implementations.Manifest
             }
         }
 
-        public ResponseBase<TBL_MAN_MANIFEST> FindData(ManifestRequest request)
+        public ResponseBase<ManifestResponse> FindData(ManifestRequest request)
         {
+            ManifestValidator validator;
+            ValidationResult results;
+            ResponseBase<ManifestResponse> response;
+            ManifestResponse manifestResponse;
             try
             {
-                var queryResult = _context.TBL_MAN_MANIFEST.Where(x => x.DAT_DEPARTUREDATE >= request.DAT_STARTDATE && x.DAT_DEPARTUREDATE <= request.DAT_ENDDATE
-                && (x.VCH_CONSIGNEE.Contains(request.VCH_CONSIGNEE) || x.VCH_SHIPPER.Contains(request.VCH_SHIPPER)
-                || x.VCH_DESCRIPTION.Contains(request.VCH_DESCRIPTION) || x.VCH_AIRLINE.Contains(request.VCH_AIRLINE)
-                || x.VCH_DESTINATION == request.VCH_DESTINATION || x.INT_WEEK == request.INT_WEEK));
 
-                _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForList(queryResult);
-                return _response;
+                //throw new Exception("webeo");
+                validator = new ManifestValidator();
+                results = validator.Validate(request);
+                manifestResponse = new ManifestResponse();
+
+                if (results.IsValid)
+                {
+                    var queryResult = _context.TBL_MAN_MANIFEST.Where(x => x.DAT_DEPARTUREDATE >= request.DAT_STARTDATE && x.DAT_DEPARTUREDATE <= request.DAT_ENDDATE
+                    && (x.VCH_CONSIGNEE.Contains(request.VCH_CONSIGNEE) || request.VCH_CONSIGNEE == null) && (x.VCH_SHIPPER.Contains(request.VCH_SHIPPER) || request.VCH_SHIPPER == null)
+                    && (x.VCH_DESCRIPTION.Contains(request.VCH_DESCRIPTION) || request.VCH_DESCRIPTION == null) && (x.VCH_AIRLINE.Contains(request.VCH_AIRLINE) || request.VCH_AIRLINE == null)
+                    && (x.VCH_DESTINATION == request.VCH_DESTINATION || request.VCH_DESTINATION == null) && (x.INT_WEEK == request.INT_WEEK || request.INT_WEEK == null)
+                    && (x.VCH_DIRECTMASTERGUIDE == request.VCH_DIRECTMASTERGUIDE || request.VCH_DIRECTMASTERGUIDE == null))
+                    
+                    .OrderByDescending(x => x.DAT_DEPARTUREDATE);
+
+                    var listManifests = queryResult.Skip((request.INT_CURRENTPAGE - 1) * request.INT_LIMITPAGES).Take(request.INT_LIMITPAGES).ToList();
+
+                    double pageCount = (double)((decimal)queryResult.Count());
+                    manifestResponse.INT_TOTALREGISTERS = (int)Math.Ceiling(pageCount);
+                    manifestResponse.INT_CURRENTPAGE = request.INT_CURRENTPAGE;
+                    manifestResponse.Manifests = listManifests;
+
+                    response = new UtilityResponse<ManifestResponse>().SetResponseBaseForObj(manifestResponse);
+                }
+                else
+                {
+                    response = new UtilityResponse<ManifestResponse>().SetResponseBaseFunctionalErrors(results);
+                }
+                return response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_MAN_MANIFEST>().SetResponseBaseForException(ex);
-                return _response;
+                response = new UtilityResponse<ManifestResponse>().SetResponseBaseForException(ex);
+                return response;
             }
             finally 
             {
-                _response = null;
+                response = null;
+                validator = null;
+                results = null;
+                _context.Database.Connection.Close();
+            }
+        }
+
+        public List<ManifestTest> getDetailsManifest()
+        {
+            try
+            {
+                var dateParsed = DateTime.Parse("04/01/2020");
+                var dateParsed2 = DateTime.Parse("05/01/2020");
+                return _context.TBL_ADU_MANIFESTSHIPMENTDETAILDOC.Join(_context.TBL_ADU_MANIFEST, md => md.NUM_MANIFESTID,
+                    m => m.NUM_MANIFESTID, (md, m) => new ManifestTest{ VCH_DIRECTMASTERGUIDE = md.VCH_DIRECTMASTERGUIDE, DEC_MANIFESTSHIPDETDOCID = md.DEC_MANIFESTSHIPDETDOCID, DAT_DEPARTUREDATE = m.DAT_DEPARTUREDATE, 
+                        NUM_MANIFESTID = m.NUM_MANIFESTID,VCH_DETAIL = md.VCH_DETAIL,
+                        VCH_AIRGUIDE = md.VCH_AIRGUIDE
+                    })
+                    .Where(x => x.DAT_DEPARTUREDATE == dateParsed || x.DAT_DEPARTUREDATE == dateParsed2).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                _context.Database.Connection.Close();
+            }
+        }
+
+        public List<TBL_ADU_MANIFEST> listManifests()
+        {
+            try
+            {
+                var dateParsed = DateTime.Parse("04/01/2020");
+                var dateParsed2 = DateTime.Parse("05/01/2020");
+                return _context.TBL_ADU_MANIFEST
+                    .Where(x => x.DAT_DEPARTUREDATE == dateParsed || x.DAT_DEPARTUREDATE == dateParsed2).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
                 _context.Database.Connection.Close();
             }
         }

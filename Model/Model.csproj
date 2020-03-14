@@ -47,7 +47,14 @@
     <Compile Include="Response\Maintenance\CityListResponse.cs" />
     <Compile Include="Response\Maintenance\CountryListResponse.cs" />
     <Compile Include="Response\Maintenance\DistrictListResponse.cs" />
+    <Compile Include="Response\ManifestTest.cs" />
+    <Compile Include="Response\Manifest\ManifestResponse.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{C715336B-4BEC-426E-A32C-B16083FBCF86}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

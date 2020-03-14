@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public class UtilitariesResponse<T>
+    public class UtilityResponse<T>
     {
         public ResponseBase<T> SetResponseBaseForExecuteSQLCommand(int result)
         {
@@ -47,6 +47,7 @@ namespace Common
                     response.Code = ConfigurationLib.DataNotFoundErrorCode;
                     response.Message = ConfigurationLib.DataNotFoundMessageES;
                 }
+
             }
             return response;
         }

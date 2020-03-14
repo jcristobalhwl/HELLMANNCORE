@@ -26,12 +26,12 @@ namespace Service.Implementations.Maintenance
             try
             {
                 var query = _context.TBL_SLI_CONTINENT.Where(x => x.BIT_STATE == true);
-                _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseForList(query);
+                _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseForList(query);
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -45,12 +45,12 @@ namespace Service.Implementations.Maintenance
             try
             {
                 var continentFound = _context.TBL_SLI_CONTINENT.Find(ID);
-                _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseForObj(continentFound);
+                _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseForObj(continentFound);
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -72,23 +72,23 @@ namespace Service.Implementations.Maintenance
                     continent.BIT_STATE = true;
                     continent.VCH_NAME = continent.VCH_NAME.ToUpper();
                     var continentFound = _context.TBL_SLI_CONTINENT.Where(x => x.VCH_NAME.Contains(continent.VCH_NAME)).FirstOrDefault();
-                    _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseForUniqueValidation();
+                    _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseForUniqueValidation();
                     if (continentFound == null)
                     {
                         _context.TBL_SLI_CONTINENT.Add(continent);
                         _context.SaveChanges();
-                        _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseForObj(continent);
+                        _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseForObj(continent);
                     }
                 }
                 else
                 {
-                    _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseFunctionalErrors(_results);
+                    _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseFunctionalErrors(_results);
                 }
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -105,18 +105,18 @@ namespace Service.Implementations.Maintenance
             try
             {
                 var continentUpdated = _context.TBL_SLI_CONTINENT.Find(continent.INT_CONTINENTID);
-                _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseForObj(continentUpdated);
+                _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseForObj(continentUpdated);
                 if (continentUpdated != null)
                 {
                     continentUpdated.VCH_NAME = continent.VCH_NAME.ToUpper();
                     _context.SaveChanges();
-                    _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseForObj(continentUpdated);
+                    _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseForObj(continentUpdated);
                 }
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -132,12 +132,12 @@ namespace Service.Implementations.Maintenance
                 var continentFound = _context.TBL_SLI_CONTINENT.Find(ID);
                 continentFound.BIT_STATE = false;
                 _context.SaveChanges();
-                _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseForObj(continentFound);
+                _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseForObj(continentFound);
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CONTINENT>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CONTINENT>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally

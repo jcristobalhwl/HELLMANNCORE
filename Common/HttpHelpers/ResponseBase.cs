@@ -12,7 +12,7 @@ namespace Common
         public string Message { get; set; }
         public string MessageEN { get; set; }
         public bool IsResultList { get; set; } = false;
-        public IEnumerable<T> List { get; set; }
+        public IEnumerable<T> List { get; set; } = new List<T>();
         public T Object { get; set; }
         public Exception TechnicalErrors { get; set; }
         public List<string> FunctionalErrors { get; set; }

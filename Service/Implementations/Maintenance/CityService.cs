@@ -32,12 +32,12 @@ namespace Service.Implementations.Maintenance
                     VCH_CITYNAME = x.VCH_NAME,
                     VCH_COUNTRYNAME = x.TBL_SLI_COUNTRY.VCH_NAME
                 }).OrderBy(x => x.VCH_COUNTRYNAME);
-                response = new UtilitariesResponse<CityListResponse>().SetResponseBaseForList(query);
+                response = new UtilityResponse<CityListResponse>().SetResponseBaseForList(query);
                 return response;
             }
             catch (Exception ex)
             {
-                response = new UtilitariesResponse<CityListResponse>().SetResponseBaseForException(ex);
+                response = new UtilityResponse<CityListResponse>().SetResponseBaseForException(ex);
                 return response;
             }
             finally
@@ -51,12 +51,12 @@ namespace Service.Implementations.Maintenance
             try
             {
                 var cityFound = _context.TBL_SLI_CITY.Find(ID);
-                _response = new UtilitariesResponse<TBL_SLI_CITY>().SetResponseBaseForObj(cityFound);
+                _response = new UtilityResponse<TBL_SLI_CITY>().SetResponseBaseForObj(cityFound);
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CITY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CITY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -77,23 +77,23 @@ namespace Service.Implementations.Maintenance
                     country.BIT_STATE = true;
                     country.VCH_NAME = country.VCH_NAME.ToUpper();
                     var cityFound = _context.TBL_SLI_CITY.Where(x => x.VCH_NAME.Contains(country.VCH_NAME)).FirstOrDefault();
-                    _response = new UtilitariesResponse<TBL_SLI_CITY>().SetResponseBaseForUniqueValidation();
+                    _response = new UtilityResponse<TBL_SLI_CITY>().SetResponseBaseForUniqueValidation();
                     if (cityFound == null)
                     {
                         _context.TBL_SLI_CITY.Add(country);
                         _context.SaveChanges();
-                        _response = new UtilitariesResponse<TBL_SLI_CITY>().SetResponseBaseForObj(country);
+                        _response = new UtilityResponse<TBL_SLI_CITY>().SetResponseBaseForObj(country);
                     }
                 }
                 else
                 {
-                    _response = new UtilitariesResponse<TBL_SLI_CITY>().SetResponseBaseFunctionalErrors(_results);
+                    _response = new UtilityResponse<TBL_SLI_CITY>().SetResponseBaseFunctionalErrors(_results);
                 }
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CITY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CITY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -110,20 +110,20 @@ namespace Service.Implementations.Maintenance
             try
             {
                 var cityUpdated = _context.TBL_SLI_CITY.Find(country.INT_COUNTRYID);
-                _response = new UtilitariesResponse<TBL_SLI_CITY>().SetResponseBaseForObj(cityUpdated);
+                _response = new UtilityResponse<TBL_SLI_CITY>().SetResponseBaseForObj(cityUpdated);
                 if (cityUpdated != null)
                 {
                     cityUpdated.VCH_NAME = country.VCH_NAME.ToUpper();
                     cityUpdated.VCH_INTCODE = country.VCH_INTCODE;
                     cityUpdated.INT_COUNTRYID = country.INT_COUNTRYID;
                     _context.SaveChanges();
-                    _response = new UtilitariesResponse<TBL_SLI_CITY>().SetResponseBaseForObj(cityUpdated);
+                    _response = new UtilityResponse<TBL_SLI_CITY>().SetResponseBaseForObj(cityUpdated);
                 }
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CITY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CITY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -139,12 +139,12 @@ namespace Service.Implementations.Maintenance
                 var cityFound = _context.TBL_SLI_CITY.Find(ID);
                 cityFound.BIT_STATE = false;
                 _context.SaveChanges();
-                _response = new UtilitariesResponse<TBL_SLI_CITY>().SetResponseBaseForObj(cityFound);
+                _response = new UtilityResponse<TBL_SLI_CITY>().SetResponseBaseForObj(cityFound);
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CITY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CITY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally

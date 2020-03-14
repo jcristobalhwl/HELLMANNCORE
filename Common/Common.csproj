@@ -54,8 +54,8 @@
     <Compile Include="HttpHelpers\ConfigurationLib.cs" />
     <Compile Include="HttpHelpers\ConstantData.cs" />
     <Compile Include="HttpHelpers\ResponseBase.cs" />
-    <Compile Include="HttpHelpers\UtilitariesMethods.cs" />
-    <Compile Include="HttpHelpers\UtilitariesResponse.cs" />
+    <Compile Include="HttpHelpers\UtilityMethods.cs" />
+    <Compile Include="HttpHelpers\UtilityResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

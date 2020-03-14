@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Common.Helpers
 {
-    public static class UtilitariesMethods
+    public static class UtilityMethods
     {
         public static void SendEmail(string toEmail,string subject,string body)
         {

@@ -26,12 +26,12 @@ namespace Service.Implementations.Maintenance
             try
             {
                 var query = _context.TBL_SLI_CURRENCY.Where(x => x.BIT_ACTIVE == true);
-                _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseForList(query);
+                _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseForList(query);
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -45,12 +45,12 @@ namespace Service.Implementations.Maintenance
             try
             {
                 var currencyFound = _context.TBL_SLI_CURRENCY.Find(ID);
-                _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseForObj(currencyFound);
+                _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseForObj(currencyFound);
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -73,23 +73,23 @@ namespace Service.Implementations.Maintenance
                     currency.VCH_NAME = currency.VCH_NAME.ToUpper();
                     currency.VCH_SYMBOL = currency.VCH_SYMBOL.ToUpper();
                     var currencyFound = _context.TBL_SLI_CURRENCY.Where(x => x.VCH_NAME.Contains(currency.VCH_NAME)).FirstOrDefault();
-                    _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseForUniqueValidation();
+                    _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseForUniqueValidation();
                     if (currencyFound == null)
                     {
                         _context.TBL_SLI_CURRENCY.Add(currency);
                         _context.SaveChanges();
-                        _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseForObj(currency);
+                        _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseForObj(currency);
                     }
                 }
                 else
                 {
-                    _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseFunctionalErrors(_results);
+                    _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseFunctionalErrors(_results);
                 }
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -106,20 +106,20 @@ namespace Service.Implementations.Maintenance
             try
             {
                 var currencyUpdated = _context.TBL_SLI_CURRENCY.Find(currency.INT_CURRENCYID);
-                _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseForObj(currencyUpdated);
+                _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseForObj(currencyUpdated);
                 if (currencyUpdated != null)
                 {
                     currencyUpdated.VCH_NAME = currency.VCH_NAME.ToUpper();
                     currencyUpdated.VCH_SYMBOL = currency.VCH_SYMBOL.ToUpper();
 
                     _context.SaveChanges();
-                    _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseForObj(currencyUpdated);
+                    _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseForObj(currencyUpdated);
                 }
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -135,12 +135,12 @@ namespace Service.Implementations.Maintenance
                 var currencyFound = _context.TBL_SLI_CURRENCY.Find(ID);
                 currencyFound.BIT_ACTIVE = false;
                 _context.SaveChanges();
-                _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseForObj(currencyFound);
+                _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseForObj(currencyFound);
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_CURRENCY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_CURRENCY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally

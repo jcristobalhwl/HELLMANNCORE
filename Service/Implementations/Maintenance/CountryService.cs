@@ -33,12 +33,12 @@ namespace Service.Implementations
                     VCH_CURRENCYNAME = x.TBL_SLI_CURRENCY.VCH_NAME,
                     VCH_FREIGHTCODE = x.VCH_FREIGHTCODE
                 }).OrderBy(x => x.VCH_COUNTRYNAME);
-                response = new UtilitariesResponse<CountryListResponse>().SetResponseBaseForList(query);
+                response = new UtilityResponse<CountryListResponse>().SetResponseBaseForList(query);
                 return response;
             }
             catch (Exception ex)
             {
-                response = new UtilitariesResponse<CountryListResponse>().SetResponseBaseForException(ex);
+                response = new UtilityResponse<CountryListResponse>().SetResponseBaseForException(ex);
                 return response;
             }
             finally
@@ -52,12 +52,12 @@ namespace Service.Implementations
             try
             {
                 var countryFound = _context.TBL_SLI_COUNTRY.Find(ID);
-                _response = new UtilitariesResponse<TBL_SLI_COUNTRY>().SetResponseBaseForObj(countryFound);
+                _response = new UtilityResponse<TBL_SLI_COUNTRY>().SetResponseBaseForObj(countryFound);
                 return _response;
             }
             catch(Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_COUNTRY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_COUNTRY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -78,23 +78,23 @@ namespace Service.Implementations
                     country.BIT_STATE = true;
                     country.VCH_NAME = country.VCH_NAME.ToUpper();
                     var countryFound = _context.TBL_SLI_COUNTRY.Where(x => x.VCH_NAME.Contains(country.VCH_NAME)).FirstOrDefault();
-                    _response = new UtilitariesResponse<TBL_SLI_COUNTRY>().SetResponseBaseForUniqueValidation();
+                    _response = new UtilityResponse<TBL_SLI_COUNTRY>().SetResponseBaseForUniqueValidation();
                     if (countryFound == null)
                     {
                         _context.TBL_SLI_COUNTRY.Add(country);
                         _context.SaveChanges();
-                        _response = new UtilitariesResponse<TBL_SLI_COUNTRY>().SetResponseBaseForObj(country);
+                        _response = new UtilityResponse<TBL_SLI_COUNTRY>().SetResponseBaseForObj(country);
                     }
                 }
                 else
                 {
-                    _response = new UtilitariesResponse<TBL_SLI_COUNTRY>().SetResponseBaseFunctionalErrors(_results);
+                    _response = new UtilityResponse<TBL_SLI_COUNTRY>().SetResponseBaseFunctionalErrors(_results);
                 }
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_COUNTRY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_COUNTRY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -111,7 +111,7 @@ namespace Service.Implementations
             try
             {
                 var countryUpdated = _context.TBL_SLI_COUNTRY.Find(country.INT_COUNTRYID);
-                _response = new UtilitariesResponse<TBL_SLI_COUNTRY>().SetResponseBaseForObj(countryUpdated);
+                _response = new UtilityResponse<TBL_SLI_COUNTRY>().SetResponseBaseForObj(countryUpdated);
                 if (countryUpdated != null)
                 {
                     countryUpdated.VCH_NAME = country.VCH_NAME.ToUpper();
@@ -119,13 +119,13 @@ namespace Service.Implementations
                     countryUpdated.INT_CONTINENTID = country.INT_CONTINENTID;
                     countryUpdated.INT_CURRENCYID = country.INT_CURRENCYID;
                     _context.SaveChanges();
-                    _response = new UtilitariesResponse<TBL_SLI_COUNTRY>().SetResponseBaseForObj(countryUpdated);
+                    _response = new UtilityResponse<TBL_SLI_COUNTRY>().SetResponseBaseForObj(countryUpdated);
                 }
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_COUNTRY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_COUNTRY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally
@@ -141,12 +141,12 @@ namespace Service.Implementations
                 var countryFound = _context.TBL_SLI_COUNTRY.Find(ID);
                 countryFound.BIT_STATE = false;
                 _context.SaveChanges();
-                _response = new UtilitariesResponse<TBL_SLI_COUNTRY>().SetResponseBaseForObj(countryFound);
+                _response = new UtilityResponse<TBL_SLI_COUNTRY>().SetResponseBaseForObj(countryFound);
                 return _response;
             }
             catch (Exception ex)
             {
-                _response = new UtilitariesResponse<TBL_SLI_COUNTRY>().SetResponseBaseForException(ex);
+                _response = new UtilityResponse<TBL_SLI_COUNTRY>().SetResponseBaseForException(ex);
                 return _response;
             }
             finally

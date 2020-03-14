@@ -272,7 +272,9 @@ namespace Service.Implementations.Manifest
                         NUM_MANIFESTID = m.NUM_MANIFESTID,VCH_DETAIL = md.VCH_DETAIL,
                         VCH_AIRGUIDE = md.VCH_AIRGUIDE
                     })
-                    .Where(x => x.DAT_DEPARTUREDATE == dateParsed || x.DAT_DEPARTUREDATE == dateParsed2).ToList();
+                    .Where(x => x.DAT_DEPARTUREDATE == dateParsed 
+                    //|| x.DAT_DEPARTUREDATE == dateParsed2
+                    ).ToList();
             }
             catch (Exception ex)
             {
@@ -291,7 +293,9 @@ namespace Service.Implementations.Manifest
                 var dateParsed = DateTime.Parse("04/01/2020");
                 var dateParsed2 = DateTime.Parse("05/01/2020");
                 return _context.TBL_ADU_MANIFEST
-                    .Where(x => x.DAT_DEPARTUREDATE == dateParsed || x.DAT_DEPARTUREDATE == dateParsed2).ToList();
+                    .Where(x => x.DAT_DEPARTUREDATE == dateParsed 
+                    //|| x.DAT_DEPARTUREDATE == dateParsed2
+                    ).ToList();
             }
             catch (Exception ex)
             {

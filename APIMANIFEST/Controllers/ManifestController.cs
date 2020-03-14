@@ -283,6 +283,8 @@ namespace APIMANIFEST.Controllers
             manifestList = _manifestService.listManifests();
             foreach (var item in varPrueba)//Ah corregir
             {
+                try
+                {
 
                     #region DESTINACIONES ADUANERAS POR CONOCIMIENTO/GUIA
                     manifestYear = "";
@@ -375,7 +377,13 @@ namespace APIMANIFEST.Controllers
                         tableId++;
                     }
 
-                    #endregion
+                #endregion
+                }
+                catch (Exception)
+                {
+                }
+                try
+                {
 
                     #region INFORMACION DEL DOCUMENTO DE TRANSPORTE MASTER
 
@@ -469,7 +477,14 @@ namespace APIMANIFEST.Controllers
                         tableId++;
                     }
 
-                    #endregion
+                #endregion
+                }
+                catch (Exception)
+                {
+                }
+
+                try
+                {
 
                     #region DESCRIPCION DE MERCANCIAS DEL DOCUMENTO DE TRANSPORTE
                     manifestYear = "";
@@ -561,6 +576,11 @@ namespace APIMANIFEST.Controllers
                         tableId++;
                     }
                 #endregion
+                }
+                catch (Exception)
+                {
+                }
+
 
                 try
                 {

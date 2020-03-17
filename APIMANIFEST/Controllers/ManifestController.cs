@@ -1168,6 +1168,9 @@ namespace APIMANIFEST.Controllers
         {
             return Json(_manifestService.GetManifests());
         }
-
+        public void DataTest(string column)
+        {
+            _manifestService.GetDataForReport(column);
+        }
     }
 }

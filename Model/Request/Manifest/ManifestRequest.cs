@@ -16,7 +16,9 @@ namespace Model.Request.Manifest
         public string VCH_DESCRIPTION { get; set; }
         public string VCH_AIRLINE { get; set; }
         public string VCH_DESTINATION { get; set; }
-        public int? INT_WEEK { get; set; }
+        public int? INT_STARTWEEK { get; set; }
+        public int? INT_ENDWEEK { get; set; }
+        public int? INT_YEAR { get; set; }
         public int INT_CURRENTPAGE { get; set; } = 1;
         public int INT_LIMITPAGES { get; set; } = 25;
 

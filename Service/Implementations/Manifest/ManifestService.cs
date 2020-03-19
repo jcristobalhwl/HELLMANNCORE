@@ -265,7 +265,7 @@ namespace Service.Implementations.Manifest
         {
             try
             {
-                var dateParsed = DateTime.Parse("04/01/2020");
+                var dateParsed = DateTime.Parse("13/01/2020");
                 var dateParsed2 = DateTime.Parse("05/01/2020");
                 return _context.TBL_ADU_MANIFESTSHIPMENTDETAILDOC.Join(_context.TBL_ADU_MANIFEST, md => md.NUM_MANIFESTID,
                     m => m.NUM_MANIFESTID, (md, m) => new ManifestTest{ VCH_DIRECTMASTERGUIDE = md.VCH_DIRECTMASTERGUIDE, DEC_MANIFESTSHIPDETDOCID = md.DEC_MANIFESTSHIPDETDOCID, DAT_DEPARTUREDATE = m.DAT_DEPARTUREDATE, 
@@ -290,7 +290,7 @@ namespace Service.Implementations.Manifest
         {
             try
             {
-                var dateParsed = DateTime.Parse("04/01/2020");
+                var dateParsed = DateTime.Parse("13/01/2020");
                 var dateParsed2 = DateTime.Parse("05/01/2020");
                 return _context.TBL_ADU_MANIFEST
                     .Where(x => x.DAT_DEPARTUREDATE == dateParsed 

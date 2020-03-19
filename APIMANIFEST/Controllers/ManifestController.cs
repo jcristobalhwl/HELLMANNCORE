@@ -35,8 +35,8 @@ namespace APIMANIFEST.Controllers
             int trId = 0;
 
 
-            string startDate = Convert.ToDateTime("03/01/2020").ToString("dd/MM/yyyy");
-            string endDate = Convert.ToDateTime("04/01/2020").ToString("dd/MM/yyyy");
+            string startDate = Convert.ToDateTime("19/01/2020").ToString("dd/MM/yyyy");
+            string endDate = Convert.ToDateTime("19/01/2020").ToString("dd/MM/yyyy");
 
             //string startDate = DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
             //string endDate = DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
@@ -47,208 +47,209 @@ namespace APIMANIFEST.Controllers
             htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
             HtmlDocument document = htmlWeb.Load(url);
             List<HtmlNode> td;
-            List<TBL_ADU_MANIFEST> manifestList = new List<TBL_ADU_MANIFEST>();
-            TBL_ADU_MANIFEST manifestObj;
             HtmlNode anchorNode;
             HtmlNode evalua;
-
-            //foreach (HtmlNode table in document.DocumentNode.CssSelect("table"))
-            //{
-            //    if (tableId == 7)
-            //    {
-            //        trId = 0;
-            //        foreach (var tr in table.CssSelect("tr"))
-            //        {
-            //            if (trId > 0)
-            //            {
-            //                td = new List<HtmlNode>();
-            //                td = tr.CssSelect("td").ToList();
-            //                manifestObj = new TBL_ADU_MANIFEST();
-            //                anchorNode = td[0].CssSelect("a").First();
-            //                manifestObj.VCH_MANIFESTNUMBER = anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                manifestObj.DAT_DEPARTUREDATE = Convert.ToDateTime(td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-            //                manifestObj.VCH_TERMINAL = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                manifestObj.VCH_AIRLINE = td[3].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                manifestObj.VCH_SHIPMENTPORT = td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                manifestObj.VCH_FLIGHTNUMBER = td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                manifestObj.CHR_REGIME = "E";
-            //                manifestObj.CHR_VIA = "A";
-            //                manifestObj.BIT_COMPLETED = false;
-            //                manifestObj.DAT_DOWNLOADDATE = DateTime.Now;
-            //                manifestList.Add(manifestObj);
-            //            }
-            //            trId++;
-            //        }
-            //        manifestList.GroupBy(x => x.VCH_MANIFESTNUMBER).Select(x => x.First()).ToList();
-            //        //_manifestService.InsertManifest(ref manifestList);
-            //    }
-            //    tableId++;
-            //}
+            List<TBL_ADU_MANIFEST> manifestList = new List<TBL_ADU_MANIFEST>();
+            TBL_ADU_MANIFEST manifestObj;
+            #region CONSULTA LOS MANIFIESTOS
+            foreach (HtmlNode table in document.DocumentNode.CssSelect("table"))
+            {
+                if (tableId == 7)
+                {
+                    trId = 0;
+                    foreach (var tr in table.CssSelect("tr"))
+                    {
+                        if (trId > 0)
+                        {
+                            td = new List<HtmlNode>();
+                            td = tr.CssSelect("td").ToList();
+                            manifestObj = new TBL_ADU_MANIFEST();
+                            anchorNode = td[0].CssSelect("a").First();
+                            manifestObj.VCH_MANIFESTNUMBER = anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                            manifestObj.DAT_DEPARTUREDATE = Convert.ToDateTime(td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                            manifestObj.VCH_TERMINAL = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                            manifestObj.VCH_AIRLINE = td[3].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                            manifestObj.VCH_SHIPMENTPORT = td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                            manifestObj.VCH_FLIGHTNUMBER = td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                            manifestObj.CHR_REGIME = "E";
+                            manifestObj.CHR_VIA = "A";
+                            manifestObj.BIT_COMPLETED = false;
+                            manifestObj.DAT_DOWNLOADDATE = DateTime.Now;
+                            manifestList.Add(manifestObj);
+                        }
+                        trId++;
+                    }
+                    manifestList.GroupBy(x => x.VCH_MANIFESTNUMBER).Select(x => x.First()).ToList();
+                    _manifestService.InsertManifest(ref manifestList);
+                }
+                tableId++;
+            }
+            #endregion
             #region CONSULTA DE MANIFIESTOS DE SALIDA
             TBL_ADU_MANIFESTSHIPMENTDOC manifestSDObj = new TBL_ADU_MANIFESTSHIPMENTDOC();
             List<TBL_ADU_MANIFESTSHIPMENTDOC> manifestSDList = new List<TBL_ADU_MANIFESTSHIPMENTDOC>();
             TBL_ADU_MANIFESTSHIPMENTDETAILDOC manifestSDDetailObj = new TBL_ADU_MANIFESTSHIPMENTDETAILDOC();
             List<TBL_ADU_MANIFESTSHIPMENTDETAILDOC> manifestSDDetailList = new List<TBL_ADU_MANIFESTSHIPMENTDETAILDOC>();
-            //foreach (var item in manifestList)
-            //{
-            //    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.VCH_MANIFESTNUMBER.Substring(0, 2) + "&CMc1_Numero=" + item.VCH_MANIFESTNUMBER.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
-            //    htmlWeb = new HtmlWeb();
-            //    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-            //    document = htmlWeb.Load(url);
+            foreach (var item in manifestList)
+            {
+                url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.VCH_MANIFESTNUMBER.Substring(0, 2) + "&CMc1_Numero=" + item.VCH_MANIFESTNUMBER.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
+                htmlWeb = new HtmlWeb();
+                htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                document = htmlWeb.Load(url);
 
-            //    while (document.ParsedText.Length <= 1500)
-            //    {
-            //        url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.VCH_MANIFESTNUMBER.Substring(0, 2) + "&CMc1_Numero=" + item.VCH_MANIFESTNUMBER.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
-            //        htmlWeb = new HtmlWeb();
-            //        htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-            //        document = htmlWeb.Load(url);
-            //    }
-            //    evalua = document.DocumentNode.CssSelect("td").First();
-            //    while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
-            //            || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
-            //    {
-            //        url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.VCH_MANIFESTNUMBER.Substring(0, 2) + "&CMc1_Numero=" + item.VCH_MANIFESTNUMBER.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
-            //        htmlWeb = new HtmlWeb();
-            //        htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
-            //        document = htmlWeb.Load(url);
-            //        evalua = document.DocumentNode.CssSelect("td").First();
-            //    }
+                while (document.ParsedText.Length <= 1500)
+                {
+                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.VCH_MANIFESTNUMBER.Substring(0, 2) + "&CMc1_Numero=" + item.VCH_MANIFESTNUMBER.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
+                    htmlWeb = new HtmlWeb();
+                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                    document = htmlWeb.Load(url);
+                }
+                evalua = document.DocumentNode.CssSelect("td").First();
+                while (evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION ADUANERA POR FECHA SALIDA"
+                        || evalua.InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim() == "MANIFIESTOS DE EXPORTACION DE CARGA AEREA")
+                {
+                    url = "http://www.aduanet.gob.pe/cl-ad-itconsmanifiesto/manifiestoITS01Alias?accion=consultaManifiestoGuia&viat=4&CG_cadu=235&CMc1_Anno=00" + item.VCH_MANIFESTNUMBER.Substring(0, 2) + "&CMc1_Numero=" + item.VCH_MANIFESTNUMBER.Substring(3) + "&CMc1_Terminal=0000&tamanioPagina=100000";
+                    htmlWeb = new HtmlWeb();
+                    htmlWeb.OverrideEncoding = Encoding.GetEncoding("iso-8859-1");
+                    document = htmlWeb.Load(url);
+                    evalua = document.DocumentNode.CssSelect("td").First();
+                }
 
-            //    tableId = 0;
-            //    foreach (HtmlNode tabla in document.DocumentNode.CssSelect("table"))
-            //    {
-            //        #region DATOS CABECERA
-
-
-            //        if (tableId == 3)
-            //        {
-            //            manifestSDObj = new TBL_ADU_MANIFESTSHIPMENTDOC();
-            //            manifestSDObj.NUM_MANIFESTID = item.NUM_MANIFESTID;
-            //            trId = 0;
-            //            foreach (var tr in tabla.CssSelect("tr"))
-            //            {
-            //                if (trId > 0)
-            //                {
-            //                    td = new List<HtmlNode>();
-            //                    td = tr.CssSelect("td").ToList();
-
-            //                    switch (trId)
-            //                    {
-            //                        case 1:
-            //                            manifestSDObj.VCH_MANIFESTNUMBER = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Replace("  ", " ").Trim();
-            //                            manifestSDObj.VCH_MANIFESTNUMBER = manifestSDObj.VCH_MANIFESTNUMBER.Substring(0, 13) + manifestSDObj.VCH_MANIFESTNUMBER.Substring(13).Trim();
-            //                            manifestSDObj.INT_DETAILSNUMBER = Convert.ToInt32(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-            //                            break;
-            //                        case 2:
-            //                            manifestSDObj.DAT_DEPARTUREDATE = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            manifestSDObj.DEC_GROSSWEIGHT = Convert.ToDecimal(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-            //                            break;
-            //                        case 3:
-            //                            manifestSDObj.VCH_AIRLINE = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            manifestSDObj.VCH_NATIONALITY = td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            break;
-            //                        case 4:
-            //                            manifestSDObj.VCH_FLIGHTNUMBER = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            manifestSDObj.INT_PACKAGES = Convert.ToInt32(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-            //                            break;
-            //                        case 5:
-            //                            manifestSDObj.VCH_FINALDATEBOARD = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            if (manifestSDObj.VCH_FINALDATEBOARD != "" && manifestSDObj.VCH_FINALDATEBOARD.Length > 15)
-            //                            {
-            //                                if (manifestSDObj.VCH_FINALDATEBOARD.Trim().Substring(0, 1).Any(x => char.IsNumber(x)))
-            //                                {
-            //                                    manifestSDObj.VCH_FINALDATEBOARD = manifestSDObj.VCH_FINALDATEBOARD.Substring(0, 10) + " " + manifestSDObj.VCH_FINALDATEBOARD.Substring(10).Trim();
-            //                                    if (manifestSDObj.VCH_FINALDATEBOARD.Split(' ')[1].Length == 4)
-            //                                    {
-            //                                        manifestSDObj.VCH_FINALDATEBOARD = manifestSDObj.VCH_FINALDATEBOARD.Split(' ')[0] + " " + manifestSDObj.VCH_FINALDATEBOARD.Split(' ')[1].Substring(0, 2) + ":" + manifestSDObj.VCH_FINALDATEBOARD.Split(' ')[1].Substring(2, 2);
-            //                                    }
-            //                                }
-            //                                else
-            //                                {
-            //                                    manifestSDObj.VCH_FINALDATEBOARD = "";
-            //                                }
-            //                            }
-
-            //                            manifestSDObj.VCH_DATEAUTHORIZATIONBOARD = td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            break;
-            //                        case 6:
-            //                            manifestSDObj.VCH_MANIFESTTRANSMISSIONDATE = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            break;
-            //                    }
-            //                }
-            //                trId++;
-            //            }
-            //            manifestSDList.Add(manifestSDObj);
-            //        }
-
-            //        #endregion
-
-            //        #region DATOS DETALLE
-
-            //        if (tableId == 10)
-            //        {
-            //            trId = 0;
-            //            manifestSDDetailObj = new TBL_ADU_MANIFESTSHIPMENTDETAILDOC();
-            //            foreach (var tr in tabla.CssSelect("tr"))
-            //            {
-            //                if (trId > 0)
-            //                {
-            //                    td = new List<HtmlNode>();
-            //                    td = tr.CssSelect("td").ToList();
-
-            //                    //if (!td[0].InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim().Contains("No hay informaci"))
-            //                    if (td.Count > 1)
-            //                    {
-
-            //                        if (trId % 2 != 0)
-            //                        {
-            //                            manifestSDDetailObj.NUM_MANIFESTID = item.NUM_MANIFESTID;
-            //                            anchorNode = td[0].CssSelect("a").First();
-            //                            manifestSDDetailObj.VCH_AIRGUIDE = anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            manifestSDDetailObj.VCH_DIRECTMASTERGUIDE = td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            if (manifestSDDetailObj.VCH_DIRECTMASTERGUIDE.Length > 20)
-            //                            {
-            //                                anchorNode = td[1].CssSelect("a").First();
-            //                                manifestSDDetailObj.VCH_DIRECTMASTERGUIDE = anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            }
-
-            //                            anchorNode = td[2].CssSelect("a").First();
-            //                            manifestSDDetailObj.VCH_DETAIL = Convert.ToInt32(anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-            //                            manifestSDDetailObj.VCH_TERMINALCODE = td[3].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            manifestSDDetailObj.DEC_WEIGHTORIGIN = Convert.ToDecimal(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-            //                            manifestSDDetailObj.INT_PACKAGEORIGIN = Convert.ToInt32(td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-            //                            manifestSDDetailObj.DEC_MANIFESTEDWEIGHT = Convert.ToDecimal(td[6].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-            //                            manifestSDDetailObj.INT_MANIFESTEDPACKAGE = Convert.ToInt32(td[7].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-            //                            manifestSDDetailObj.DEC_WEIGHTRECEIVED = Convert.ToDecimal(td[8].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-            //                            manifestSDDetailObj.INT_PACKAGERECEIVED = Convert.ToInt32(td[9].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-            //                            manifestSDDetailObj.VCH_CONSIGNEE = td[10].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            manifestSDDetailObj.VCH_SHIPPER = td[11].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            manifestSDDetailObj.DAT_DATETRANSMISSIONDOCUMENT = Convert.ToDateTime(td[12].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
-            //                            manifestSDDetailObj.BIT_COMPLETED = true;
-            //                        }
-            //                        else
-            //                        {
-            //                            manifestSDDetailObj.VCH_DESCRIPTION = td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
-            //                            manifestSDDetailList.Add(manifestSDDetailObj);
-            //                            manifestSDDetailObj = new TBL_ADU_MANIFESTSHIPMENTDETAILDOC();
-            //                        }
+                tableId = 0;
+                foreach (HtmlNode tabla in document.DocumentNode.CssSelect("table"))
+                {
+                    #region DATOS CABECERA
 
 
-            //                    }
-            //                }
+                    if (tableId == 3)
+            {
+                manifestSDObj = new TBL_ADU_MANIFESTSHIPMENTDOC();
+                manifestSDObj.NUM_MANIFESTID = item.NUM_MANIFESTID;
+                trId = 0;
+                foreach (var tr in tabla.CssSelect("tr"))
+                {
+                    if (trId > 0)
+                    {
+                        td = new List<HtmlNode>();
+                        td = tr.CssSelect("td").ToList();
 
-            //                trId++;
-            //            }
-            //        }
+                        switch (trId)
+                        {
+                            case 1:
+                                manifestSDObj.VCH_MANIFESTNUMBER = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Replace("  ", " ").Trim();
+                                manifestSDObj.VCH_MANIFESTNUMBER = manifestSDObj.VCH_MANIFESTNUMBER.Substring(0, 13) + manifestSDObj.VCH_MANIFESTNUMBER.Substring(13).Trim();
+                                manifestSDObj.INT_DETAILSNUMBER = Convert.ToInt32(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                break;
+                            case 2:
+                                manifestSDObj.DAT_DEPARTUREDATE = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                manifestSDObj.DEC_GROSSWEIGHT = Convert.ToDecimal(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                break;
+                            case 3:
+                                manifestSDObj.VCH_AIRLINE = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                manifestSDObj.VCH_NATIONALITY = td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                break;
+                            case 4:
+                                manifestSDObj.VCH_FLIGHTNUMBER = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                manifestSDObj.INT_PACKAGES = Convert.ToInt32(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                break;
+                            case 5:
+                                manifestSDObj.VCH_FINALDATEBOARD = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                if (manifestSDObj.VCH_FINALDATEBOARD != "" && manifestSDObj.VCH_FINALDATEBOARD.Length > 15)
+                                {
+                                    if (manifestSDObj.VCH_FINALDATEBOARD.Trim().Substring(0, 1).Any(x => char.IsNumber(x)))
+                                    {
+                                        manifestSDObj.VCH_FINALDATEBOARD = manifestSDObj.VCH_FINALDATEBOARD.Substring(0, 10) + " " + manifestSDObj.VCH_FINALDATEBOARD.Substring(10).Trim();
+                                        if (manifestSDObj.VCH_FINALDATEBOARD.Split(' ')[1].Length == 4)
+                                        {
+                                            manifestSDObj.VCH_FINALDATEBOARD = manifestSDObj.VCH_FINALDATEBOARD.Split(' ')[0] + " " + manifestSDObj.VCH_FINALDATEBOARD.Split(' ')[1].Substring(0, 2) + ":" + manifestSDObj.VCH_FINALDATEBOARD.Split(' ')[1].Substring(2, 2);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        manifestSDObj.VCH_FINALDATEBOARD = "";
+                                    }
+                                }
 
-            //        #endregion
+                                manifestSDObj.VCH_DATEAUTHORIZATIONBOARD = td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                break;
+                            case 6:
+                                manifestSDObj.VCH_MANIFESTTRANSMISSIONDATE = td[2].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                break;
+                        }
+                    }
+                    trId++;
+                }
+                manifestSDList.Add(manifestSDObj);
+            }
 
-            //        tableId++;
-            //    }
-            //}
-            //_manifestService.InsertManifestShipmentDocument(ref manifestSDList);
-            //_manifestService.InsertManifestShipmentDetailDocument(ref manifestSDDetailList);
-            
+            #endregion
+
+            #region DATOS DETALLE
+
+            if (tableId == 10)
+            {
+                trId = 0;
+                manifestSDDetailObj = new TBL_ADU_MANIFESTSHIPMENTDETAILDOC();
+                foreach (var tr in tabla.CssSelect("tr"))
+                {
+                    if (trId > 0)
+                    {
+                        td = new List<HtmlNode>();
+                        td = tr.CssSelect("td").ToList();
+
+                        //if (!td[0].InnerText.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim().Contains("No hay informaci"))
+                        if (td.Count > 1)
+                        {
+
+                            if (trId % 2 != 0)
+                            {
+                                manifestSDDetailObj.NUM_MANIFESTID = item.NUM_MANIFESTID;
+                                anchorNode = td[0].CssSelect("a").First();
+                                manifestSDDetailObj.VCH_AIRGUIDE = anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                manifestSDDetailObj.VCH_DIRECTMASTERGUIDE = td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                if (manifestSDDetailObj.VCH_DIRECTMASTERGUIDE.Length > 20)
+                                {
+                                    anchorNode = td[1].CssSelect("a").First();
+                                    manifestSDDetailObj.VCH_DIRECTMASTERGUIDE = anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                }
+
+                                anchorNode = td[2].CssSelect("a").First();
+                                manifestSDDetailObj.VCH_DETAIL = Convert.ToInt32(anchorNode.InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                manifestSDDetailObj.VCH_TERMINALCODE = td[3].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                manifestSDDetailObj.DEC_WEIGHTORIGIN = Convert.ToDecimal(td[4].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                manifestSDDetailObj.INT_PACKAGEORIGIN = Convert.ToInt32(td[5].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                manifestSDDetailObj.DEC_MANIFESTEDWEIGHT = Convert.ToDecimal(td[6].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                manifestSDDetailObj.INT_MANIFESTEDPACKAGE = Convert.ToInt32(td[7].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                manifestSDDetailObj.DEC_WEIGHTRECEIVED = Convert.ToDecimal(td[8].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                manifestSDDetailObj.INT_PACKAGERECEIVED = Convert.ToInt32(td[9].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                manifestSDDetailObj.VCH_CONSIGNEE = td[10].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                manifestSDDetailObj.VCH_SHIPPER = td[11].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                manifestSDDetailObj.DAT_DATETRANSMISSIONDOCUMENT = Convert.ToDateTime(td[12].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim());
+                                manifestSDDetailObj.BIT_COMPLETED = true;
+                            }
+                            else
+                            {
+                                manifestSDDetailObj.VCH_DESCRIPTION = td[1].InnerHtml.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("&nbsp;", " ").Trim();
+                                manifestSDDetailList.Add(manifestSDDetailObj);
+                                manifestSDDetailObj = new TBL_ADU_MANIFESTSHIPMENTDETAILDOC();
+                            }
+
+
+                        }
+                    }
+
+                    trId++;
+                }
+            }
+
+            #endregion
+
+            tableId++;
+        }
+    }
+    _manifestService.InsertManifestShipmentDocument(ref manifestSDList);
+            _manifestService.InsertManifestShipmentDetailDocument(ref manifestSDDetailList);
+
             #endregion
 
             #region RECORRE LA CONSULTA DE MANIFIESTOS DE SALIDA
@@ -279,9 +280,9 @@ namespace APIMANIFEST.Controllers
             //chromeDriver.Navigate().GoToUrl(url);
             //IWebElement originElement, destinationElement, pieceElement, weightElement, statusElement,element = null;
 
-            var varPrueba = _manifestService.getDetailsManifest(); //Ah corregir
-            manifestList = _manifestService.listManifests();
-            foreach (var item in varPrueba)//Ah corregir
+            //var varPrueba = _manifestService.getDetailsManifest(); //Ah corregir
+            //manifestList = _manifestService.listManifests();
+            foreach (var item in manifestSDDetailList)//Ah corregir
             {
                 try
                 {

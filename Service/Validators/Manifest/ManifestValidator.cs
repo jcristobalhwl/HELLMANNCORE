@@ -12,8 +12,8 @@ namespace Service.Validators.Manifest
     {
         public ManifestValidator()
         {
-            RuleFor(manifest => manifest.DAT_STARTDATE).NotNull().WithMessage("Debe elegir la Fecha de Inicio");
-            RuleFor(manifest => manifest.DAT_ENDDATE).NotNull().WithMessage("Debe elegir la Fecha Hasta");
+            //RuleFor(manifest => manifest.DAT_STARTDATE).NotNull().WithMessage("Debe elegir la Fecha de Inicio");
+            //RuleFor(manifest => manifest.DAT_ENDDATE).NotNull().WithMessage("Debe elegir la Fecha Hasta");
         }
     }
 }

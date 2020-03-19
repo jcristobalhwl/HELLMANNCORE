@@ -28,7 +28,7 @@ namespace Service.Implementations.Manifest
             {
                 _context.TBL_ADU_MANIFEST.AddRange(manifestList);
                 _context.SaveChanges();
-            }
+            }   
             catch (Exception ex)
             {
                 throw ex;
@@ -224,18 +224,18 @@ namespace Service.Implementations.Manifest
 
                 if (results.IsValid)
                 {
-                    var queryResult = _context.TBL_MAN_MANIFEST.Where(x => x.DAT_DEPARTUREDATE >= request.DAT_STARTDATE && x.DAT_DEPARTUREDATE <= request.DAT_ENDDATE
+                    var queryResult = _context.TBL_MAN_MANIFEST.Where(x =>
+                    (x.VCH_DIRECTMASTERGUIDE == request.VCH_DIRECTMASTERGUIDE || request.VCH_DIRECTMASTERGUIDE == null)
+                    && (x.DAT_DEPARTUREDATE >= request.DAT_STARTDATE || request.DAT_STARTDATE == null) && (x.DAT_DEPARTUREDATE <= request.DAT_ENDDATE || request.DAT_ENDDATE == null)
                     && (x.VCH_CONSIGNEE.Contains(request.VCH_CONSIGNEE) || request.VCH_CONSIGNEE == null) && (x.VCH_SHIPPER.Contains(request.VCH_SHIPPER) || request.VCH_SHIPPER == null)
                     && (x.VCH_DESCRIPTION.Contains(request.VCH_DESCRIPTION) || request.VCH_DESCRIPTION == null) && (x.VCH_AIRLINE.Contains(request.VCH_AIRLINE) || request.VCH_AIRLINE == null)
-                    && (x.VCH_DESTINATION == request.VCH_DESTINATION || request.VCH_DESTINATION == null) && (x.INT_WEEK == request.INT_WEEK || request.INT_WEEK == null)
-                    && (x.VCH_DIRECTMASTERGUIDE == request.VCH_DIRECTMASTERGUIDE || request.VCH_DIRECTMASTERGUIDE == null))
-                    
-                    .OrderByDescending(x => x.DAT_DEPARTUREDATE);
+                    && (x.VCH_DESTINATION == request.VCH_DESTINATION || request.VCH_DESTINATION == null) 
+                    && ((x.DAT_DEPARTUREDATE.Value.Year == request.INT_YEAR && x.INT_WEEK >= request.INT_STARTWEEK && x.INT_WEEK <= request.INT_ENDWEEK)
+                    || (request.INT_YEAR == null || request.INT_STARTWEEK == null || request.INT_ENDWEEK == null))).OrderByDescending(x => x.DAT_DEPARTUREDATE);
 
-                    var listManifests = queryResult.Skip((request.INT_CURRENTPAGE - 1) * request.INT_LIMITPAGES).Take(request.INT_LIMITPAGES).ToList();
-
-                    double pageCount = (double)((decimal)queryResult.Count());
-                    manifestResponse.INT_TOTALREGISTERS = (int)Math.Ceiling(pageCount);
+                    int pageCount = queryResult.Count();
+                    var listManifests = queryResult.Skip((request.INT_CURRENTPAGE - 1) * request.INT_LIMITPAGES).Take(request.INT_LIMITPAGES == 1000 ? pageCount : request.INT_LIMITPAGES).ToList();
+                    manifestResponse.INT_TOTALREGISTERS = pageCount;
                     manifestResponse.INT_CURRENTPAGE = request.INT_CURRENTPAGE;
                     manifestResponse.Manifests = listManifests;
 
@@ -261,6 +261,13 @@ namespace Service.Implementations.Manifest
             }
         }
 
+
+        public void GetDataForReport(string column)
+        {
+
+            //var test = x.g
+            var query = _context.TBL_MAN_MANIFEST.Where(x => x.GetType().GetProperty(column).GetValue(x).ToString() == "ESPARRAGO").ToList();
+        }
         public List<ManifestTest> getDetailsManifest()
         {
             try
